@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import Select from 'react-select';
 import { Link } from 'react-router-dom'
 import { Form, Container, Table, Button } from 'react-bootstrap';
 
@@ -25,12 +26,13 @@ const Schedule = () => {
 
   const daysInMonth = new Date(new Date().getFullYear(), month + 1, 0).getDate();
 
-  const handleWorkerChange = (day, shift, event) => {
+  const handleWorkerChange = (day, shift, selectedOptions) => {
+    const selectedValues = selectedOptions.map(option => option.value); // map to array of values
     setSchedule({
       ...schedule,
       [day]: {
         ...schedule[day],
-        [shift]: event.target.value
+        [shift]: selectedValues
       }
     });
   };
@@ -70,22 +72,22 @@ return (
               return (
                 <tr key={currentDay}>
                   <td>{currentDay + 1}</td>
-                  <td>
-                    <Form.Select value={schedule[currentDay]?.shift1 || ''} onChange={(e) => handleWorkerChange(currentDay, 'shift1', e)}>
-                      <option value="">Select Worker</option>
-                      {data.map((employee, i) => (
-                        <option key={i} value={employee.fname}>{employee.fname}</option>
-                      ))}
-                    </Form.Select>
-                  </td>
-                  <td>
-                    <Form.Select value={schedule[currentDay]?.shift2 || ''} onChange={(e) => handleWorkerChange(currentDay, 'shift2', e)}>
-                      <option value="">Select Worker</option>
-                      {data.map((employee, i) => (
-                        <option key={i} value={employee.fname}>{employee.fname}</option>
-                      ))}
-                    </Form.Select>
-                  </td>
+<td>
+  <Select
+    isMulti
+    options={data.map(employee => ({ label: employee.fname, value: employee.fname }))}
+    value={(schedule[currentDay]?.shift1 || []).map(value => ({ label: value, value }))}
+    onChange={(selectedOptions) => handleWorkerChange(currentDay, 'shift1', selectedOptions)}
+  />
+</td>
+<td>
+  <Select
+    isMulti
+    options={data.map(employee => ({ label: employee.fname, value: employee.fname }))}
+    value={(schedule[currentDay]?.shift2 || []).map(value => ({ label: value, value }))}
+    onChange={(selectedOptions) => handleWorkerChange(currentDay, 'shift2', selectedOptions)}
+  />
+</td>
                 </tr>
               );
             })}
