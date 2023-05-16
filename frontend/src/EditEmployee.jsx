@@ -14,8 +14,8 @@ function EditEmployee() {
 		salary: '',
 		image: ''
 	})
+
 	const navigate = useNavigate()
-	
 	const {id} = useParams();
 	useEffect(()=> {
 		axios.get('http://localhost:5000/getInfo/'+id)
@@ -35,14 +35,13 @@ function EditEmployee() {
             }
 		})
 		.catch(err =>console.log(err));
-	})
+	}, [])
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		axios.get('http://localhost:5000/update/'+id, data)
+		axios.put('http://localhost:5000/update/'+id, data)
 		.then(res => {
 			if(res.data.Status === "Success") {
-				console.log(data.id)
 				navigate('/employee')
 			}
 		})
@@ -65,7 +64,7 @@ function EditEmployee() {
                 <div class="col-12">
 					<label for="inputLname" class="form-label">Last Name</label>
 					<input type="text" class="form-control" id="inputLname" placeholder='Enter Last Name' autoComplete='off'
-					onChange={e => setData({...data, lname: e.target.value})} />
+					onChange={e => setData({...data, lname: e.target.value})} value={data.lname}/>
 				</div>
 				<div class="col-12">
 					<label for="inputEmail4" class="form-label">Email</label>

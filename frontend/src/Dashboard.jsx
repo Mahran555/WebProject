@@ -39,19 +39,19 @@ function Dashboard() {
 						<ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
 							<li>
 								<Link to="/" data-bs-toggle="collapse" className="nav-link text-white px-0 align-middle">
-									<i className="fs-4 bi-speedometer2"></i> <span className="ms-1 d-none d-sm-inline">Dashboard</span> </Link>
+									<i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline">Home</span> </Link>
 							</li>
 							<li>
 								<Link to="/employee" className="nav-link px-0 align-middle text-white">
 									<i className="fs-4 bi-people"></i> <span className="ms-1 d-none d-sm-inline">Manage Employees</span> </Link>
 							</li>
 							<li>
-								<Link to="profile" className="nav-link px-0 align-middle text-white">
-									<i className="fs-4 bi-person"></i> <span className="ms-1 d-none d-sm-inline">Profile</span></Link>
+								<Link to="schedule" className="nav-link px-0 align-middle text-white">
+									<i className="fs-4 bi-table"></i> <span className="ms-1 d-none d-sm-inline">Schedule</span></Link>
 							</li>
 							<li>
-								<Link to="schedule" className="nav-link px-0 align-middle text-white">
-									<i className="fs-4 bi-person"></i> <span className="ms-1 d-none d-sm-inline">Schedule</span></Link>
+								<Link to="profile" className="nav-link px-0 align-middle text-white">
+									<i className="fs-4 bi-person"></i> <span className="ms-1 d-none d-sm-inline">Profile</span></Link>
 							</li>
 							<li onClick={handleLogout}>
 								<a href="#" className="nav-link px-0 align-middle text-white">

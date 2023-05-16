@@ -13,9 +13,7 @@ const { error } = require('console');
 const PORT=process.env.PORT
 const JWT_SECRET =process.env.JWT_SECRET
 
-app.use(cors({
-  origin: 'http://localhost:5173'
-}));
+app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
 app.use(cors(
     {
         origin: ["http://localhost:5173"],
@@ -24,6 +22,11 @@ app.use(cors(
     }
 ));
 
+app.use(cors({
+  credentials: true,
+  origin: 'http://localhost:5173',
+  exposedHeaders: ['X-Custom-Header'],
+}));
 
 app.use(express.static('public'));
 //MiddLeewares
@@ -130,7 +133,7 @@ app.get('/dashboard',verifyUser, (req, res) => {
 })
 */
 
-//Get Employees
+//Get Employee List
 app.get("/getEmployee", async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   try {
@@ -142,7 +145,7 @@ app.get("/getEmployee", async (req, res) => {
   }
 });
 
- 
+ //Get Employee Information
 app.get('/getInfo/:id', async(req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   const id = Number(req.params.id);
@@ -157,25 +160,28 @@ app.get('/getInfo/:id', async(req, res) => {
 
 
 //Update employee info
-app.get('/update/:id', async(req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
-  const id = Number(req.params.id);
+app.put('/update/:id', async(req, res) => {
+ res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+ res.header('Access-Control-Allow-Credentials', true);
   try {
-   const updateEmployee =mongoose.model("EmployeeInfo") ({
-    id: req.body.id,
+   const id = Number(req.params.id);
+   const OldEmployee =await Employee.findOne({ id });
+   const updateEmployee = {
+    id: Number(req.body.id),
     fname: req.body.fname,
     lname: req.body.lname,
     email: req.body.email,
     password: req.body.password,
     userType: req.body.userType,
     address: req.body.address,
-    salary: req.body.salary,
+    salary: Number(req.body.salary),
     image: req.body.image
-  });
-  Employee.findOneAndUpdate({ id }, updateEmployee, { new: true })
+  };
+    Employee.findOneAndUpdate({id}, updateEmployee, { new: true })
+    console.log(OldEmployee)
+    console.log(updateEmployee)
     return res.send({ Status: "Success"});
   } catch (error) {
-    console.log(error);
     return res.status(500).send({ Status: "Error", Message: "Unable to retrieve employees" });
   }
 });
@@ -189,4 +195,4 @@ app.get('/logout', (req, res) => {
 app.listen(PORT, () => {
   console.log('You are listening to port:',PORT);
 })  
-///test sdasd
+///test mohamad
