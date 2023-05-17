@@ -25,7 +25,7 @@ function Dashboard() {
 	const handleLogout = () => {
 		axios.get('http://localhost:5000/logout')
 		.then(res => {
-			navigate('/start')
+			navigate('/login')
 		}).catch(err => console.log(err));
 	}
 	return (
