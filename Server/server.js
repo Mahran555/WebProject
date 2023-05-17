@@ -67,20 +67,21 @@ let upload = multer({
 
 db()
 const Employee = require("./models/EmployeeDetails");
-const Manager = require("./models/EmployeeDetails");
-//const Employee = mongoose.model("EmployeeInfo");
+const Manager = require("./models/ManagerDetails");
 
-//ManagerLogin page
-app.post("/managerLogin", async (req, res) => {
+//UserLogin page
+app.post("/login", async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   const { email, password} = req.body;
-  const user = await Employee.findOne({ email });
-  if (!user) {
+  const userEmployee = await Employee.findOne({ email });
+  const userManager = await Manager.findOne({ email });
+  if (userManager && userManager.password == password ) {
+    return res.json({Status:"Success", Role:"Manager"});
+  }
+  if ( userEmployee && userEmployee.password==password) {
+      return res.json({Status: "Success", Role:"Employee", Result: userEmployee.id });
+  }
     return res.send({Status: "error", error: "Invalid email or password"  });
-  }
-  if (user.password!==password) {
-      return res.status(400).json({Status: "error", error: 'Invalid email or password' });
-  }
-    return res.json({Status: "Success"});
 });
 
 const Schedules = require("./models/SaveSchedule");
@@ -197,6 +198,18 @@ app.get("/getEmployee", async (req, res) => {
   }
 });
 
+//Get Manager
+app.get("/getManager", async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  try {
+    const fname="Gus";
+    const manager = await Manager.findOne({fname});
+    return res.send({ Status: "Success", Result: manager });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ Status: "Error", Message: "Unable to retrieve employees" });
+  }
+});
  //Get Employee Information
 app.get('/getInfo/:id', async(req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
@@ -252,4 +265,4 @@ app.get('/logout', (req, res) => {
 app.listen(PORT, () => {
   console.log('You are listening to port:',PORT);
 })  
-///test mohamad
+///GG mohamad

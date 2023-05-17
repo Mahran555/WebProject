@@ -3,6 +3,32 @@ import React, { useEffect, useState } from 'react'
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
 
 function Profile() {
+  const [data, setData] = useState({
+    fname: '',
+    lname: '',
+    email: '',
+    password: '',
+    phone: '',
+    address: '',
+    image: ''
+    })
+  useEffect(()=> {
+    axios.get('http://localhost:5000/getManager')
+    .then((res) => {
+      if(res.data.Status === "Success") {
+        setData({...data, 
+          fname: res.data.Result.fname,
+          lname:res.data.Result.lname,
+          email: res.data.Result.email,
+          password: res.data.Result.password,
+          phone: res.data.Result.phone,
+          address:res.data.Result.address,
+          image: res.data.Result.image   
+      })
+      }
+    })
+    .catch(err => console.log("faild"));
+  })
   return(
 <div className="gradient-custom-2" style={{ backgroundColor: '#3333' }}>
   <MDBContainer className="py-5 h-100">
@@ -11,15 +37,15 @@ function Profile() {
       <MDBCard style={{maxWidth: '1200px', margin: '0 auto'}}>
           <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#000', height: '200px' }}>
             <div className="ms-4 mt-5 position-relative" style={{ width: '150px' }}>
-              <MDBCardImage src="https://www.kindpng.com/picc/m/81-813378_giancarlo-esposito-breaking-bad-gus-fring-png-transparent.png"
-                alt="Generic placeholder image" className="mt-2 mb-2 img-thumbnail" fluid style={{ width: '150px', zIndex: '1' }} />
+              <img src={`http://localhost:5000/images/`+data.image} 
+                alt="Generic placeholder image" className="mt-2 mb-2 img-thumbnail" fluid style={{ width: '160px', zIndex: '1',height:'120px' }} />
                 <MDBBtn outline color="dark" className="position-absolute bottom-0" style={{height: '40px', overflow: 'visible', zIndex: '2', backgroundColor: 'blue',color:'whitesmoke' ,marginLeft:'10px',marginTop:'10px'}}>
                   Edit
                 </MDBBtn>
             </div>
             <div className="ms-3" style={{ marginTop: '100px' }}>
-              <MDBTypography tag="h3">Gus Fring</MDBTypography>
-              <MDBCardText>Mexico</MDBCardText>
+              <MDBTypography tag="h3">{data.fname + " " + data.lname}</MDBTypography>
+              
             </div>
           </div>
           <div className="p-4 text-black" style={{ backgroundColor: '#f8f9fa' }}>
@@ -32,10 +58,19 @@ function Profile() {
               <MDBCardBody>
                 <MDBRow>
                   <MDBCol sm="3">
-                    <MDBCardText>Full Name</MDBCardText>
+                    <MDBCardText>First Name</MDBCardText>
                   </MDBCol>
                   <MDBCol sm="9">
-                    <MDBCardText className="text-muted">Gus Fring</MDBCardText>
+                    <MDBCardText className="text-muted">{data.fname}</MDBCardText>
+                  </MDBCol>
+                </MDBRow>
+                <hr />
+                <MDBRow>
+                  <MDBCol sm="3">
+                    <MDBCardText>Last Name</MDBCardText>
+                  </MDBCol>
+                  <MDBCol sm="9">
+                    <MDBCardText className="text-muted">{data.lname}</MDBCardText>
                   </MDBCol>
                 </MDBRow>
                 <hr />
@@ -44,7 +79,7 @@ function Profile() {
                     <MDBCardText>Email</MDBCardText>
                   </MDBCol>
                   <MDBCol sm="9">
-                    <MDBCardText className="text-muted">example@example.com</MDBCardText>
+                    <MDBCardText className="text-muted">{data.email}</MDBCardText>
                   </MDBCol>
                 </MDBRow>
                 <hr />
@@ -53,16 +88,7 @@ function Profile() {
                     <MDBCardText>Phone</MDBCardText>
                   </MDBCol>
                   <MDBCol sm="9">
-                    <MDBCardText className="text-muted">(097) 234-5678</MDBCardText>
-                  </MDBCol>
-                </MDBRow>
-                <hr />
-                <MDBRow>
-                  <MDBCol sm="3">
-                    <MDBCardText>Mobile</MDBCardText>
-                  </MDBCol>
-                  <MDBCol sm="9">
-                    <MDBCardText className="text-muted">(098) 765-4321</MDBCardText>
+                    <MDBCardText className="text-muted">{data.phone}</MDBCardText>
                   </MDBCol>
                 </MDBRow>
                 <hr />
@@ -71,7 +97,7 @@ function Profile() {
                     <MDBCardText>Address</MDBCardText>
                   </MDBCol>
                   <MDBCol sm="9">
-                    <MDBCardText className="text-muted">Bay Area, San Francisco, CA</MDBCardText>
+                    <MDBCardText className="text-muted">{data.address}</MDBCardText>
                   </MDBCol>
                 </MDBRow>
               </MDBCardBody>

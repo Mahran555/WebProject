@@ -1,5 +1,5 @@
 import React from 'react'
-import ManagerLogin from './ManagerLogin'
+import Login from './Login'
 import Dashboard from './Dashboard'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import Employee from './Employee'
@@ -8,7 +8,7 @@ import Schedule from './Schedule'
 import Home from './Home'
 import AddEmployee from './AddEmployee'
 import EditEmployee from './EditEmployee'
-import Start from './Start'
+
 
 function App() {
 
@@ -17,7 +17,9 @@ function App() {
  
     
     <BrowserRouter>
+     
     <Routes>
+      <Route path='/login' element={<Login />}></Route>
       <Route path='/' element={<Dashboard />}>
       <Route path='' element={<Home />}></Route>
       <Route path='/employee' element={<Employee />}></Route>
@@ -26,8 +28,7 @@ function App() {
       <Route path='/create' element={<AddEmployee />}></Route>
       <Route path='/employeeEdit/:id' element={<EditEmployee />}></Route>
       </Route>
-      <Route path='//managerLogin' element={<ManagerLogin />}></Route>
-      <Route path='/start' element={<Start />}></Route>
+
     </Routes>
     </BrowserRouter>
     

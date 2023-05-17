@@ -21,16 +21,21 @@ function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    axios.post('http://localhost:5000/managerLogin', {
-        email,
-        password,
-      })
+    axios.post('http://localhost:5000/login', { email, password })
       .then((res) => {
         if (res.data.Status === "Success") {
           // Redirect to the home page after successful login
-          navigate('/');
-        } else {
+           if(res.data.Role==="Manager")
+           {
+            navigate('/');
+           }
+       else{
+            const id = res.data.id;
+            console.log(id)
+            navigate('/employeePage'+id);
+           }
+        } else 
+        {
           setError(res.data.error);
         }
       })
