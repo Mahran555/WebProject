@@ -102,23 +102,33 @@ app.post('/saveSchedule', async (req, res) => {
     // Transform the data into an array of schedules
     const schedules = [];
     scheduleData.forEach(({day, month, shift, EmployeeID}) => {
-      EmployeeID.forEach(employeeId => {
         schedules.push({
           day: Number(day),
           month: month,
           shift: shift === 'shift1' ? 'morning' : 'evening',
-          EmployeeID: Number(employeeId),  
+          EmployeeID: EmployeeID,  
         });
-      });
     });
 
-    // Save all schedules
+    // Save or update all schedules
     for (const schedule of schedules) {
-      const newSchedule = new Schedules(schedule); 
+      const filter = { 
+        day: schedule.day, 
+        month: schedule.month, 
+        shift: schedule.shift 
+      };
+      const update = { 
+        EmployeeID: schedule.EmployeeID 
+      };
+      const options = { 
+        upsert: true, // create a new document if no documents match the filter
+        new: true // return the updated document
+      };
+
       try {
-        await newSchedule.save();
+        await Schedules.findOneAndUpdate(filter, update, options);
       } catch (error) {
-        console.error('Error saving schedule:', error);
+        console.error('Error saving or updating schedule:', error);
       }
     }
 
@@ -128,6 +138,7 @@ app.post('/saveSchedule', async (req, res) => {
     res.status(500).json({ Status: 'Error', Message: 'Unable to save schedules' });
   }
 });
+
 
 ////////
 //delete employee
@@ -207,6 +218,7 @@ app.get('/getInfo/:id', async(req, res) => {
 
 //Update employee info
 app.put('/update/:id', async(req, res) => {
+<<<<<<< HEAD
  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
  res.header('Access-Control-Allow-Credentials', true);
  
@@ -235,6 +247,36 @@ app.put('/update/:id', async(req, res) => {
   return res.status(500).send({ Status: "Error", Message: "Unable to retrieve employees" });
 }
 });
+=======
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  res.header('Access-Control-Allow-Credentials', true);
+  
+  try {
+   const id = Number(req.params.id);
+   const updateEmployee = ({
+     id: Number(req.body.id),
+     fname: req.body.fname,
+     lname: req.body.lname,
+     email: req.body.email,
+     password: req.body.password,
+     userType: req.body.userType,
+     address: req.body.address,
+     salary: Number(req.body.salary),
+     image: req.body.image
+   });
+   const check = await Employee.findOne({id});
+   const check1 = await Employee.findOne({id:updateEmployee.id});
+   const check2 = await Employee.findOne({ email:updateEmployee.email });
+  if ((check1 && id!=updateEmployee.id) || (check2 && check.email!=updateEmployee.email)) {
+    return res.send({Status: "error", error: "This ID or email already exists"  });
+  }
+   const result = await Employee.updateOne({id}, { $set:  updateEmployee });//to delete
+   return res.send({ Status: "Success"});
+ } catch (error) {
+   return res.status(500).send({ Status: "Error", Message: "Unable to retrieve employees" });
+ }
+ });
+>>>>>>> Mahran
 
 //logout
 app.get('/logout', (req, res) => {
