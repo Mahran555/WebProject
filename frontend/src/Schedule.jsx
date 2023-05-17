@@ -29,7 +29,8 @@ const Schedule = () => {
   const daysInMonth = new Date(new Date().getFullYear(), month + 1, 0).getDate();
 
   const handleWorkerChange = (day, shift, selectedOptions) => {
-    const selectedValues = selectedOptions.map(option => ({ id: option.value, day, month, shift }));
+    const selectedValues = selectedOptions.map(option => option.value);
+  
     setSchedule({
       ...schedule,
       [day]: {
@@ -38,23 +39,42 @@ const Schedule = () => {
       }
     });
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const formattedData = Object.entries(schedule).reduce((acc, [day, shifts]) => {
+      Object.entries(shifts).forEach(([shift, employeeIDs]) => {
+        acc.push({
+          day: Number(day) + 1, // Add 1 to the day to make it 1-indexed
+          month: month + 1, // Add 1 to the month to make it 1-indexed
+          shift: shift,
+          EmployeeID: employeeIDs,
+        });
+      });
+      return acc;
+    }, []);
+    
+    axios.post('http://localhost:5000/saveSchedule', { scheduleData: formattedData, month })
+    .then(res => {
+      if (res.data.Status === 'Success') {
+        alert("Schedule saved successfully");
+        // Clear the schedule after successful save
+        setSchedule({});
+      } else {
+        console.log("Response status not Success: ", res.data);
+        alert("Failed to save schedule due to server response");
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      alert("Failed to save schedule due to error: " + err.message);
+      });
+  };
 
   const handleWeekChange = (direction) => {
     setWeek(week + direction);
   };
 
-  const handleSubmit = (event) => {
-    console.log(schedule);
-    event.preventDefault();
-
-    console.log('Sending the following schedule to the server:', schedule);
-    axios.post('http://localhost:5000/saveSchedule', schedule)
-      .then(res => {
-        console.log(res.data);
-      })
-      .catch(err => console.log(err));
-  };
-  
 
   return (
     <Container>
@@ -89,16 +109,18 @@ const Schedule = () => {
                       <td>
                         <Select
                           isMulti
-                          options={data.map(employee => ({ label: employee.fname, value: employee.fname }))}
-                          value={(schedule[currentDay]?.shift1 || []).map(value => ({ label: value.id, value: value.id }))}
+                          options={data.map(employee => ({ label: employee.fname, value: employee.id }))}
+                          value={(schedule[currentDay]?.shift1 || []).map(id => ({ label: data.find(employee => employee.id === id).fname, value: id }))}
                           onChange={(selectedOptions) => handleWorkerChange(currentDay, 'shift1', selectedOptions)}
                         />
                       </td>
                       <td>
                         <Select
                           isMulti
-                          options={data.map(employee => ({ label: employee.fname, value: employee.fname }))}
-                          value={(schedule[currentDay]?.shift2 || []).map(value => ({ label: value.id, value: value.id }))}
+                          options={data.map(employee => ({ label: employee.fname, value: employee.id }))}
+                          value={(schedule[currentDay]?.shift2 || []).map(id => ({ label: data.find(employee => employee.id === id).fname, value: id }))}
+
+
                           onChange={(selectedOptions) => handleWorkerChange(currentDay, 'shift2', selectedOptions)}
                         />
                       </td>

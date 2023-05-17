@@ -90,10 +90,10 @@ app.post("/login", async (req, res) => {
 
 const Schedules = require("./models/SaveSchedule");
 app.post('/saveSchedule', async (req, res) => {
-res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   try {
     console.log(req.body);
-    const { scheduleData, month } = req.body;
+    const { scheduleData } = req.body;
 
     if (!scheduleData) {
       return res.status(400).json({ Status: 'Error', Message: 'Missing scheduleData in request body' });
@@ -101,19 +101,14 @@ res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
 
     // Transform the data into an array of schedules
     const schedules = [];
-    Object.entries(scheduleData).forEach(([day, shifts]) => {
-      Object.entries(shifts).forEach(([shift, employeeIds]) => {
-        employeeIds.forEach(employeeId => {
-          schedules.push({
-            day: Number(day),
-            month: month,
-            shift: shift === 'shift1' ? 'morning' : 'evening',
-            EmployeeID: Number(employeeId),
-            
-          });
-
+    scheduleData.forEach(({day, month, shift, EmployeeID}) => {
+      EmployeeID.forEach(employeeId => {
+        schedules.push({
+          day: Number(day),
+          month: month,
+          shift: shift === 'shift1' ? 'morning' : 'evening',
+          EmployeeID: Number(employeeId),  
         });
-        
       });
     });
 
