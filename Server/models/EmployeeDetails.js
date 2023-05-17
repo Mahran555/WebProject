@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const UserDetailsScehma = new mongoose.Schema(
   {
     id: { type: Number, required: true, unique: true },
@@ -7,15 +6,14 @@ const UserDetailsScehma = new mongoose.Schema(
     lname: { type: String},
     email: { type: String, required: true, unique: true },
     password: { type: String },
-    userType: { type: String },
     address: { type: String },
     salary: { type: Number },
     image: { type: String }
-    
   },
   {
     collection: "EmployeeInfo",
   }
 );
 
-mongoose.model("EmployeeInfo", UserDetailsScehma);
+const EmployeeInfo=mongoose.model("EmployeeInfo", UserDetailsScehma);
+module.exports = EmployeeInfo;

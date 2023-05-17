@@ -66,8 +66,8 @@ let upload = multer({
 
 
 db()
-require("./models/EmployeeDetails");
-const Employee = mongoose.model("EmployeeInfo");
+
+const Employee = require("./models/EmployeeDetails");
 
 //Login page
 app.post("/login", async (req, res) => {
@@ -87,6 +87,53 @@ app.post("/login", async (req, res) => {
     return res.json({Status: "Success"});
   
 });
+
+const Schedules = require("./models/SaveSchedule");
+app.post('/saveSchedule', async (req, res) => {
+res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  try {
+    console.log(req.body);
+    const { scheduleData, month } = req.body;
+
+    if (!scheduleData) {
+      return res.status(400).json({ Status: 'Error', Message: 'Missing scheduleData in request body' });
+    }
+
+    // Transform the data into an array of schedules
+    const schedules = [];
+    Object.entries(scheduleData).forEach(([day, shifts]) => {
+      Object.entries(shifts).forEach(([shift, employeeIds]) => {
+        employeeIds.forEach(employeeId => {
+          schedules.push({
+            day: Number(day),
+            month: month,
+            shift: shift === 'shift1' ? 'morning' : 'evening',
+            EmployeeID: Number(employeeId),
+            
+          });
+
+        });
+        
+      });
+    });
+
+    // Save all schedules
+    for (const schedule of schedules) {
+      const newSchedule = new Schedules(schedule); 
+      try {
+        await newSchedule.save();
+      } catch (error) {
+        console.error('Error saving schedule:', error);
+      }
+    }
+
+    res.json({ Status: 'Success' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ Status: 'Error', Message: 'Unable to save schedules' });
+  }
+});
+
 ////////
 //delete employee
 app.get('/delete/:id', async (req, res) => {
