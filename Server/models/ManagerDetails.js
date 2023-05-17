@@ -9,7 +9,6 @@ const UserDetailsScehma = new mongoose.Schema(
     phone: { type: String },
     address: { type: String },
     image: { type: String }
-    
   },
   {
     collection: "ManagerInfo",
