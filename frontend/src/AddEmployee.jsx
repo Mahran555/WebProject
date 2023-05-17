@@ -16,7 +16,7 @@ function AddEmployee() {
         image: ''
 	})
 	const navigate = useNavigate()
-
+    const [error, setError] = useState('');
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		const formdata = new FormData();
@@ -31,7 +31,12 @@ function AddEmployee() {
         formdata.append("image", data.image);
 		axios.post('http://localhost:5000/create', formdata)
 		.then(res => {
-			navigate('/employee')
+			if(res.data.Status === "Success") {
+				navigate('/employee')
+			}
+			else{
+				setError(res.data.error);
+			}
 		})
 		.catch(err => console.log(err));
 	  };
@@ -82,6 +87,9 @@ function AddEmployee() {
 				</div>
 				<div class="col-12">
 					<button type="submit" class="btn btn-primary">Create</button>
+				    <span >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label className='text-danger'>{error && error}</label>          
+                   </span>
 				</div>
 				</form>
 		</div>

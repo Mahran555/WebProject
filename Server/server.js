@@ -66,26 +66,21 @@ let upload = multer({
 
 
 db()
-require("./models/EmployeeDetails");
-const Employee = mongoose.model("EmployeeInfo");
+const Employee = require("./models/EmployeeDetails");
+const Manager = require("./models/EmployeeDetails");
+//const Employee = mongoose.model("EmployeeInfo");
 
-//Login page
-app.post("/login", async (req, res) => {
-  const { email, password,userType} = req.body;
+//ManagerLogin page
+app.post("/managerLogin", async (req, res) => {
+  const { email, password} = req.body;
   const user = await Employee.findOne({ email });
   if (!user) {
-    return res.json({Status: "error", error: "Invalid email or password"  });
+    return res.send({Status: "error", error: "Invalid email or password"  });
   }
-  if (user.userType!==userType) {
-    return res.json({ Status: "error",error: "Invalid email or password"  });
-  }
-
   if (user.password!==password) {
       return res.status(400).json({Status: "error", error: 'Invalid email or password' });
   }
-
     return res.json({Status: "Success"});
-  
 });
 ////////
 //delete employee
@@ -116,10 +111,14 @@ app.post("/create",upload.single('image') ,async(req, res) => {
       salary: req.body.salary,
       image: req.file.filename
     });
-   // ( *** must add if ID or Email is already exists)
+    const check1 = await Employee.findOne({id:newEmployee.id});
+    const check2 = await Employee.findOne({ email:newEmployee.email });
+   if (check1  || check2 ) {
+     return res.send({Status: "error", error: "This ID or email already exists"  });
+   }
     newEmployee.save()// Save new Employee document to MongoDB
   .then(() => {
-    return res.send({ Status: 'Success' });
+    return res.send({ Status : "Success" });
   })
   .catch((error) => {
     return res.status(500).json({ error: "Can't Add this employee" });
@@ -163,10 +162,10 @@ app.get('/getInfo/:id', async(req, res) => {
 app.put('/update/:id', async(req, res) => {
  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
  res.header('Access-Control-Allow-Credentials', true);
-  try {
-   const id = Number(req.params.id);
-   const OldEmployee =await Employee.findOne({ id });
-   const updateEmployee = {
+ 
+ try {
+  const id = Number(req.params.id);
+  const updateEmployee = ({
     id: Number(req.body.id),
     fname: req.body.fname,
     lname: req.body.lname,
@@ -176,18 +175,23 @@ app.put('/update/:id', async(req, res) => {
     address: req.body.address,
     salary: Number(req.body.salary),
     image: req.body.image
-  };
-    Employee.findOneAndUpdate({id}, updateEmployee, { new: true })
-    console.log(OldEmployee)
-    console.log(updateEmployee)
-    return res.send({ Status: "Success"});
-  } catch (error) {
-    return res.status(500).send({ Status: "Error", Message: "Unable to retrieve employees" });
-  }
+  });
+  const check = await Employee.findOne({id});
+  const check1 = await Employee.findOne({id:updateEmployee.id});
+  const check2 = await Employee.findOne({ email:updateEmployee.email });
+ if ((check1 && id!=updateEmployee.id) || (check2 && check.email!=updateEmployee.email)) {
+   return res.send({Status: "error", error: "This ID or email already exists"  });
+ }
+  const result = await Employee.updateOne({id}, { $set:  updateEmployee });
+  return res.send({ Status: "Success"});
+} catch (error) {
+  return res.status(500).send({ Status: "Error", Message: "Unable to retrieve employees" });
+}
 });
 
 //logout
 app.get('/logout', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   res.clearCookie('token');
   return res.json({Status: "Success"});
 })
@@ -196,4 +200,3 @@ app.listen(PORT, () => {
   console.log('You are listening to port:',PORT);
 })  
 ///test mohamad
-// schdule updated 16/05 19:27

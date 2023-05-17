@@ -7,9 +7,11 @@ const UserDetailsScehma = new mongoose.Schema(
     lname: { type: String},
     email: { type: String, required: true, unique: true },
     password: { type: String },
+    userType: { type: String },
     address: { type: String },
     salary: { type: Number },
     image: { type: String }
+    
   },
   {
     collection: "EmployeeInfo",

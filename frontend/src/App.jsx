@@ -1,5 +1,5 @@
 import React from 'react'
-import Login from './Login'
+import ManagerLogin from './ManagerLogin'
 import Dashboard from './Dashboard'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import Employee from './Employee'
@@ -26,7 +26,7 @@ function App() {
       <Route path='/create' element={<AddEmployee />}></Route>
       <Route path='/employeeEdit/:id' element={<EditEmployee />}></Route>
       </Route>
-      <Route path='/login' element={<Login />}></Route>
+      <Route path='//managerLogin' element={<ManagerLogin />}></Route>
       <Route path='/start' element={<Start />}></Route>
     </Routes>
     </BrowserRouter>

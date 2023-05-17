@@ -9,7 +9,7 @@ function Start() {
                 <h2>Login As</h2>
                 <div className='d-flex justify-content-between mt-5'>
                     <button className='btn btn-primary btn-lg' onClick={e => navigate('/employeeLogin')}>Employee</button>
-                    <button className='btn btn-success btn-lg' onClick={e => navigate('/login')}>Admin</button>
+                    <button className='btn btn-success btn-lg' onClick={e => navigate('/managerlogin')}>Manager</button>
                 </div>
             </div>
         </div>
