@@ -68,7 +68,7 @@ let upload = multer({
 db()
 const Employee = require("./models/EmployeeDetails");
 const Manager = require("./models/ManagerDetails");
-
+const Vacations = require("./models/VacationDetails");
 //UserLogin page
 app.post("/login", async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
@@ -83,7 +83,60 @@ app.post("/login", async (req, res) => {
   }
     return res.send({Status: "error", error: "Invalid email or password"  });
 });
+// Update vacation request status
+app.put('/vacationRequests/:id', async (req, res) => {
+  try {
+    const requestId = req.params.id;
+    const status = req.body.status;
 
+    // Find the vacation request by ID and update the status
+    await Vacations.findByIdAndUpdate(requestId, { status });
+
+    res.sendStatus(200);
+  } catch (error) {
+    console.error('Error updating vacation request status:', error);
+    res.sendStatus(500);
+  }
+});
+
+
+//Get VacationRequests 
+app.get("/vacationRequests", async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  try {
+    const vacations = await Vacations.find({});
+    return res.send({ Status: "Success", Result: vacations });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ Status: "Error", Message: "Unable to retrieve vacations requests" });
+  }
+});
+
+// salaries
+app.get('/salaries', async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  try {
+    const employees = await Employee.find({}, 'salary'); // get only 'salary' field of all employees  
+    const salaries = employees.map(employee => employee.salary);
+    res.json(salaries);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error occurred while fetching individual salaries');
+  }
+});
+//count employee numbers
+app.get('/employeeCount', async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  try {
+    const employeeCount = await Employee.countDocuments({});
+    res.json({ count: employeeCount });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error occurred while counting employees');
+  }
+});
+
+//schdule creation/update
 const Schedules = require("./models/SaveSchedule");
 app.post('/saveSchedule', async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
