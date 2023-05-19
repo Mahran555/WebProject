@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import "../src/Theme.css";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 function Employee() {
   const [data, setData] = useState([]);
@@ -40,18 +41,22 @@ function Employee() {
         <h3>Employee List</h3>
       </div>
 
-      <Link to='/create' className="btn btn-primary"  style={{backgroundColor:'#93C0A4'}}>Add Employee</Link>
+      <div id="search&add" className="container">
+        <div className="row parent">
+          <div className="col-sm-9 parent">
+            <Link to='/create' className="btn-design btn text-white mt-3 " style={{ backgroundColor: '#93C0A4' }}>Add Employee</Link>
+          </div>
 
+          <div className="col-3">
+            <div class="input-group mt-3 ">
+              <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+              <button type="button" class="btn btn-outline-primary">search</button>
+            </div>
+          </div>
+        </div>
 
-      {/* Search input */}
-      <div className='mt-3'>
-        <input
-          type='text'
-          placeholder='Search by first name'
-          value={searchTerm}
-          onChange={e => setSearchTerm(e.target.value)}
-        />
       </div>
+
 
       <div className='mt-3'>
         <table className='table'>
@@ -91,17 +96,17 @@ function Employee() {
                   <td>{employee.phone}</td>
 
                   <td>
-                      <Link
+                    <Link
                       to={`/employeeEdit/` + employee.id}
-                      className='btn btn-primary btn-bgc btn-sm me-2 t-text'
-                      style={{backgroundColor:'#93C0A4'}}
+                      className='btn btn-bgc btn-sm me-2 t-text btn-design text-white'
+                      style={{ backgroundColor: '#93C0A4' }}
                     >
                       Edit
                     </Link>
                     <button
                       onClick={e => handleDelete(employee.id)}
-                      className='btn btn-primary btn-sm'
-                      style={{backgroundColor:'#D4CDAB'}}
+                      className='btn btn-sm btn-design text-white'
+                      style={{ backgroundColor: '#D4CDAB' }}
                     >
                       Delete
                     </button>
