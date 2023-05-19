@@ -68,11 +68,9 @@ let upload = multer({
 db()
 const Employee = require("./models/EmployeeDetails");
 const Manager = require("./models/ManagerDetails");
-<<<<<<< HEAD
 const Vacations = require("./models/VacationDetails");
-=======
 const WorkData = require("./models/WorkInfo");
->>>>>>> Branch-Mohammad
+const Schedules = require("./models/SaveSchedule");
 //UserLogin page
 app.post("/login", async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
@@ -141,7 +139,7 @@ app.get('/employeeCount', async (req, res) => {
 });
 
 //schdule creation/update
-const Schedules = require("./models/SaveSchedule");
+
 app.post('/saveSchedule', async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   try {
