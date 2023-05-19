@@ -66,27 +66,131 @@ let upload = multer({
 
 
 db()
-require("./models/EmployeeDetails");
-const Employee = mongoose.model("EmployeeInfo");
-
-//Login page
+const Employee = require("./models/EmployeeDetails");
+const Manager = require("./models/ManagerDetails");
+const Vacations = require("./models/VacationDetails");
+const WorkData = require("./models/WorkInfo");
+const Schedules = require("./models/SaveSchedule");
+//UserLogin page
 app.post("/login", async (req, res) => {
-  const { email, password,userType} = req.body;
-  const user = await Employee.findOne({ email });
-  if (!user) {
-    return res.json({Status: "error", error: "Invalid email or password"  });
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  const { email, password} = req.body;
+  const userEmployee = await Employee.findOne({ email });
+  const userManager = await Manager.findOne({ email });
+  if (userManager && userManager.password == password ) {
+    return res.json({Status:"Success", Role:"Manager"});
   }
-  if (user.userType!==userType) {
-    return res.json({ Status: "error",error: "Invalid email or password"  });
+  if ( userEmployee && userEmployee.password==password) {
+      return res.send({Status: "Success", Role:"Employee", Result: userEmployee });
   }
-
-  if (user.password!==password) {
-      return res.status(400).json({Status: "error", error: 'Invalid email or password' });
-  }
-
-    return res.json({Status: "Success"});
-  
+    return res.send({Status: "error", error: "Invalid email or password"  });
 });
+// Update vacation request status
+app.put('/vacationRequests/:id', async (req, res) => {
+  try {
+    const requestId = req.params.id;
+    const status = req.body.status;
+
+    // Find the vacation request by ID and update the status
+    await Vacations.findByIdAndUpdate(requestId, { status });
+
+    res.sendStatus(200);
+  } catch (error) {
+    console.error('Error updating vacation request status:', error);
+    res.sendStatus(500);
+  }
+});
+
+
+//Get VacationRequests 
+app.get("/vacationRequests", async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  try {
+    const vacations = await Vacations.find({});
+    return res.send({ Status: "Success", Result: vacations });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ Status: "Error", Message: "Unable to retrieve vacations requests" });
+  }
+});
+
+// salaries
+app.get('/salaries', async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  try {
+    const employees = await Employee.find({}, 'salary'); // get only 'salary' field of all employees  
+    const salaries = employees.map(employee => employee.salary);
+    res.json(salaries);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error occurred while fetching individual salaries');
+  }
+});
+//count employee numbers
+app.get('/employeeCount', async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  try {
+    const employeeCount = await Employee.countDocuments({});
+    res.json({ count: employeeCount });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error occurred while counting employees');
+  }
+});
+
+//schdule creation/update
+
+app.post('/saveSchedule', async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  try {
+    console.log(req.body);
+    const { scheduleData } = req.body;
+
+    if (!scheduleData) {
+      return res.status(400).json({ Status: 'Error', Message: 'Missing scheduleData in request body' });
+    }
+
+    // Transform the data into an array of schedules
+    const schedules = [];
+    scheduleData.forEach(({day, month, shift, EmployeeID}) => {
+        schedules.push({
+          day: Number(day),
+          month: month,
+          shift: shift === 'shift1' ? 'morning' : 'evening',
+          EmployeeID: EmployeeID,  
+        });
+    });
+
+    // Save or update all schedules
+    for (const schedule of schedules) {
+      const filter = { 
+        day: schedule.day, 
+        month: schedule.month, 
+        shift: schedule.shift 
+      };
+      const update = { 
+        EmployeeID: schedule.EmployeeID 
+      };
+      const options = { 
+        upsert: true, // create a new document if no documents match the filter
+        new: true // return the updated document
+      };
+
+      try {
+        await Schedules.findOneAndUpdate(filter, update, options);
+      } catch (error) {
+        console.error('Error saving or updating schedule:', error);
+      }
+    }
+
+    res.json({ Status: 'Success' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ Status: 'Error', Message: 'Unable to save schedules' });
+  }
+});
+
+
 ////////
 //delete employee
 app.get('/delete/:id', async (req, res) => {
@@ -116,10 +220,14 @@ app.post("/create",upload.single('image') ,async(req, res) => {
       salary: req.body.salary,
       image: req.file.filename
     });
-   // ( *** must add if ID or Email is already exists)
+    const check1 = await Employee.findOne({id:newEmployee.id});
+    const check2 = await Employee.findOne({ email:newEmployee.email });
+   if (check1  || check2 ) {
+     return res.send({Status: "error", error: "This ID or email already exists"  });
+   }
     newEmployee.save()// Save new Employee document to MongoDB
   .then(() => {
-    return res.send({ Status: 'Success' });
+    return res.send({ Status : "Success" });
   })
   .catch((error) => {
     return res.status(500).json({ error: "Can't Add this employee" });
@@ -145,6 +253,18 @@ app.get("/getEmployee", async (req, res) => {
   }
 });
 
+//Get Manager
+app.get("/getManager", async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  try {
+    const fname="Gus";
+    const manager = await Manager.findOne({fname});
+    return res.send({ Status: "Success", Result: manager });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ Status: "Error", Message: "Unable to retrieve employees" });
+  }
+});
  //Get Employee Information
 app.get('/getInfo/:id', async(req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
@@ -158,15 +278,42 @@ app.get('/getInfo/:id', async(req, res) => {
   }
 });
 
+//Get employee Working hours and wages
+app.get('/workData/:id', async(req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  const id = Number(req.params.id);
+  try {
+    const result = await WorkData.find( { EmployeeID:id } )
+    console.log(result)
+    return res.send({ Status: "Success", Result: result });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ Status: "Error", Message: "Unable to retrieve employees" });
+  }
+});
+
+ //Get Employee Schedule
+ app.get('/employeeSchedule/:id', async(req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  const id = Number(req.params.id);
+  try {
+    const result = await Schedules.find( { EmployeeID:id } )
+    console.log(result)
+    return res.send({ Status: "Success", Result: result });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ Status: "Error", Message: "Unable to retrieve employees" });
+  }
+});
 
 //Update employee info
 app.put('/update/:id', async(req, res) => {
  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
  res.header('Access-Control-Allow-Credentials', true);
-  try {
-   const id = Number(req.params.id);
-   const OldEmployee =await Employee.findOne({ id });
-   const updateEmployee = {
+ 
+ try {
+  const id = Number(req.params.id);
+  const updateEmployee = ({
     id: Number(req.body.id),
     fname: req.body.fname,
     lname: req.body.lname,
@@ -176,18 +323,23 @@ app.put('/update/:id', async(req, res) => {
     address: req.body.address,
     salary: Number(req.body.salary),
     image: req.body.image
-  };
-    Employee.findOneAndUpdate({id}, updateEmployee, { new: true })
-    console.log(OldEmployee)
-    console.log(updateEmployee)
-    return res.send({ Status: "Success"});
-  } catch (error) {
-    return res.status(500).send({ Status: "Error", Message: "Unable to retrieve employees" });
-  }
+  });
+  const check = await Employee.findOne({id});
+  const check1 = await Employee.findOne({id:updateEmployee.id});
+  const check2 = await Employee.findOne({ email:updateEmployee.email });
+ if ((check1 && id!=updateEmployee.id) || (check2 && check.email!=updateEmployee.email)) {
+   return res.send({Status: "error", error: "This ID or email already exists"  });
+ }
+  const result = await Employee.updateOne({id}, { $set:  updateEmployee });
+  return res.send({ Status: "Success"});
+} catch (error) {
+  return res.status(500).send({ Status: "Error", Message: "Unable to retrieve employees" });
+}
 });
 
 //logout
 app.get('/logout', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   res.clearCookie('token');
   return res.json({Status: "Success"});
 })

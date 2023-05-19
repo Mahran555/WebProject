@@ -1,34 +1,38 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function Profile() {
-  const [data, setData] = useState({
-    fname: '',
-    lname: '',
-    email: '',
-    password: '',
-    phone: '',
-    address: '',
-    image: ''
-    })
-  useEffect(()=> {
-    axios.get('http://localhost:5000/getManager')
-    .then((res) => {
-      if(res.data.Status === "Success") {
-        setData({...data, 
-          fname: res.data.Result.fname,
-          lname:res.data.Result.lname,
-          email: res.data.Result.email,
-          password: res.data.Result.password,
-          phone: res.data.Result.phone,
-          address:res.data.Result.address,
-          image: res.data.Result.image   
-      })
-      }
-    })
-    .catch(err => console.log("faild"));
-  })
+function EmployeeProfile() {
+    const [data, setData] = useState({
+        id:'',
+        fname: '',
+        lname: '',
+        email: '',
+        password: '',
+        salary: '',
+        address: '',
+        image: ''
+        })
+    const {id} = useParams();
+	useEffect(()=> {
+		axios.get('http://localhost:5000/getInfo/'+id)
+        .then((res) => {
+            if(res.data.Status === "Success") {
+                setData({...data, id: res.data.Result.id,
+                    fname: res.data.Result.fname,
+					lname:res.data.Result.lname,
+					email: res.data.Result.email,
+					password: res.data.Result.password,
+					address:res.data.Result.address,
+					salary: res.data.Result.salary,
+					image: res.data.Result.image
+                    
+                })
+            }
+		})
+		.catch(err =>console.log(err));
+	}, [])
   return(
 <div className="gradient-custom-2" style={{ backgroundColor: '#3333' }}>
   <MDBContainer className="py-5 h-100">
@@ -76,6 +80,15 @@ function Profile() {
                 <hr />
                 <MDBRow>
                   <MDBCol sm="3">
+                    <MDBCardText>ID</MDBCardText>
+                  </MDBCol>
+                  <MDBCol sm="9">
+                    <MDBCardText className="text-muted">{data.id}</MDBCardText>
+                  </MDBCol>
+                </MDBRow>
+                <hr />
+                <MDBRow>
+                  <MDBCol sm="3">
                     <MDBCardText>Email</MDBCardText>
                   </MDBCol>
                   <MDBCol sm="9">
@@ -85,10 +98,10 @@ function Profile() {
                 <hr />
                 <MDBRow>
                   <MDBCol sm="3">
-                    <MDBCardText>Phone</MDBCardText>
+                    <MDBCardText>Salary</MDBCardText>
                   </MDBCol>
                   <MDBCol sm="9">
-                    <MDBCardText className="text-muted">{data.phone}</MDBCardText>
+                    <MDBCardText className="text-muted">${data.salary}</MDBCardText>
                   </MDBCol>
                 </MDBRow>
                 <hr />
@@ -115,5 +128,5 @@ function Profile() {
     </div>
   )
 }
-//to be cont
-export default Profile
+
+export default EmployeeProfile

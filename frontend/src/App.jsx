@@ -8,7 +8,10 @@ import Schedule from './Schedule'
 import Home from './Home'
 import AddEmployee from './AddEmployee'
 import EditEmployee from './EditEmployee'
-import Start from './Start'
+import EmployeePage from './EmployeePage'
+import EmployeeProfile from './EmployeeProfile'
+import EmployeeSchedule from './EmployeeSchedule'
+import EmployeeHome from './EmployeeHome'
 
 function App() {
 
@@ -17,6 +20,7 @@ function App() {
  
     
     <BrowserRouter>
+     
     <Routes>
       <Route path='/' element={<Dashboard />}>
       <Route path='' element={<Home />}></Route>
@@ -26,8 +30,14 @@ function App() {
       <Route path='/create' element={<AddEmployee />}></Route>
       <Route path='/employeeEdit/:id' element={<EditEmployee />}></Route>
       </Route>
+      <Route path='/employeePage/:id' element={<EmployeePage />}>
+      <Route path='' element={<EmployeeHome />}></Route>
+      <Route path='/employeePage/:id/employeeProfile/:id' element={<EmployeeProfile />}></Route>
+      <Route path='/employeePage/:id/employeeSchedule/:id' element={<EmployeeSchedule />}></Route>
+      </Route>
       <Route path='/login' element={<Login />}></Route>
-      <Route path='/start' element={<Start />}></Route>
+      
+      
     </Routes>
     </BrowserRouter>
     
