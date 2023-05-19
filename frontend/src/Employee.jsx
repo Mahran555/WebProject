@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import "../src/Theme.css";
 
 function Employee() {
   const [data, setData] = useState([]);
@@ -38,7 +39,9 @@ function Employee() {
       <div className='d-flex justify-content-center mt-2'>
         <h3>Employee List</h3>
       </div>
-      <Link to='/create' className='btn btn-success'>Add Employee</Link>
+
+      <Link to='/create' className="btn btn-primary"  style={{backgroundColor:'#93C0A4'}}>Add Employee</Link>
+
 
       {/* Search input */}
       <div className='mt-3'>
@@ -61,6 +64,7 @@ function Employee() {
               <th>Email</th>
               <th>Address</th>
               <th>Salary</th>
+              <th>Phone</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -84,16 +88,20 @@ function Employee() {
                   <td>{employee.email}</td>
                   <td>{employee.address}</td>
                   <td>${employee.salary}</td>
+                  <td>{employee.phone}</td>
+
                   <td>
-                    <Link
+                      <Link
                       to={`/employeeEdit/` + employee.id}
-                      className='btn btn-primary btn-sm me-2'
+                      className='btn btn-primary btn-bgc btn-sm me-2 t-text'
+                      style={{backgroundColor:'#93C0A4'}}
                     >
                       Edit
                     </Link>
                     <button
                       onClick={e => handleDelete(employee.id)}
-                      className='btn btn-sm btn-danger'
+                      className='btn btn-primary btn-sm'
+                      style={{backgroundColor:'#D4CDAB'}}
                     >
                       Delete
                     </button>

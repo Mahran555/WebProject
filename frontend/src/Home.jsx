@@ -149,25 +149,25 @@ function Home() {
       <div className='container mt-5'>
         <h3>Vacation Requests</h3>
         <ul className='nav nav-tabs'>
-          <li className='nav-item'>
+          <li className='nav-item btn-bgc'>
             <button
-              className={`nav-link ${activeTab === 'pending' ? 'active' : ''}`}
+              style={{color:'black'}} className={` nav-link ${activeTab === 'pending' ? 'active' : ''}`}
               onClick={() => filterVacationRequests('pending')}
             >
               Pending
             </button>
           </li>
-          <li className='nav-item'>
+          <li className='nav-item btn-bgc'>
             <button
-              className={`nav-link ${activeTab === 'accepted' ? 'active' : ''}`}
+              style={{color:'black'}} className={`nav-link ${activeTab === 'accepted' ? 'active' : ''}`}
               onClick={() => filterVacationRequests('accepted')}
             >
               Accepted
             </button>
           </li>
-          <li className='nav-item'>
+          <li className='nav-item btn-bgc'>
             <button
-              className={`nav-link ${activeTab === 'declined' ? 'active' : ''}`}
+              style={{color:'black'}} className={`nav-link ${activeTab === 'declined' ? 'active' : ''}`}
               onClick={() => filterVacationRequests('declined')}
             >
               Declined
