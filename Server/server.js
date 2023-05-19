@@ -68,7 +68,7 @@ let upload = multer({
 db()
 const Employee = require("./models/EmployeeDetails");
 const Manager = require("./models/ManagerDetails");
-
+const WorkData = require("./models/WorkInfo");
 //UserLogin page
 app.post("/login", async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
@@ -79,7 +79,7 @@ app.post("/login", async (req, res) => {
     return res.json({Status:"Success", Role:"Manager"});
   }
   if ( userEmployee && userEmployee.password==password) {
-      return res.json({Status: "Success", Role:"Employee", Result: userEmployee.id });
+      return res.send({Status: "Success", Role:"Employee", Result: userEmployee });
   }
     return res.send({Status: "error", error: "Invalid email or password"  });
 });
@@ -223,6 +223,33 @@ app.get('/getInfo/:id', async(req, res) => {
   }
 });
 
+//Get employee Working hours and wages
+app.get('/workData/:id', async(req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  const id = Number(req.params.id);
+  try {
+    const result = await WorkData.find( { EmployeeID:id } )
+    console.log(result)
+    return res.send({ Status: "Success", Result: result });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ Status: "Error", Message: "Unable to retrieve employees" });
+  }
+});
+
+ //Get Employee Schedule
+ app.get('/employeeSchedule/:id', async(req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  const id = Number(req.params.id);
+  try {
+    const result = await Schedules.find( { EmployeeID:id } )
+    console.log(result)
+    return res.send({ Status: "Success", Result: result });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ Status: "Error", Message: "Unable to retrieve employees" });
+  }
+});
 
 //Update employee info
 app.put('/update/:id', async(req, res) => {

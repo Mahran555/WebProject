@@ -30,9 +30,7 @@ function Login() {
             navigate('/');
            }
        else{
-            const id = res.data.id;
-            console.log(id)
-            navigate('/employeePage'+id);
+            navigate('/employeePage/'+res.data.Result.id);
            }
         } else 
         {
