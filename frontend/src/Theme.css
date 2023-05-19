@@ -42,3 +42,16 @@
     border-radius: .25rem;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
+
+.btn-outline-bgc {
+    border-color : #93C0A4;
+    color : #93C0A4;
+    background-color: white;
+}
+.top-bar-bgc{
+    background-color : #D4CDAB;
+}
+
+.font-family{
+    font-family: "Courier New", monospace;
+}

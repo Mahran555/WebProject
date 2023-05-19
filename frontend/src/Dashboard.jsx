@@ -7,30 +7,30 @@ import axios from 'axios'
 function Dashboard() {
 	const navigate = useNavigate()
 	axios.defaults.withCredentials = true;
-	useEffect(()=>{
+	useEffect(() => {
 		axios.get('http://localhost:5000/dashboard')
-		.then(res => {
-			if(res.data.Status === "Success") {
-				if(res.data.role === "manager") {
-					navigate('/');
+			.then(res => {
+				if (res.data.Status === "Success") {
+					if (res.data.role === "manager") {
+						navigate('/');
+					} else {
+						const id = res.data.id;
+						navigate('/employeedetail/' + id)
+					}
 				} else {
-					const id = res.data.id;
-					navigate('/employeedetail/'+id)
+					navigate('/start')
 				}
-			} else {
-				navigate('/start')
-			}
-		})
+			})
 	}, [])
 
 	const handleLogout = () => {
 		axios.get('http://localhost:5000/logout')
-		.then(res => {
-			navigate('/login')
-		}).catch(err => console.log(err));
+			.then(res => {
+				navigate('/login')
+			}).catch(err => console.log(err));
 	}
 	return (
-		<div className="container-fluid">
+		<div className="container-fluid font-family">
 			<div className="row flex-nowrap">
 				<div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 db-bgc">
 					<div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100">
@@ -63,7 +63,7 @@ function Dashboard() {
 				</div>
 				<div class="col p-0 m-0">
 					<div className='p-2 d-flex justify-content-center shadow'>
-						<h4>Employee Management System</h4>						
+						<h4><b>Employee Management System</b></h4>
 					</div>
 					<Outlet />
 				</div>

@@ -50,7 +50,7 @@ function Employee() {
           <div className="col-3">
             <div class="input-group mt-3 ">
               <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
-              <button type="button" class="btn btn-outline-primary">search</button>
+              <button type="button" class="btn-design btn-outline-bgc">search</button>
             </div>
           </div>
         </div>

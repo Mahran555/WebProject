@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
+import "../src/Theme.css"
 
 function EmployeeHome() {
   const {id} = useParams();

@@ -34,16 +34,16 @@ function EmployeeProfile() {
 		.catch(err =>console.log(err));
 	}, [])
   return(
-<div className="gradient-custom-2" style={{ backgroundColor: '#3333' }}>
+<div className="gradient-custom-2" style={{ backgroundColor: ' white' }}>
   <MDBContainer className="py-5 h-100">
     <MDBRow className="justify-content-center align-items-center h-100">
       <MDBCol lg="10" xl="15">
       <MDBCard style={{maxWidth: '1200px', margin: '0 auto'}}>
-          <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#000', height: '200px' }}>
+          <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#8E9B90', height: '200px' }}>
             <div className="ms-4 mt-5 position-relative" style={{ width: '150px' }}>
-              <img src={`http://localhost:5000/images/`+data.image} 
+              <img src={`http://localhost:5000/public/images/`+data.image} 
                 alt="Generic placeholder image" className="mt-2 mb-2 img-thumbnail" fluid style={{ width: '160px', zIndex: '1',height:'120px' }} />
-                <MDBBtn outline color="dark" className="position-absolute bottom-0" style={{height: '40px', overflow: 'visible', zIndex: '2', backgroundColor: 'blue',color:'whitesmoke' ,marginLeft:'10px',marginTop:'10px'}}>
+                <MDBBtn outline color="dark" className="position-absolute bottom-0" style={{height: '40px', overflow: 'visible', zIndex: '2',borderColor : "#93C0A4",backgroundColor: '#93C0A4',color:'whitesmoke' ,marginLeft:'10px',marginTop:'10px'}}>
                   Edit
                 </MDBBtn>
             </div>
