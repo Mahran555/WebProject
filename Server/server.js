@@ -85,6 +85,44 @@ app.post("/login", async (req, res) => {
   }
     return res.send({Status: "error", error: "Invalid email or password"  });
 });
+
+
+
+//update edit manager
+app.post('/updateManager', upload.single('image'), async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  const { _id, fname, lname, email, password, phone, address } = req.body;
+  let { image } = req.body;
+
+  if (req.file) {
+    image = req.file.filename; // Use the filename of the uploaded image
+  }
+
+  try {
+    let updatedFields = { fname, lname, email, password, phone, address, image };
+
+    const updatedManager = await Manager.findByIdAndUpdate(_id, updatedFields, { new: true });
+    console.log('Successfully updated manager:', updatedManager);
+    res.json({ Status: 'Success', Result: updatedManager });
+  } catch (err) {
+    console.log('Failed to update manager:', err);
+    res.status(500).json({ Status: 'Error', message: 'Failed to update manager' });
+  }
+});
+//update image for manager
+app.post('/updateManagerImage', upload.single('image'), async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  const imageData = req.file;
+  if (imageData) {
+    console.log('Successfully uploaded image:', imageData.filename);
+    res.json({ Status: 'Success', Result: imageData.filename });
+  } else {
+    console.log('Failed to upload image');
+    res.status(500).json({ Status: 'Error', message: 'Failed to upload image' });
+  }
+});
+
+
 // Update vacation request status
 app.put('/vacationRequests/:id', async (req, res) => {
   try {

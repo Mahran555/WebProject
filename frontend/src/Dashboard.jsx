@@ -6,22 +6,17 @@ import axios from 'axios'
 function Dashboard() {
 	const navigate = useNavigate()
 	axios.defaults.withCredentials = true;
+	
 	useEffect(()=>{
-		axios.get('http://localhost:5000/dashboard')
+		axios.get('http://localhost:5000/IsLoginManager')
 		.then(res => {
-			if(res.data.Status === "Success") {
-				if(res.data.role === "manager") {
-					navigate('/');
-				} else {
-					const id = res.data.id;
-					navigate('/employeedetail/'+id)
-				}
-			} else {
-				navigate('/start')
+			if(res.data.Status === "Failed") {
+				navigate('/login');
 			}
-		})
-	}, [])
-
+			})
+		.catch(err => console.log(err));
+    })
+	
 	const handleLogout = () => {
 		axios.get('http://localhost:5000/logout')
 		.then(res => {
