@@ -14,7 +14,7 @@ function EditEmployee() {
 		salary: '',
 		image: ''
 	})
-
+	const [error, setError] = useState('');
 	const navigate = useNavigate()
 	const {id} = useParams();
 	useEffect(()=> {
@@ -43,6 +43,9 @@ function EditEmployee() {
 		.then(res => {
 			if(res.data.Status === "Success") {
 				navigate('/employee')
+			}
+			else{
+				setError(res.data.error);
 			}
 		})
 		.catch(err => console.log(err));
@@ -82,7 +85,10 @@ function EditEmployee() {
 					onChange={e => setData({...data, address: e.target.value})} value={data.address}/>
 				</div>
 				<div class="col-12">
-					<button type="submit" class="btn btn-primary">Update</button>
+				 <button type="submit" class="btn btn-primary">Update</button>
+				 <span >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   <label className='text-danger'>{error && error}</label>          
+                 </span>
 				</div>
 			</form>
 		</div>

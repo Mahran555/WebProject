@@ -1,22 +1,11 @@
 import React, { useEffect } from 'react'
 import 'bootstrap-icons/font/bootstrap-icons.css'
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 
-function Dashboard() {
-	const navigate = useNavigate()
-	axios.defaults.withCredentials = true;
-	
-	useEffect(()=>{
-		axios.get('http://localhost:5000/IsLoginManager')
-		.then(res => {
-			if(res.data.Status === "Failed") {
-				navigate('/login');
-			}
-			})
-		.catch(err => console.log(err));
-    })
-	
+
+function EmployeePage() {
+	const {id} = useParams();
 	const handleLogout = () => {
 		axios.get('http://localhost:5000/logout')
 		.then(res => {
@@ -29,23 +18,19 @@ function Dashboard() {
 				<div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
 					<div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
 						<a href="/" className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
-							<span className="fs-5 fw-bolder d-none d-sm-inline">Manager Dashboard</span>
+							<span className="fs-5 fw-bolder d-none d-sm-inline">Employee Page</span>
 						</a>
 						<ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
 							<li>
-								<Link to="/" data-bs-toggle="collapse" className="nav-link text-white px-0 align-middle">
+								<Link to={'/employeePage/'+id} data-bs-toggle="collapse" className="nav-link text-white px-0 align-middle">
 									<i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline">Home</span> </Link>
 							</li>
 							<li>
-								<Link to="/employee" className="nav-link px-0 align-middle text-white">
-									<i className="fs-4 bi-people"></i> <span className="ms-1 d-none d-sm-inline">Manage Employees</span> </Link>
-							</li>
-							<li>
-								<Link to="schedule" className="nav-link px-0 align-middle text-white">
+								<Link to={'/employeePage/'+id+'/employeeSchedule/'+id} className="nav-link px-0 align-middle text-white">
 									<i className="fs-4 bi-table"></i> <span className="ms-1 d-none d-sm-inline">Schedule</span></Link>
 							</li>
 							<li>
-								<Link to="profile" className="nav-link px-0 align-middle text-white">
+								<Link to={'/employeePage/'+id+'/employeeProfile/'+id} className="nav-link px-0 align-middle text-white">
 									<i className="fs-4 bi-person"></i> <span className="ms-1 d-none d-sm-inline">Profile</span></Link>
 							</li>
 							<li onClick={handleLogout}>
@@ -66,4 +51,6 @@ function Dashboard() {
 	)
 }
 
-export default Dashboard
+
+
+export default EmployeePage
