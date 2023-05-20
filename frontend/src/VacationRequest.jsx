@@ -1,8 +1,9 @@
-// LineChart.jsx
+
 import React from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
+import "../src/Theme.css"
 
 // Define the CustomInput component
 const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
@@ -13,17 +14,20 @@ const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
 ));
 
 function VacationRequest() {
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedDateTo, setSelectedDateTo] = useState(null);
+    const [selectedDateFrom, setSelectedDateFrom] = useState(null);
     const [description, setDescription] = useState('');
 
     const handleChange = (event) => {
         setDescription(event.target.value);
     };
+
+
     return (
         <>
             <h2 className="text-center">vacation Request</h2>
 
-            <div className="container text-center">
+            <div className="container text-center mt-5">
                 <div className="row justify-content-center">
 
                     <div className="col-auto">
@@ -35,8 +39,8 @@ function VacationRequest() {
                     <div className="col-auto">
 
                         <DatePicker
-                            selected={selectedDate}
-                            onChange={date => setSelectedDate(date)}
+                            selected={selectedDateFrom}
+                            onChange={date => setSelectedDateFrom(date)}
                             dateFormat='yyyy/MM/dd'
                             isClearable
                             showYearDropdown
@@ -53,8 +57,8 @@ function VacationRequest() {
 
                     <div className="col-auto">
                         <DatePicker
-                            selected={selectedDate}
-                            onChange={date => setSelectedDate(date)}
+                            selected={selectedDateTo}
+                            onChange={date => setSelectedDateTo(date)}
                             dateFormat='yyyy/MM/dd'
                             isClearable
                             showYearDropdown
@@ -66,8 +70,8 @@ function VacationRequest() {
             </div>
             {/*  */}
 
-            <div id="Reason" className="text-center mt-5">
-                <p>Reason:</p>
+            <div id="Reason" className="text-center mt-4">
+                <p className="mb-1">Reason:</p>
                 <textarea
                     value={description}
                     onChange={handleChange}
@@ -75,6 +79,12 @@ function VacationRequest() {
                     cols="80"
                     placeholder="Enter reason here..."
                 />
+            </div>
+
+            <div id="MakeRequest" className="text-center mt-3">
+                <button className="btn-design btn-bgc text-white" OnClick={SubmitRequest}>
+                    Submit Request
+                </button>
             </div>
 
 
