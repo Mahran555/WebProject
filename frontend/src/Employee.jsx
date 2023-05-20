@@ -54,7 +54,6 @@ function Employee() {
         </div>
       </div>
 
-
       <div className='mt-3'>
         <table className='table table-bordered fixed-table' >
           <thead >
@@ -89,8 +88,6 @@ function Employee() {
                   <td>{employee.email}</td>
                   <td>{employee.address}</td>
                   <td>${employee.salary}</td>
-                  <td>{employee.phone}</td>
-
                   <td>
                     <Link 
                       to={`/employeeEdit/` + employee.id}

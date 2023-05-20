@@ -162,7 +162,7 @@ function Home() {
           </li>
           <li className='nav-item btn-bgc'>
             <button
-              style={{color:'black'}} className={`nav-link ${activeTab === 'accepted' ? 'active' : ''}`}
+              className={`nav-link ${activeTab === 'accepted' ? 'active' : ''}`}
               onClick={() => filterVacationRequests('accepted')}
               style={{color:'#93C0A4'}}
             >
@@ -171,7 +171,7 @@ function Home() {
           </li>
           <li className='nav-item btn-bgc'>
             <button
-              style={{color:'black'}} className={`nav-link ${activeTab === 'declined' ? 'active' : ''}`}
+              className={`nav-link ${activeTab === 'declined' ? 'active' : ''}`}
               onClick={() => filterVacationRequests('declined')}
               style={{color:'#93C0A4'}}
             >
