@@ -13,10 +13,10 @@ import EmployeeProfile from './EmployeeProfile'
 import EmployeeSchedule from './EmployeeSchedule'
 import EmployeeHome from './EmployeeHome'
 import VacationRequest from './VacationRequest'
-import LoginPage from './LoginPage'
+import LoginPageSimple from './LoginPageSimple'
 
 function App() {
-
+  
   return (
     
     <BrowserRouter>
@@ -38,7 +38,7 @@ function App() {
       <Route path='/employeePage/:id/employeeSchedule/:id' element={<EmployeeSchedule />}></Route>
       </Route>
       <Route path='/login' element={<Login />}></Route>
-      <Route path='/testlogin' element={<LoginPage />}></Route>
+      <Route path='/testsimplelogin'  element={<LoginPageSimple />}></Route>
       
       
     </Routes>
