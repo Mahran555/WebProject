@@ -4,6 +4,7 @@ import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import "../src/Theme.css"
 
+
 function EmployeePage() {
 	const {id} = useParams();
 	const handleLogout = () => {
@@ -15,10 +16,10 @@ function EmployeePage() {
 	return (
 		<div className="container-fluid font-family">
 			<div className="row flex-nowrap">
-				<div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 db-bgc">
+				<div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 db-bgc text-font">
 					<div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
 						<a href="/" className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
-							<span className="tc fs-5 fw-bolder d-none d-sm-inline">Employee Page</span>
+							<span className="fs-5 fw-bolder d-none d-sm-inline tc">Employee Page</span>
 						</a>
 						<ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
 							<li>
@@ -41,8 +42,8 @@ function EmployeePage() {
 					</div>
 				</div>
 				<div class="col p-0 m-0">
-					<div className='p-2 d-flex justify-content-center shadow '>
-						<h4><b>Employee Management System</b></h4>						
+					<div className='p-2 d-flex justify-content-center shadow'>
+						<h4 className="text-font"><b>Employee Management System</b></h4>						
 					</div>
 					<Outlet />
 				</div>

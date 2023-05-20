@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faDollarSign, faMoneyBillAlt } from '@fortawesome/free-solid-svg-icons';
 import { ThreeDots } from "react-loader-spinner";
+import "../src/Theme.css"
+
 function Home() {
   const [expandedRequestId, setExpandedRequestId] = useState(null);
   const [employeeCount, setEmployeeCount] = useState();
@@ -149,10 +151,11 @@ function Home() {
       <div className='container mt-5'>
         <h3>Vacation Requests</h3>
         <ul className='nav nav-tabs'>
-          <li className='nav-item btn-bgc'>
+          <li className='nav-item '>
             <button
-              style={{color:'black'}} className={` nav-link ${activeTab === 'pending' ? 'active' : ''}`}
+              className={`nav-link ${activeTab === 'pending' ? 'active' : ''}`} 
               onClick={() => filterVacationRequests('pending')}
+              style={{color:'#93C0A4'}}
             >
               Pending
             </button>
@@ -161,6 +164,7 @@ function Home() {
             <button
               style={{color:'black'}} className={`nav-link ${activeTab === 'accepted' ? 'active' : ''}`}
               onClick={() => filterVacationRequests('accepted')}
+              style={{color:'#93C0A4'}}
             >
               Accepted
             </button>
@@ -169,6 +173,7 @@ function Home() {
             <button
               style={{color:'black'}} className={`nav-link ${activeTab === 'declined' ? 'active' : ''}`}
               onClick={() => filterVacationRequests('declined')}
+              style={{color:'#93C0A4'}}
             >
               Declined
             </button>

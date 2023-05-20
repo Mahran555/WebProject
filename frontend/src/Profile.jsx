@@ -40,7 +40,7 @@ function Profile() {
             <div className="ms-4 mt-5 position-relative" style={{ width: '150px' }}>
               <img src={`http://localhost:5000/images/`+data.image} 
                 alt="Generic placeholder image" className="mt-2 mb-2 img-thumbnail" fluid style={{ width: '160px', zIndex: '1',height:'120px' }} />
-                <MDBBtn outline color="dark" className="position-absolute bottom-0" style={{height: '40px', overflow: 'visible', zIndex: '2',borderColor : "#93C0A4",backgroundColor: '#93C0A4',color:'whitesmoke' ,marginLeft:'10px',marginTop:'10px'}}>
+                <MDBBtn outline className="position-absolute bottom-0" style={{height: '40px', overflow: 'visible', zIndex: '2',borderColor:'#93C0A4', backgroundColor: '#93C0A4',color:'whitesmoke' ,marginLeft:'10px',marginTop:'10px'}}>
                   Edit
                 </MDBBtn>
             </div>
