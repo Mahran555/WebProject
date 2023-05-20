@@ -5,6 +5,8 @@ import { faUser, faDollarSign, faMoneyBillAlt } from '@fortawesome/free-solid-sv
 import { ThreeDots } from "react-loader-spinner";
 import "../src/Theme.css"
 
+
+
 function Home() {
   const [expandedRequestId, setExpandedRequestId] = useState(null);
   const [employeeCount, setEmployeeCount] = useState();
@@ -153,9 +155,9 @@ function Home() {
         <ul className='nav nav-tabs'>
           <li className='nav-item '>
             <button
-              className={`nav-link ${activeTab === 'pending' ? 'active' : ''}`} 
+              className={`nav-link ${activeTab === 'pending' ? 'active' : ''}`}
               onClick={() => filterVacationRequests('pending')}
-              style={{color:'#93C0A4'}}
+              style={{ color: '#93C0A4' }}
             >
               Pending
             </button>
@@ -164,7 +166,7 @@ function Home() {
             <button
               className={`nav-link ${activeTab === 'accepted' ? 'active' : ''}`}
               onClick={() => filterVacationRequests('accepted')}
-              style={{color:'#93C0A4'}}
+              style={{ color: '#93C0A4' }}
             >
               Accepted
             </button>
@@ -173,7 +175,7 @@ function Home() {
             <button
               className={`nav-link ${activeTab === 'declined' ? 'active' : ''}`}
               onClick={() => filterVacationRequests('declined')}
-              style={{color:'#93C0A4'}}
+              style={{ color: '#93C0A4' }}
             >
               Declined
             </button>

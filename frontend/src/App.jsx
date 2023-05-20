@@ -12,6 +12,7 @@ import EmployeePage from './EmployeePage'
 import EmployeeProfile from './EmployeeProfile'
 import EmployeeSchedule from './EmployeeSchedule'
 import EmployeeHome from './EmployeeHome'
+import VacationRequest from './VacationRequest'
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
       <Route path='/schedule' element={<Schedule />}></Route>
       <Route path='/create' element={<AddEmployee />}></Route>
       <Route path='/employeeEdit/:id' element={<EditEmployee />}></Route>
+      <Route path='/VacationRequest' element={<VacationRequest />}></Route>
       </Route>
       <Route path='/employeePage/:id' element={<EmployeePage />}>
       <Route path='' element={<EmployeeHome />}></Route>
