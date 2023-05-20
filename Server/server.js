@@ -43,6 +43,7 @@ let storage = multer.diskStorage({
   }
 })
 
+
 //Upload Setting
 let upload = multer({
  storage: storage,
@@ -87,6 +88,40 @@ app.post("/login", async (req, res) => {
 });
 
 
+//update edit employee
+app.post('/updateEmployee/:id', upload.single('image'), async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  const { _id, fname, lname, email, password, phone, address } = req.body;
+  let { image } = req.body;
+
+  if (req.file) {
+    image = req.file.filename; // Use the filename of the uploaded image
+  }
+
+  try {
+    let updatedFields = { fname, lname, email, password, phone, address, image };
+
+    const updatedEmployee = await Employee.findByIdAndUpdate(_id, updatedFields, { new: true });
+    console.log('Successfully updated Employee:', updatedEmployee);
+    res.json({ Status: 'Success', Result: updatedEmployee });
+  } catch (err) {
+    console.log('Failed to update Employee:', err);
+    res.status(500).json({ Status: 'Error', message: 'Failed to update Employee' });
+  }
+});
+
+//update image for employee
+app.post('/updateEmployeeImage/:id', upload.single('image'), async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  const imageData = req.file;
+  if (imageData) {
+    console.log('Successfully uploaded image:', imageData.filename);
+    res.json({ Status: 'Success', Result: imageData.filename });
+  } else {
+    console.log('Failed to upload image');
+    res.status(500).json({ Status: 'Error', message: 'Failed to upload image' });
+  }
+});
 
 //update edit manager
 app.post('/updateManager', upload.single('image'), async (req, res) => {
@@ -307,6 +342,7 @@ app.get("/getManager", async (req, res) => {
 app.get('/getInfo/:id', async(req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   const id = Number(req.params.id);
+  
   try {
     const result = await Employee.findOne( { id } )
     return res.send({ Status: "Success", Result: result });
