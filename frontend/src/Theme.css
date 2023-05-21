@@ -1,31 +1,22 @@
+:root {
+    --main-color: #1A535C;
+    --accent-color: #4ECDC4;
+    --neutral-dark: #555555;
+    --neutral-light: #FAFAFA;
+    --neutral-white: #FFFFFF;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: var(--neutral-light);
+}
+
 .db-bgc {
-    background-color : #8E9B90;
+    background-color : var(--main-color);
 }
 
 .tc {
-    color : #DCE2BD;
-}
-
-.btn-edit-bgc {
-    background : #93C0A4; 
-}
-
-.btn-delete-bgc {
-    background : #D4CDAB;
-}
-
-
-
-.btn-bgc{
-    background : #93C0A4;
-}
-
-.btn-disabled-bgc:disabled{
-    background : #93C0A4;
-}
-
-.btn-border-bgc{
-    border-color : #93C0A4;
+    color : var(--neutral-white);
 }
 
 .btn-design {
@@ -40,45 +31,49 @@
     font-size: 1rem;
     line-height: 1.5;
     border-radius: .25rem;
-    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    transition: all .15s ease-in-out;
+}
+
+.btn-edit-bgc,
+.btn-bgc,
+.btn-disabled-bgc:disabled,
+.btn-border-bgc {
+    background : var(--accent-color);
+    color: var(--neutral-dark);
+}
+
+.btn-delete-bgc {
+    background : var(--main-color);
+    color: var(--neutral-white);
 }
 
 .text-font {
-    font-family: 'Courier New', monospace;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .btn-search {
-    border-color:  #93C0A4;
-    background-color: white;
-
+    border-color:  var(--accent-color);
+    background-color: var(--neutral-white);
 }
 
 .table-border {
-    border-color: #8E9B90;
+    border-color: var(--neutral-dark);
 }
 
-.table-bordered th {
-    border-color: '#f2f2f3'
-}
-
-.table-bordered td{
-    border-color: '#f2f2f3'
+.table-bordered th, .table-bordered td {
+    border-color: var(--neutral-light);
 }
 
 .fixed-table {
     table-layout : fixed;
 }
 
-.font-family{
-    font-family: "Courier New", monospace;
+.row1 {
+    background-color: var(--neutral-light);
 }
 
-.row1{
-    background-color: #f2f2f2;
-}
-
-.row0{
-    background-color: white;
+.row0 {
+    background-color: var(--neutral-white);
 }
 
 .center-screen {
@@ -92,4 +87,56 @@
     position: absolute;
     left: 60%;
     transform: translate(-60%, 0);
+}
+.btn-design {
+    display: inline-block;
+    font-weight: 600;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    padding: .5rem 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .3rem;
+    transition: all .15s ease-in-out;
+    border: none;
+}
+
+.btn-edit-bgc, .btn-bgc {
+    background : var(--accent-color);
+    color: var(--neutral-dark);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+.btn-edit-bgc:hover, .btn-bgc:hover {
+    background: lighten(var(--accent-color), 10%);
+}
+
+.btn-disabled-bgc:disabled {
+    background : lighten(var(--accent-color), 30%);
+    color: lighten(var(--neutral-dark), 30%);
+    cursor: not-allowed;
+}
+
+.btn-delete-bgc {
+    background : var(--main-color);
+    color: var(--neutral-white);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+.btn-delete-bgc:hover {
+    background: lighten(var(--main-color), 10%);
+}
+
+.btn-search {
+    border: 1px solid var(--accent-color);
+    background-color: var(--neutral-white);
+    color: var(--main-color);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+.btn-search:hover {
+    background: var(--accent-color);
+    color: var(--neutral-white);
 }
