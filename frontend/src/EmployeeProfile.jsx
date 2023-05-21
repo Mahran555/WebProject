@@ -50,12 +50,12 @@ function EmployeeProfile() {
     setData((prevData) => ({ ...prevData, image: localImageUrl }));
     setSelectedFile(file); // Store the selected file in state
   };
-
   const handleFormSubmit = async (event) => {
     event.preventDefault();
   
     if (selectedFile) {
       const formData = new FormData();
+      formData.append('_id', data._id);
       formData.append('fname', data.fname);
       formData.append('lname', data.lname);
       formData.append('email', data.email);
@@ -73,7 +73,7 @@ function EmployeeProfile() {
         });
         if (response.data.Status === 'Success') {
           console.log('Successfully updated data');
-          // Update the data state with the updated manager info
+          // Update the data state with the updated employee info
           setData(response.data.Result);
           setEditable({ email: false, phone: false, address: false, password: false }); // Close all fields
         }
