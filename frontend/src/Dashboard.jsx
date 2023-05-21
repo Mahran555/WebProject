@@ -1,33 +1,48 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import "../src/Theme.css"
+import NotificationIcon from './NotificationIcon';
 
 function Dashboard() {
+	const [showNotifications, setShowNotifications] = useState(false);
 	const navigate = useNavigate()
 	axios.defaults.withCredentials = true;
-	useEffect(()=>{
+	// For example, suppose we have these notifications
+	const notifications = [
+		'Notification 1',
+		'Notification 2',
+		'Notification 3',
+	];
+
+
+	const handleIconClick = () => {
+		// Toggle the showNotifications state
+		setShowNotifications(!showNotifications);
+	};
+
+	useEffect(() => {
 		axios.get('http://localhost:5000/dashboard')
-		.then(res => {
-			if(res.data.Status === "Success") {
-				if(res.data.role === "manager") {
-					navigate('/');
+			.then(res => {
+				if (res.data.Status === "Success") {
+					if (res.data.role === "manager") {
+						navigate('/');
+					} else {
+						const id = res.data.id;
+						navigate('/employeedetail/' + id)
+					}
 				} else {
-					const id = res.data.id;
-					navigate('/employeedetail/'+id)
+					navigate('/start')
 				}
-			} else {
-				navigate('/start')
-			}
-		})
+			})
 	}, [])
 
 	const handleLogout = () => {
 		axios.get('http://localhost:5000/logout')
-		.then(res => {
-			navigate('/login')
-		}).catch(err => console.log(err));
+			.then(res => {
+				navigate('/login')
+			}).catch(err => console.log(err));
 	}
 	return (
 		<div className="container-fluid text-font">
@@ -61,10 +76,23 @@ function Dashboard() {
 						</ul>
 					</div>
 				</div>
-				<div class="col p-0 m-0">
+				<div className="col p-0 m-0">
 					<div className='p-2 d-flex justify-content-center shadow'>
-						<h4 className="text-font"><b>Employee Management System</b></h4>						
+						<h4 className="text-font d-flex center-horizintally"><b>Employee Management System</b></h4>
+
+						<div className='ms-auto'>
+							<NotificationIcon notifications={notifications.length} onClick={handleIconClick} />
+
+							{showNotifications && (
+								<div style={{ position: 'absolute', top: '50px', right: '20px', background: 'white', padding: '10px', boxShadow: '0px 0px 10px rgba(0,0,0,0.1)' }}>
+									{notifications.map((notification, index) => (
+										<p key={index} style={{ margin: '10px 0', backgroundColor: '#f5f5f5', borderRadius: '4px', padding: '10px', cursor: 'pointer', transition: '.3s', '&:hover': { backgroundColor: '#ddd' } }}>{notification}</p>
+									))}
+								</div>
+							)}
+						</div>
 					</div>
+
 					<Outlet />
 				</div>
 			</div>
