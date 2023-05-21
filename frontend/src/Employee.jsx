@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import "../src/Theme.css"
 
 function Employee() {
   const [data, setData] = useState([]);
@@ -38,37 +39,40 @@ function Employee() {
       <div className='d-flex justify-content-center mt-2'>
         <h3>Employee List</h3>
       </div>
-      <Link to='/create' className='btn btn-success'>Add Employee</Link>
+      <div className="container" id="search&add">
+        <div className="row">
 
-      {/* Search input */}
-      <div className='mt-3'>
-        <input
-          type='text'
-          placeholder='Search by first name'
-          value={searchTerm}
-          onChange={e => setSearchTerm(e.target.value)}
-        />
+          <div className="mt-3 col-9">
+            <Link to='/create' className='btn text-white mt-3' style={{backgroundColor:'#93C0A4'}}>Add Employee</Link>
+          </div>
+          <div className="col-3 mt-3">
+            <div class="input-group col-9 mt-3">
+              <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+              <button type="button" class="btn-design btn-search">search</button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className='mt-3'>
-        <table className='table'>
-          <thead>
-            <tr>
-              <th> </th>
-              <th>ID</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Email</th>
-              <th>Address</th>
-              <th>Salary</th>
-              <th>Action</th>
+        <table className='table table-bordered fixed-table' >
+          <thead >
+            <tr  style={{backgroundColor:'#8e9b90',borderColor:'black'}} >
+              <th scope="col"> </th>
+              <th scope="col">ID</th>
+              <th scope="col">First Name</th>
+              <th scope="col">Last Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Address</th>
+              <th scope="col">Salary</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
             {filteredData.length > 0 ? (
               filteredData.map((employee, i) => (
-                <tr key={i}>
-                  <td>
+                <tr key={i} style={{backgroundColor:'#b6c4a2',borderColor:'black'}} >
+                  <td >
                     <img
                       src={`http://localhost:5000/images/` + employee.image}
                       className='employee_image'
@@ -78,22 +82,22 @@ function Employee() {
                       height='50'
                     />
                   </td>
-                  <td>{employee.id}</td>
+                  <td scope='row'>{employee.id}</td>
                   <td>{employee.fname}</td>
                   <td>{employee.lname}</td>
                   <td>{employee.email}</td>
                   <td>{employee.address}</td>
                   <td>${employee.salary}</td>
                   <td>
-                    <Link
+                    <Link 
                       to={`/employeeEdit/` + employee.id}
-                      className='btn btn-primary btn-sm me-2'
+                      className='btn text-white' style={{backgroundColor:'#93C0A4'}}
                     >
                       Edit
                     </Link>
                     <button
                       onClick={e => handleDelete(employee.id)}
-                      className='btn btn-sm btn-danger'
+                      className='btn-design btn-delete-bgc text-white ms-3'
                     >
                       Delete
                     </button>

@@ -25,4 +25,23 @@
     transform: scale(1.2);
     color: #ff0000;
     cursor: pointer;
+<<<<<<< HEAD
+=======
+  }
+  .input-icon-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .input-with-icon {
+    padding-right: 30px; /* Space for the icon */
+  }
+  
+  .eye-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+>>>>>>> a1f71bdf5e7507ebae9e90ceb9e87567ff837a87
   }

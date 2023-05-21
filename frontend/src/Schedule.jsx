@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Select from 'react-select';
 import { Link } from 'react-router-dom';
 import { Form, Container, Table, Button } from 'react-bootstrap';
+import "../src/Theme.css"
 
 
 const Schedule = () => {
@@ -84,8 +85,8 @@ const Schedule = () => {
           <Form.Control type="number" min="1" max="12" value={month + 1} onChange={(e) => setMonth(Number(e.target.value) - 1)} />
         </Form.Group>
 
-        <Button onClick={() => handleWeekChange(-1)} disabled={week <= 0}>Previous Week</Button>
-        <Button onClick={() => handleWeekChange(1)} disabled={(week + 1) * 7 >= daysInMonth}>Next Week</Button>
+        <button className="btn-bgc btn-disabled-bgc btn-border-bgc text-white btn-design"  onClick={() => handleWeekChange(-1)} disabled={week <= 0}>Previous Week</button>
+        <button className="btn-bgc btn-border-bgc text-white btn-design" onClick={() => handleWeekChange(1)} disabled={(week + 1) * 7 >= daysInMonth}>Next Week</button>
 
         {data.length > 0 ? (
           <>
@@ -130,7 +131,7 @@ const Schedule = () => {
               </tbody>
             </Table>
 
-            <Button variant="primary" type="submit">Save Schedule</Button>
+            <button className="btn-bgc btn-border-bgc text-white btn-design" type="submit">Save Schedule</button>
           </>
         ) : (
           <p>No workers avaiable</p>
