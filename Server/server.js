@@ -110,18 +110,7 @@ app.post('/updateEmployee/:id', upload.single('image'), async (req, res) => {
   }
 });
 
-//update image for employee
-app.post('/updateEmployeeImage/:id', upload.single('image'), async (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
-  const imageData = req.file;
-  if (imageData) {
-    console.log('Successfully uploaded image:', imageData.filename);
-    res.json({ Status: 'Success', Result: imageData.filename });
-  } else {
-    console.log('Failed to upload image');
-    res.status(500).json({ Status: 'Error', message: 'Failed to upload image' });
-  }
-});
+
 
 //update edit manager
 app.post('/updateManager', upload.single('image'), async (req, res) => {
@@ -144,18 +133,7 @@ app.post('/updateManager', upload.single('image'), async (req, res) => {
     res.status(500).json({ Status: 'Error', message: 'Failed to update manager' });
   }
 });
-//update image for manager
-app.post('/updateManagerImage', upload.single('image'), async (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
-  const imageData = req.file;
-  if (imageData) {
-    console.log('Successfully uploaded image:', imageData.filename);
-    res.json({ Status: 'Success', Result: imageData.filename });
-  } else {
-    console.log('Failed to upload image');
-    res.status(500).json({ Status: 'Error', message: 'Failed to upload image' });
-  }
-});
+
 
 
 // Update vacation request status
