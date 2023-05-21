@@ -1,10 +1,10 @@
 import axios from 'axios';
+import Chart from "react-apexcharts";
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faDollarSign, faMoneyBillAlt } from '@fortawesome/free-solid-svg-icons';
 import { ThreeDots } from "react-loader-spinner";
-import "../src/Theme.css"
-
+import './home.css'
 function Home() {
   const [expandedRequestId, setExpandedRequestId] = useState(null);
   const [employeeCount, setEmployeeCount] = useState();
@@ -14,6 +14,22 @@ function Home() {
   const [vacationRequests, setVacationRequests] = useState([]);
   const [activeTab, setActiveTab] = useState('pending');
   const [loading, setLoading] = useState(true); // Initial loading state
+  const [state, setState] = useState({
+    options: {
+      chart: {
+        id: "basic-bar"
+      },
+      xaxis: {
+        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+      }
+    },
+    series: [
+      {
+        name: "series-1",
+        data: [30, 40, 45, 50, 49, 60, 70, 91]
+      }
+    ]
+  })
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,8 +90,8 @@ function Home() {
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
       <ThreeDots color="#0b0436" height={50} width={50} />
     </div>
-    );
-  }
+    );
+  }
 
   const handleAccept = async (id) => {
     try {
@@ -112,15 +128,15 @@ function Home() {
         <hr style={{ margin: '20px auto', width: '50%' }} />
       </div>
 
-      <div className='d-flex justify-content-around mt-3'>
+      {/* <div className='d-flex justify-content-around mt-3'>
         <div className='px-3 pt-2 pb-3 border shadow-sm w-25'>
           <div className='text-center pb-1'>
-            <h4>Employee</h4>
+            <h4>Employees</h4>
           </div>
           <hr />
           <div className=''>
             <h5>
-              <FontAwesomeIcon icon={faUser} /> Total: {employeeCount}
+              <FontAwesomeIcon icon={faUser}/> Total: {employeeCount}
             </h5>
           </div>
         </div>
@@ -146,44 +162,50 @@ function Home() {
             </h5>
           </div>
         </div>
+      </div> */}
+      <div className='container mt-5 cards' style={{background:'red'}}>
+        <div class='infoCard'>
+          <h2 class='cardTitle'>Employees</h2>
+        <h1><FontAwesomeIcon icon={faUser}/></h1>
+        <span>Total: {employeeCount}</span>
+        </div>
+        <div class='infoCard'>
+          <h2 class='cardTitle'>Total Salaries</h2>
+          <h1><FontAwesomeIcon icon={faDollarSign}/></h1>
+          <span>Total: {salary}$</span>
+        </div>
+        <div class='infoCard'>
+          <h2 class='cardTitle'>Average Salary</h2>
+          <h1><FontAwesomeIcon icon={faMoneyBillAlt}/></h1>
+          <span>Average: {averageSalary}$</span>
+        </div>
       </div>
 
       <div className='container mt-5'>
-        <h3>Vacation Requests</h3>
-        <ul className='nav nav-tabs'>
-          <li className='nav-item '>
-            <button
-              className={`nav-link ${activeTab === 'pending' ? 'active' : ''}`} 
+        <div id='menuContainer'>
+        <h2>Vacation Requests</h2>
+        <div id='vacationsNav'>
+            <button class='vNavBTN'
               onClick={() => filterVacationRequests('pending')}
-              style={{color:'#93C0A4'}}
             >
               Pending
             </button>
-          </li>
-          <li className='nav-item btn-bgc'>
-            <button
-              className={`nav-link ${activeTab === 'accepted' ? 'active' : ''}`}
+            <button class='vNavBTN'
               onClick={() => filterVacationRequests('accepted')}
-              style={{color:'#93C0A4'}}
             >
               Accepted
             </button>
-          </li>
-          <li className='nav-item btn-bgc'>
-            <button
-              className={`nav-link ${activeTab === 'declined' ? 'active' : ''}`}
+            <button class='vNavBTN'
               onClick={() => filterVacationRequests('declined')}
-              style={{color:'#93C0A4'}}
             >
               Declined
             </button>
-          </li>
-        </ul>
+        </div>
         {filteredRequests.length > 0 ? (
           <ul className='list-unstyled'>
             {filteredRequests.map((request) => (
-              <li key={request._id} className='border p-3 mb-3'>
-                <div>
+              <li key={request._id} className='border p-3 mb-3 menuTab'>
+                <div class='menuTabLine'>
                   <strong>Employee:</strong> {request.fname} {request.lname}
                 </div>
                 <div>
@@ -193,18 +215,18 @@ function Home() {
                   <strong>To:</strong> {request.dayTo}/{request.monthTo}
                 </div>
                 <div onClick={() => handleToggleReason(request._id)}>
-                  <strong>Reason: </strong>
+                  <strong class='menuTabLine'>Reason: </strong>
                   {expandedRequestId === request._id
                     ? request.reason
                     : `${request.reason.substring(0, 3)}...`}
                 </div>
-                <div className='mt-3'>
+                <div id='buttonsLine' className='mt-3'>
                   {request.status === 'pending' && (
                     <>
-                      <button className='btn btn-success me-2' onClick={() => handleAccept(request._id)}>
+                      <button className='button-5 green' onClick={() => handleAccept(request._id)}>
                         Accept
                       </button>
-                      <button className='btn btn-danger' onClick={() => handleDecline(request._id)}>
+                      <button className='button-5 red' onClick={() => handleDecline(request._id)}>
                         Decline
                       </button>
                     </>
@@ -216,7 +238,18 @@ function Home() {
         ) : (
           <p>No vacation requests</p>
         )}
+        </div>
+        <div id='chartContainer'>
+          <h2>Salaries Chart</h2>
+          <Chart
+              options={state.options}
+              series={state.series}
+              type="bar"
+              width="500"
+          />
+        </div>
       </div>
+      
     </div>
   );
 }

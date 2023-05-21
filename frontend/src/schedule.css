@@ -1,0 +1,133 @@
+.container{
+    margin-top:100px;
+}
+
+.container h1{
+    color:#93C0A4;
+    margin-bottom:45px;
+    text-align:center;
+    text-decoration: underline;
+}
+
+#monthSelectDiv{
+    margin-bottom:200px;
+    float:left;
+    width:100%;
+}
+
+#monthLabel{
+    float:left;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size:20px;
+    font-weight: 700;
+    padding:2px 10px 2px 0;
+}
+
+#monthSelection{
+    width:20%;
+    float:left;
+    margin-bottom: 30px;
+}
+
+#schdlTable{
+    float:left;
+    width:100%;
+    background:#ffffff;
+    padding:8px;
+    border:1px solid;
+    border-color:#bdbaba;
+    box-shadow: 5px 10px #e9e4e4;
+}
+
+button{
+    float:left;
+    background:#93C0A4;
+}
+
+#nextWeek{
+    float:right;
+}
+
+#submitSch{
+    float:right;
+}
+
+table{
+    float:left;
+    width:100%;
+    margin-top:20px;
+}
+
+table tr{
+    width:100%;
+    float:left;
+}
+
+table th, td{
+    width:14.28571429%;
+    float:left;
+}
+
+th{
+    border-color:red;
+}
+
+
+.theading{
+    background-color:#93C0A4;
+    border-color:#b0e9c5;;
+}
+
+Select{
+    background:#ff0000;
+}
+
+.button-5 {
+    align-items: center;
+    background-clip: padding-box;
+    background-color: #93C0A4;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 1.25;
+    margin: 0;
+    min-height: 3rem;
+    padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+    position: relative;
+    text-decoration: none;
+    transition: all 250ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    width: auto;
+  }
+  
+  .button-5:hover,
+  .button-5:focus {
+    background-color: #b0e9c5;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  }
+  
+  .button-5:hover {
+    transform: translateY(-1px);
+  }
+  
+  .button-5:active {
+    background-color: #b0e9c5;
+    box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+    transform: translateY(0);
+  }
+
+.button-5:disabled,
+.button-5[disabled]{
+    background-color: #aed8bd;
+}

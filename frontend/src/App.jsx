@@ -12,12 +12,14 @@ import EmployeePage from './EmployeePage'
 import EmployeeProfile from './EmployeeProfile'
 import EmployeeSchedule from './EmployeeSchedule'
 import EmployeeHome from './EmployeeHome'
+import VacationRequest from './VacationRequest'
+import LoginPageSimple from './LoginPageSimple'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import ExchangeShifts from './ExchangeShifts'
 
 function App() {
-
+  
   return (
-    
- 
     
     <BrowserRouter>
      
@@ -30,12 +32,22 @@ function App() {
       <Route path='/schedule' element={<Schedule />}></Route>
       <Route path='/create' element={<AddEmployee />}></Route>
       <Route path='/employeeEdit/:id' element={<EditEmployee />}></Route>
+      <Route path='/VacationRequest' element={<VacationRequest />}></Route>
+      <Route  path='/ExchangeShifts' element={<ExchangeShifts />}></Route>
+      
       </Route>
       <Route path='/employeePage/:id' element={<EmployeePage />}>
       <Route path='' element={<EmployeeHome />}></Route>
       <Route path='/employeePage/:id/employeeProfile/:id' element={<EmployeeProfile />}></Route>
       <Route path='/employeePage/:id/employeeSchedule/:id' element={<EmployeeSchedule />}></Route>
       </Route>
+<<<<<<< HEAD
+=======
+      <Route path='/login' element={<Login />}></Route>
+      <Route path='/simplelogin'  element={<LoginPageSimple />}></Route>
+      
+      
+>>>>>>> bf66214ca15c9374037d58ab558522d4a2ba6360
     </Routes>
     </BrowserRouter>
     

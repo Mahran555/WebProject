@@ -39,25 +39,17 @@ function Employee() {
       <div className='d-flex justify-content-center mt-2'>
         <h3>Employee List</h3>
       </div>
-      <div className="container" id="search&add">
-        <div className="row">
-
-          <div className="mt-3 col-9">
-            <Link to='/create' className='btn text-white mt-3' style={{backgroundColor:'#93C0A4'}}>Add Employee</Link>
-          </div>
-          <div className="col-3 mt-3">
-            <div class="input-group col-9 mt-3">
-              <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
-              <button type="button" class="btn-design btn-search">search</button>
-            </div>
-          </div>
+      <div className="col-3 mt-3">
+        <div class="input-group col-9 mt-3">
+          <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+          <button type="button" class="btn-design btn-search">search</button>
         </div>
       </div>
 
-      <div className='mt-3'>
-        <table className='table table-bordered fixed-table' >
+      <div className='mt-4'>
+        <table className='table table-bordered table-stripped border-0 text-center' >
           <thead >
-            <tr  style={{backgroundColor:'#8e9b90',borderColor:'black'}} >
+            <tr style={{ backgroundColor: '#93C0A4', borderColor: '#f2f2f3' ,fontSize:'18px',textDecoration:'underline'}} >
               <th scope="col"> </th>
               <th scope="col">ID</th>
               <th scope="col">First Name</th>
@@ -71,7 +63,7 @@ function Employee() {
           <tbody>
             {filteredData.length > 0 ? (
               filteredData.map((employee, i) => (
-                <tr key={i} style={{backgroundColor:'#b6c4a2',borderColor:'black'}} >
+                <tr className={`row${i % 2}`} key={i} style={{ borderColor: '#f2f2f3',fontSize:'18px' }} >
                   <td >
                     <img
                       src={`http://localhost:5000/images/` + employee.image}
@@ -89,17 +81,18 @@ function Employee() {
                   <td>{employee.address}</td>
                   <td>${employee.salary}</td>
                   <td>
-                    <Link 
+                    <Link
                       to={`/employeeEdit/` + employee.id}
-                      className='btn text-white' style={{backgroundColor:'#93C0A4'}}
+                      style={{ color: 'black' }}
                     >
-                      Edit
+                      <i class="bi bi-pen"></i>
                     </Link>
                     <button
                       onClick={e => handleDelete(employee.id)}
-                      className='btn-design btn-delete-bgc text-white ms-3'
+                      style={{border: 'none'}} className={`row${i % 2}`}
+                      
                     >
-                      Delete
+                      <i class="bi bi-trash" backgroundColor="white" borderColor="white" outline="none"></i>
                     </button>
                   </td>
                 </tr>
@@ -112,6 +105,11 @@ function Employee() {
           </tbody>
         </table>
       </div>
+
+      <div className="d-flex justify-content-end w-100">
+        <Link to='/create' className='btn text-white ' style={{ backgroundColor: '#93C0A4' }}>Add Employee</Link>
+      </div>
+
     </div>
   );
 }
