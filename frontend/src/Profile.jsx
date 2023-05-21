@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBTypography } from 'mdb-react-ui-kit';
@@ -6,6 +7,12 @@ import { MdCameraAlt } from 'react-icons/md'; // camera icon
 import { FiEye, FiEyeOff } from 'react-icons/fi'; // Eye icons for show/hide password
 
 import './Profile.css';
+=======
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
+import "../src/Theme.css"
+>>>>>>> 6b8fe2f5f044c4e308777fa1e574269e48addb28
 
 function Profile() {
   const [imageKey, setImageKey] = useState(Date.now());
@@ -83,6 +90,7 @@ function Profile() {
       } catch (error) {
         console.log('Failed to update data:', error);
       }
+<<<<<<< HEAD
     } else {
       try {
         const response = await axios.post('http://localhost:5000/updateManager', {
@@ -146,6 +154,33 @@ function Profile() {
               </div>
               <div className="p-4 text-black" style={{ backgroundColor: '#f8f9fa' }}>
                 <div className="d-flex justify-content-end text-center py-1"></div>
+=======
+    })
+    .catch(err => console.log("faild"));
+  })
+  return(
+<div className="gradient-custom-2" style={{ backgroundColor: 'white' }}>
+  <MDBContainer className="py-5 h-100">
+    <MDBRow className="justify-content-center align-items-center h-100">
+      <MDBCol lg="10" xl="15">
+      <MDBCard style={{maxWidth: '1200px', margin: '0 auto'}}>
+          <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#8E9B90', height: '200px' }}>
+            <div className="ms-4 mt-5 position-relative" style={{ width: '150px' }}>
+              <img src={`http://localhost:5000/images/`+data.image} 
+                alt="Generic placeholder image" className="mt-2 mb-2 img-thumbnail" fluid style={{ width: '160px', zIndex: '1',height:'120px' }} />
+                <MDBBtn outline className="position-absolute bottom-0" style={{height: '40px', overflow: 'visible', zIndex: '2',borderColor:'#93C0A4', backgroundColor: '#93C0A4',color:'whitesmoke' ,marginLeft:'10px',marginTop:'10px'}}>
+                  Edit
+                </MDBBtn>
+            </div>
+            <div className="ms-3" style={{ marginTop: '100px' }}>
+              <MDBTypography tag="h3">{data.fname + " " + data.lname}</MDBTypography>
+              
+            </div>
+          </div>
+          <div className="p-4 text-black" style={{ backgroundColor: '#f8f9fa' }}>
+            <div className="d-flex justify-content-end text-center py-1">
+            </div>
+>>>>>>> 6b8fe2f5f044c4e308777fa1e574269e48addb28
               </div>
               <MDBCardBody className="text-black p-4">
                 <div className="mb-6">

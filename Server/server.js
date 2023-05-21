@@ -291,7 +291,8 @@ app.post("/create",upload.single('image') ,async(req, res) => {
       userType: req.body.userType,
       address: req.body.address,
       salary: req.body.salary,
-      image: req.file.filename
+      image: req.file.filename,
+      phone: req.body.phone
     });
     const check1 = await Employee.findOne({id:newEmployee.id});
     const check2 = await Employee.findOne({ email:newEmployee.email });
@@ -396,7 +397,8 @@ app.put('/update/:id', async(req, res) => {
     userType: req.body.userType,
     address: req.body.address,
     salary: Number(req.body.salary),
-    image: req.body.image
+    image: req.body.image,
+    phone: Number(req.body.phone)
   });
   const check = await Employee.findOne({id});
   const check1 = await Employee.findOne({id:updateEmployee.id});
@@ -421,4 +423,6 @@ app.get('/logout', (req, res) => {
 app.listen(PORT, () => {
   console.log('You are listening to port:',PORT);
 })  
-///GG mohamad
+///test mohamad
+// schdule updated 16/05 19:27
+//test amran from amransBranch
