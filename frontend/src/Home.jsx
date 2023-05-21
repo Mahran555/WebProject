@@ -182,38 +182,30 @@ function Home() {
       </div>
 
       <div className='container mt-5'>
-        <h3>Vacation Requests</h3>
-        <ul className='nav nav-tabs'>
-          <li className='nav-item'>
-            <button
-              className={`nav-link ${activeTab === 'pending' ? 'active' : ''}`}
+        <div id='menuContainer'>
+        <h2>Vacation Requests</h2>
+        <div id='vacationsNav'>
+            <button class='vNavBTN'
               onClick={() => filterVacationRequests('pending')}
             >
               Pending
             </button>
-          </li>
-          <li className='nav-item'>
-            <button
-              className={`nav-link ${activeTab === 'accepted' ? 'active' : ''}`}
+            <button class='vNavBTN'
               onClick={() => filterVacationRequests('accepted')}
             >
               Accepted
             </button>
-          </li>
-          <li className='nav-item'>
-            <button
-              className={`nav-link ${activeTab === 'declined' ? 'active' : ''}`}
+            <button class='vNavBTN'
               onClick={() => filterVacationRequests('declined')}
             >
               Declined
             </button>
-          </li>
-        </ul>
+        </div>
         {filteredRequests.length > 0 ? (
           <ul className='list-unstyled'>
             {filteredRequests.map((request) => (
-              <li key={request._id} className='border p-3 mb-3'>
-                <div>
+              <li key={request._id} className='border p-3 mb-3 menuTab'>
+                <div class='menuTabLine'>
                   <strong>Employee:</strong> {request.fname} {request.lname}
                 </div>
                 <div>
@@ -223,18 +215,18 @@ function Home() {
                   <strong>To:</strong> {request.dayTo}/{request.monthTo}
                 </div>
                 <div onClick={() => handleToggleReason(request._id)}>
-                  <strong>Reason: </strong>
+                  <strong class='menuTabLine'>Reason: </strong>
                   {expandedRequestId === request._id
                     ? request.reason
                     : `${request.reason.substring(0, 3)}...`}
                 </div>
-                <div className='mt-3'>
+                <div id='buttonsLine' className='mt-3'>
                   {request.status === 'pending' && (
                     <>
-                      <button className='btn btn-success me-2' onClick={() => handleAccept(request._id)}>
+                      <button className='button-5 green' onClick={() => handleAccept(request._id)}>
                         Accept
                       </button>
-                      <button className='btn btn-danger' onClick={() => handleDecline(request._id)}>
+                      <button className='button-5 red' onClick={() => handleDecline(request._id)}>
                         Decline
                       </button>
                     </>
@@ -246,13 +238,18 @@ function Home() {
         ) : (
           <p>No vacation requests</p>
         )}
-      </div>
-      <Chart
+        </div>
+        <div id='chartContainer'>
+          <h2>Salaries Chart</h2>
+          <Chart
               options={state.options}
               series={state.series}
               type="bar"
               width="500"
-            />
+          />
+        </div>
+      </div>
+      
     </div>
   );
 }
