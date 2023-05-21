@@ -1,0 +1,28 @@
+.edit-icon {
+    transition: all 0.3s ease-in-out;
+    margin-left: 10px;
+  }
+  
+  .edit-icon:hover {
+    transform: scale(1.2);
+    color: #ff0000;
+    cursor: pointer;
+  }
+  .camera-icon {
+    transition: all 0.3s ease-in-out;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px;
+    border-radius: 50%;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+  }
+  
+  .camera-icon:hover {
+    transform: scale(1.2);
+    color: #ff0000;
+    cursor: pointer;
+  }

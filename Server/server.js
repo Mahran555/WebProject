@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const { db } = require('./db/db');
 const {readdirSync} = require('fs')
+const cookieParser = require('cookie-parser')
 const app = express();
 require('dotenv').config()
 const bodyParser = require('body-parser');
@@ -10,6 +11,7 @@ const bcrypt = require('bcrypt');
 const path = require('path');
 const multer = require('multer');
 const { error } = require('console');
+const jwt = require('jsonwebtoken');
 const PORT=process.env.PORT
 const JWT_SECRET =process.env.JWT_SECRET
 
@@ -81,6 +83,8 @@ app.post("/login", async (req, res) => {
     return res.json({Status:"Success", Role:"Manager"});
   }
   if ( userEmployee && userEmployee.password==password) {
+    const token = jwt.sign({Role: "Employee" , id:userEmployee.id }, JWT_SECRET, {expiresIn: '1h'});
+    res.cookie('token', token);
       return res.send({Status: "Success", Role:"Employee", Result: userEmployee });
   }
     return res.send({Status: "error", error: "Invalid email or password"  });
@@ -92,8 +96,18 @@ app.put('/vacationRequests/:id', async (req, res) => {
     const status = req.body.status;
 
     // Find the vacation request by ID and update the status
-    await Vacations.findByIdAndUpdate(requestId, { status });
-
+    const Employee = await Vacations.findByIdAndUpdate(requestId, { status }); 
+    for(let i = Employee.monthFrom; i <= Employee.monthTo; i++) {
+      for (let j = Employee.dayFrom; j <= Employee.dayTo; j++) {
+        const shifts = await Schedules.find( {day:j ,month:i ,EmployeeID:Employee.id} )
+        for (const shift of shifts) {
+          await Schedules.updateOne(
+            { _id : shift._id }, // Specify the document to update
+            { $pull: { EmployeeID: { $in: [Employee.id] } } } // remove/update from array in object collection
+          )
+        }
+      }
+    }
     res.sendStatus(200);
   } catch (error) {
     console.error('Error updating vacation request status:', error);
@@ -234,12 +248,24 @@ app.post("/create",upload.single('image') ,async(req, res) => {
   });
   });
 
-/*
-//Get dashboard
-app.get('/dashboard',verifyUser, (req, res) => {
-  return res.json({Status: "Success", userType: req.userType, id: req.id})
-})
-*/
+  
+  
+// Verify User
+app.get('/IsLoginManager', async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  try {
+    const fname="Gus";
+    const manager = await Manager.findOne({fname});
+    if(manager.IsLogin==1){
+    return res.send({ Status: "Success" });
+    }else{
+      res.send({ Status: "Failed" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ Status: "Error", Message: "Unable to retrieve employees" });
+  }
+});
 
 //Get Employee List
 app.get("/getEmployee", async (req, res) => {
@@ -265,6 +291,31 @@ app.get("/getManager", async (req, res) => {
     return res.status(500).send({ Status: "Error", Message: "Unable to retrieve employees" });
   }
 });
+
+//update edit manager
+app.post('/updateManager', upload.single('image'), async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  const { _id, fname, lname, email, password, phone, address } = req.body;
+  const imageData = req.file;
+
+  try {
+    let updatedFields = { fname, lname, email, password, phone, address };
+
+    // Check if there is an uploaded image
+    if (imageData) {
+      updatedFields.image = imageData.filename;
+    }
+
+    const updatedManager = await Manager.findByIdAndUpdate(_id, updatedFields, { new: true });
+    console.log('Successfully updated manager:', updatedManager);
+    res.json({ Status: 'Success', Result: updatedManager });
+  } catch (err) {
+    console.log('Failed to update manager:', err);
+    res.status(500).json({ Status: 'Error', message: 'Failed to update manager' });
+  }
+});
+
+
  //Get Employee Information
 app.get('/getInfo/:id', async(req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
@@ -284,7 +335,6 @@ app.get('/workData/:id', async(req, res) => {
   const id = Number(req.params.id);
   try {
     const result = await WorkData.find( { EmployeeID:id } )
-    console.log(result)
     return res.send({ Status: "Success", Result: result });
   } catch (error) {
     console.log(error);
@@ -298,7 +348,7 @@ app.get('/workData/:id', async(req, res) => {
   const id = Number(req.params.id);
   try {
     const result = await Schedules.find( { EmployeeID:id } )
-    console.log(result)
+
     return res.send({ Status: "Success", Result: result });
   } catch (error) {
     console.log(error);
@@ -341,7 +391,7 @@ app.put('/update/:id', async(req, res) => {
 app.get('/logout', (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   res.clearCookie('token');
-  return res.json({Status: "Success"});
+  return res.send({Status: "Success"});
 })
 
 app.listen(PORT, () => {

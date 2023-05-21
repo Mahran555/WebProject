@@ -8,6 +8,7 @@ const UserDetailsScehma = new mongoose.Schema(
     password: { type: String },
     phone: { type: String },
     address: { type: String },
+    IsLogin: { type: Number },
     image: { type: String }
   },
   {

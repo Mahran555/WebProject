@@ -2,14 +2,17 @@ import React, { useEffect } from 'react'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
-
+import { useHistory } from 'react-router-dom';
 
 function EmployeePage() {
 	const {id} = useParams();
+	const history = useHistory();
 	const handleLogout = () => {
 		axios.get('http://localhost:5000/logout')
 		.then(res => {
-			navigate('/login')
+			if(Status == "Success")
+			console.log("hh")
+			
 		}).catch(err => console.log(err));
 	}
 	return (
@@ -26,7 +29,7 @@ function EmployeePage() {
 									<i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline">Home</span> </Link>
 							</li>
 							<li>
-								<Link to={'/employeePage/'+id+'/employeeSchedule/'+id} className="nav-link px-0 align-middle text-white">
+								<Link to={'employeeSchedule/'+id} className="nav-link px-0 align-middle text-white">
 									<i className="fs-4 bi-table"></i> <span className="ms-1 d-none d-sm-inline">Schedule</span></Link>
 							</li>
 							<li>

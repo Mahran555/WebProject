@@ -6,7 +6,6 @@ function EmployeeHome() {
   const {id} = useParams();
   const [data, setData] = useState('')
   useEffect(() => {
-    console.log("ff")
     axios.get('http://localhost:5000/workData/'+id)
       .then((res) => {
         if (res.data.Status === "Success") {

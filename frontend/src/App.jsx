@@ -22,6 +22,7 @@ function App() {
     <BrowserRouter>
      
     <Routes>
+      <Route path='/login' element={<Login />}></Route>
       <Route path='/' element={<Dashboard />}>
       <Route path='' element={<Home />}></Route>
       <Route path='/employee' element={<Employee />}></Route>
@@ -35,9 +36,6 @@ function App() {
       <Route path='/employeePage/:id/employeeProfile/:id' element={<EmployeeProfile />}></Route>
       <Route path='/employeePage/:id/employeeSchedule/:id' element={<EmployeeSchedule />}></Route>
       </Route>
-      <Route path='/login' element={<Login />}></Route>
-      
-      
     </Routes>
     </BrowserRouter>
     
