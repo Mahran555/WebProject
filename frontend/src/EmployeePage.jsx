@@ -2,12 +2,8 @@ import React, { useEffect } from 'react'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
-<<<<<<< HEAD
-import { useHistory } from 'react-router-dom';
-=======
 import "../src/Theme.css"
 
->>>>>>> a1f71bdf5e7507ebae9e90ceb9e87567ff837a87
 
 function EmployeePage() {
 	const {id} = useParams();
@@ -34,13 +30,8 @@ function EmployeePage() {
 									<i className="tc fs-4 bi-house"></i> <span className="tc ms-1 d-none d-sm-inline">Home</span> </Link>
 							</li>
 							<li>
-<<<<<<< HEAD
-								<Link to={'employeeSchedule/'+id} className="nav-link px-0 align-middle text-white">
-									<i className="fs-4 bi-table"></i> <span className="ms-1 d-none d-sm-inline">Schedule</span></Link>
-=======
 								<Link to={'/employeePage/'+id+'/employeeSchedule/'+id} className="nav-link px-0 align-middle text-white">
 									<i className="tc fs-4 bi-table"></i> <span className="tc ms-1 d-none d-sm-inline">Schedule</span></Link>
->>>>>>> a1f71bdf5e7507ebae9e90ceb9e87567ff837a87
 							</li>
 							<li>
 								<Link to={'/employeePage/'+id+'/employeeProfile/'+id} className="nav-link px-0 align-middle text-white">
