@@ -73,9 +73,9 @@ function Home() {
 
   if (loading) {
     return (
-      <div className="text-center">
-        <ThreeDots color="#0b0436" height={50} width={50} />
-      </div>
+      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
+      <ThreeDots color="#0b0436" height={50} width={50} />
+    </div>
     );
   }
 
