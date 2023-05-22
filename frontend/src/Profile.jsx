@@ -148,7 +148,7 @@ function Profile() {
         <MDBRow className="justify-content-center">
           <MDBCol lg="10" xl="8">
             <MDBCard className="card-shadow">
-              <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#1A535C', minHeight: '200px' }}>
+              <div className="rounded-top text-white d-flex flex-row top-container">
                 <div className="position-relative">
                   <div className="img-container d-flex justify-content-center align-items-center">
                   <img
