@@ -5,6 +5,7 @@ import { FiEdit2 } from 'react-icons/fi'; // pencil icon
 import { MdCameraAlt } from 'react-icons/md'; // camera icon
 import { FiEye, FiEyeOff } from 'react-icons/fi'; // Eye icons for show/hide password
 import { ThreeDots } from "react-loader-spinner";
+
 import './Profile.css';
 
 function Profile() {
