@@ -148,9 +148,9 @@ function Profile() {
                   <MDBTypography tag="h3" className="mb-0 text-white profile-name">{data.fname + ' ' + data.lname}</MDBTypography>
                 </div>
               </div>
-              <MDBCardBody className="p-4">
+              <MDBCardBody className="p-5">
                 <div className="mb-6">
-                  <MDBCard className="mb-5">
+                  <MDBCard className="mb-6">
                     <MDBCardBody className="profile-info">
                       <div onKeyDown={handleFormKeyDown}>
                         <MDBRow>
@@ -262,10 +262,10 @@ function Profile() {
                     </MDBCardBody>
                   </MDBCard>
                 </div>
-                <div className="text-end mt-4">
+                <div className="d-flex justify-content-center mt-4">
                   <button
                     type="button"
-                    className="btn btn-primary save-button"
+                    className="save-button"
                     onClick={handleFormSubmit}
                   >
                     Save
