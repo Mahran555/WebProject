@@ -1,34 +1,37 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
-import { Link } from 'react-router-dom'
-import { Form, Container, Table, Button } from 'react-bootstrap';
+import { Container, Table } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarAlt, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import './schedule.css';
-
 
 const Schedule = () => {
   const [month, setMonth] = useState(new Date().getMonth());
   const [week, setWeek] = useState(0);
   const [schedule, setSchedule] = useState({});
+  const [data, setData] = useState([]);
 
-  const [data, setData] = useState([])
+  useEffect(() => {
+    axios
+      .get('http://localhost:5000/getEmployee')
+      .then((res) => {
+        if (res.data.Status === 'Success') {
+          setData(res.data.Result);
+        }
+      })
+      .catch(err => console.log('failed'));
+  }, []);
 
-  useEffect(()=> {
-    axios.get('http://localhost:5000/getEmployee')
-    .then((res) => {
-      if(res.data.Status === "Success") {
-        setData(res.data.Result);
-      }
-    })
-    .catch(err => console.log("faild"));
-  }, [])
-
-
-
-  const daysInMonth = new Date(new Date().getFullYear(), month + 1, 0).getDate();
+  const currentMonth = new Date().getMonth() + 1;
+  const year = new Date().getFullYear();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
 
   const handleWorkerChange = (day, shift, selectedOptions) => {
-    const selectedValues = selectedOptions.map(option => option.value); // map to array of values
+    const selectedValues = selectedOptions.map(option => option.value);
+    if (day >= daysInMonth) {
+      return;
+    }
     setSchedule({
       ...schedule,
       [day]: {
@@ -38,222 +41,118 @@ const Schedule = () => {
     });
   };
 
-  const handleWeekChange = (direction) => {
-    setWeek(week + direction);
+  const handleWeekChange = direction => {
+    const newWeek = week + direction;
+    const newWeekDays = (newWeek + 1) * 7;
+    if (newWeek >= 0 && newWeekDays <= daysInMonth + 7) {
+      setWeek(newWeek);
+    }
   };
 
-// ... rest of your code
+  return (
+    <>
+      <Container className='container'>
+        <h1 className='title'>Work Schedule</h1>
+        <hr className='divider-title' />
 
-//form for select _ TEST
+        <div className='infoCard'>
+          <h2 className='cardTitle'>Month</h2>
+          <div className='monthList'>
+            {[...Array(12)].map((_, index) => (
+              <div
+                key={index}
+                className={`monthItem ${index === currentMonth - 1 ? 'currentMonth' : ''}`}
+                onClick={() => setMonth(index)}
+              >
+                <FontAwesomeIcon icon={faCalendarAlt} />
+                <span className='monthNumber'>{index + 1}</span>
+              </div>
+            ))}
+          </div>
+        </div>
 
+        <br />
+        <br />
 
+        <div id='schdlTable'>
+        <div className='button-container'>
+          <FontAwesomeIcon
+            icon={faChevronLeft}
+            size="lg"
+            className={`button-icon ${week <= 0 ? 'disabled' : ''}`}
+            onClick={() => handleWeekChange(-1)}
+          />
+          <FontAwesomeIcon
+            icon={faChevronRight}
+            size="lg"
+            className={`button-icon ${((week + 1) * 7) >= daysInMonth ? 'disabled' : ''}`}
+            onClick={() => handleWeekChange(1)}
+          />
+          </div>
 
-return (
-  <Container class='container'>
-  <h1>Work Schedule Selection</h1>
-    <Form.Group className="mb-3" id='monthSelectDiv'>
-      <Form.Label id='monthLabel'>Month: </Form.Label>
-      <Form.Select id='monthSelection' value={month+1} onChange={(e) => setMonth(Number(e.target.value) - 1)}>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
-          <option value="11">11</option>
-          <option value="12">12</option>
-      </Form.Select>
-    </Form.Group>
-
-    <br/>
-    <br/>
-
-    <div id='schdlTable'>
-    <button class='button-5' onClick={() => handleWeekChange(-1)} disabled={week <= 0}>Previous Week</button>
-    <button class='button-5' id='nextWeek' onClick={() => handleWeekChange(1)} disabled={(week + 1) * 7 >= daysInMonth}>Next Week</button>
-
-    {data.length > 0 ? (
-      <>
-        <Table striped bordered hover>
-          <thead>
-            <tr class='theading'>
-              
-              {[...Array(7)].map((_, day) => {
-              const currentDay = week * 7 + day;
-              if (currentDay >= daysInMonth) {
-                return null; // Don't render rows for days outside the current month
-              }
-              return (
-                  <th>Day {currentDay + 1}</th>
-                );
-            })}
-            </tr>
-          </thead>
-          <tbody>
-            {[...Array(1)].map((_, day) => {
-              const currentDay = week * 7 + day;
-              if (currentDay >= daysInMonth) {
-                return null; // Don't render rows for days outside the current month
-              }
-              return (
-                <tr class='spaceout' key={week+1}>
-<td>
-  <label>Shift 1: </label>
-  <Select
-    isMulti
-    options={data.map(employee => ({ label: employee.fname, value: employee.fname }))}
-    value={(schedule[(week*7)]?.shift1 || []).map(value => ({ label: value, value }))}
-    onChange={(selectedOptions) => handleWorkerChange((week*7), 'shift1', selectedOptions)}
-  />
-</td>
-<td>
-  
-<label>Shift 1: </label>
-<Select
-    isMulti
-    options={data.map(employee => ({ label: employee.fname, value: employee.fname }))}
-    value={(schedule[(week*7)+1]?.shift1 || []).map(value => ({ label: value, value }))}
-    onChange={(selectedOptions) => handleWorkerChange((week*7)+1, 'shift1', selectedOptions)}
-  />
-</td>
-<td>
-  <label>Shift 1: </label>
-  <Select
-    isMulti
-    options={data.map(employee => ({ label: employee.fname, value: employee.fname }))}
-    value={(schedule[(week*7)+2]?.shift1 || []).map(value => ({ label: value, value }))}
-    onChange={(selectedOptions) => handleWorkerChange((week*7)+2, 'shift1', selectedOptions)}
-  />
-</td>
-<td>
-  <label>Shift 1: </label>
-<Select
-    isMulti
-    options={data.map(employee => ({ label: employee.fname, value: employee.fname }))}
-    value={(schedule[(week*7)+3]?.shift1 || []).map(value => ({ label: value, value }))}
-    onChange={(selectedOptions) => handleWorkerChange((week*7)+3, 'shift1', selectedOptions)}
-  />
-</td>
-<td>
-  <label>Shift 1: </label>
-  <Select
-    isMulti
-    options={data.map(employee => ({ label: employee.fname, value: employee.fname }))}
-    value={(schedule[(week*7)+4]?.shift1 || []).map(value => ({ label: value, value }))}
-    onChange={(selectedOptions) => handleWorkerChange((week*7)+4, 'shift1', selectedOptions)}
-  />
-</td>
-<td>
-  <label>Shift 1: </label>
-<Select
-    isMulti
-    options={data.map(employee => ({ label: employee.fname, value: employee.fname }))}
-    value={(schedule[(week*7)+5]?.shift1 || []).map(value => ({ label: value, value }))}
-    onChange={(selectedOptions) => handleWorkerChange((week*7)+5, 'shift1', selectedOptions)}
-  />
-</td>
-<td>
-  <label>Shift 1: </label>
-<Select
-    isMulti
-    options={data.map(employee => ({ label: employee.fname, value: employee.fname }))}
-    value={(schedule[(week*7)+6]?.shift1 || []).map(value => ({ label: value, value }))}
-    onChange={(selectedOptions) => handleWorkerChange((week*7)+6, 'shift1', selectedOptions)}
-  />
-</td>
+          {data.length > 0 ? (
+            <Table striped bordered hover>
+              <thead>
+                <tr className='theading'>
+                  {[...Array(7)].map((_, day) => {
+                    const currentDay = week * 7 + day;
+                    if (currentDay >= daysInMonth) {
+                      return null;
+                    }
+                    return <th key={day}>Day {currentDay + 1}</th>;
+                  })}
                 </tr>
-              );
-            })}{[...Array(1)].map((_, day) => {
-              const currentDay = week * 7 + day;
-              if (currentDay >= daysInMonth) {
-                return null; // Don't render rows for days outside the current month
-              }
-              return (
-                <tr class='spaceout' key={week+1}>
-<td>
-  <label>Shift 2: </label>
-  <Select
-    isMulti
-    options={data.map(employee => ({ label: employee.fname, value: employee.fname }))}
-    value={(schedule[(week*7)]?.shift2 || []).map(value => ({ label: value, value }))}
-    onChange={(selectedOptions) => handleWorkerChange((week*7), 'shift2', selectedOptions)}
-  />
-</td>
-<td>
-  <label>Shift 2: </label>
-  <Select
-    isMulti
-    options={data.map(employee => ({ label: employee.fname, value: employee.fname }))}
-    value={(schedule[(week*7)+1]?.shift2 || []).map(value => ({ label: value, value }))}
-    onChange={(selectedOptions) => handleWorkerChange((week*7)+1, 'shift2', selectedOptions)}
-  />
-</td>
-<td>
-  <label>Shift 2: </label>
-  <Select
-    isMulti
-    options={data.map(employee => ({ label: employee.fname, value: employee.fname }))}
-    value={(schedule[(week*7)+2]?.shift2 || []).map(value => ({ label: value, value }))}
-    onChange={(selectedOptions) => handleWorkerChange((week*7)+2, 'shift2', selectedOptions)}
-  />
-</td>
-<td>
-  <label>Shift 2: </label>
-  <Select
-    isMulti
-    options={data.map(employee => ({ label: employee.fname, value: employee.fname }))}
-    value={(schedule[(week*7)+3]?.shift2 || []).map(value => ({ label: value, value }))}
-    onChange={(selectedOptions) => handleWorkerChange((week*7)+3, 'shift2', selectedOptions)}
-  />
-</td>
-<td>
-  <label>Shift 2: </label>
-  <Select
-    isMulti
-    options={data.map(employee => ({ label: employee.fname, value: employee.fname }))}
-    value={(schedule[(week*7)+4]?.shift2 || []).map(value => ({ label: value, value }))}
-    onChange={(selectedOptions) => handleWorkerChange((week*7)+4, 'shift2', selectedOptions)}
-  />
-</td>
-<td>
-  <label>Shift 2: </label>
-  <Select
-    isMulti
-    options={data.map(employee => ({ label: employee.fname, value: employee.fname }))}
-    value={(schedule[(week*7)+5]?.shift2 || []).map(value => ({ label: value, value }))}
-    onChange={(selectedOptions) => handleWorkerChange((week*7)+5, 'shift2', selectedOptions)}
-  />
-</td>
-<td>
-  <label>Shift 2: </label>
-  <Select
-    isMulti
-    options={data.map(employee => ({ label: employee.fname, value: employee.fname }))}
-    value={(schedule[(week*7)+6]?.shift2 || []).map(value => ({ label: value, value }))}
-    onChange={(selectedOptions) => handleWorkerChange((week*7)+6, 'shift2', selectedOptions)}
-  />
-</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
+              </thead>
+              <tbody>
+                {[...Array(2)].map((_, shiftIndex) => (
+                  <tr className='spaceout' key={shiftIndex}>
+                    {[...Array(7)].map((_, dayIndex) => {
+                      const currentDay = week * 7 + dayIndex;
+                      if (currentDay >= daysInMonth) {
+                        return null;
+                      }
+                      return (
+                        <td key={dayIndex} className="white-bg">
+                          <label>Shift {shiftIndex + 1}: </label>
+                          <Select
+                            isMulti
+                            options={data.map(employee => ({
+                              label: employee.fname,
+                              value: employee.fname
+                            }))}
+                            value={
+                              (schedule[currentDay]?.[`shift${shiftIndex + 1}`] || []).map(
+                                value => ({ label: value, value })
+                              )
+                            }
+                            onChange={selectedOptions =>
+                              handleWorkerChange(
+                                currentDay,
+                                `shift${shiftIndex + 1}`,
+                                selectedOptions
+                              )
+                            }
+                          />
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          ) : (
+            <p>No workers available</p>
+          )}
+        </div>
+      </Container>
 
-        <button class='button-5' id='submitSch' variant="primary" type="submit">Save Schedule</button>
-      </>
-    ) : (
-      <p>No workers avaiable</p>
-    )}
-    </div>
-  </Container>
-);
-
-
-          }
-
+      <div className='submitContainer'>
+        <button className='button-5' id='submitSch' type='submit'>
+          Save Schedule
+        </button>
+      </div>
+    </>
+  );
+};
 
 export default Schedule;

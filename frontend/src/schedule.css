@@ -3,10 +3,13 @@
 }
 
 .container h1{
-    color:#93C0A4;
+    color:#1A535C;
     margin-bottom:45px;
     text-align:center;
-    text-decoration: underline;
+    font-family: 'Arial', sans-serif;
+    font-size: 60px;
+    font-weight: bold;
+    
 }
 
 #monthSelectDiv{
@@ -15,19 +18,15 @@
     width:100%;
 }
 
-#monthLabel{
+#monthcard{
     float:left;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size:20px;
     font-weight: 700;
-    padding:2px 10px 2px 0;
+    padding:2px 10px 50px 0px;
 }
 
-#monthSelection{
-    width:20%;
-    float:left;
-    margin-bottom: 30px;
-}
+
 
 #schdlTable{
     float:left;
@@ -41,7 +40,7 @@
 
 button{
     float:left;
-    background:#93C0A4;
+    background:#1A535C;
 }
 
 #nextWeek{
@@ -68,24 +67,41 @@ table th, td{
     float:left;
 }
 
-th{
-    border-color:red;
-}
 
 
 .theading{
-    background-color:#93C0A4;
-    border-color:#b0e9c5;;
+    background-color:#1A535C;
+    border-color:#82aab0;;
+    color: #fff;
+    font-size: 15px;
+    font-weight: normal;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
 }
 
-Select{
-    background:#ff0000;
-}
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .button-icon {
+    cursor: pointer;
+    color: #1A535C;
+  }
+  
+  .button-icon.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 
-.button-5 {
+
+.submitContainer .button-5{
+    font-family: 'Arial', sans-serif;
+    text-align: center;
     align-items: center;
     background-clip: padding-box;
-    background-color: #93C0A4;
+    background-color: #1A535C;
     border: 1px solid transparent;
     border-radius: .25rem;
     box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
@@ -93,7 +109,6 @@ Select{
     color: #fff;
     cursor: pointer;
     display: inline-flex;
-    font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 16px;
     font-weight: 600;
     justify-content: center;
@@ -111,23 +126,63 @@ Select{
     width: auto;
   }
   
-  .button-5:hover,
+  .submitContainer .button-5:hover,
   .button-5:focus {
-    background-color: #b0e9c5;
+    background-color: #7796b8;
     box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
   }
   
-  .button-5:hover {
-    transform: translateY(-1px);
-  }
   
-  .button-5:active {
-    background-color: #b0e9c5;
-    box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
-    transform: translateY(0);
-  }
 
 .button-5:disabled,
 .button-5[disabled]{
-    background-color: #aed8bd;
+    background-color: #1A535C;
 }
+.divider-title{
+    position: relative;
+    padding: 10px 5px 60px 10px;
+}
+.title{
+    padding: 10px 10px 0px 10px;
+    margin-top: 10px;
+}
+.infoCard {
+    position: relative;
+    align-items: center;
+    bottom: 50px;
+    left: 450px;
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .monthList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .monthItem {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .currentMonth {
+    color: green;
+  }
+  
+  .monthNumber {
+    margin-left: 5px;
+  }
+  .submitContainer{
+    margin: auto;
+    margin-top: 450px;
+    margin-right: 150px;
+    padding: 10px,10px,10px,10px;
+  }
+  
