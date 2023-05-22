@@ -49,48 +49,79 @@ const Schedule = () => {
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formattedData = Object.entries(schedule).reduce((acc, [day, shifts]) => {
+      Object.entries(shifts).forEach(([shift, employeeIDs]) => {
+        acc.push({
+          day: Number(day) + 1, // Add 1 to the day to make it 1-indexed
+          month: month + 1, // Add 1 to the month to make it 1-indexed
+          shift: shift,
+          EmployeeID: employeeIDs,
+        });
+      });
+      return acc;
+    }, []);
+
+    axios.post('http://localhost:5000/saveSchedule', { scheduleData: formattedData, month })
+      .then(res => {
+        if (res.data.Status === 'Success') {
+          alert("Schedule saved successfully");
+          // Clear the schedule after successful save
+          setSchedule({});
+        } else {
+          console.log("Response status not Success: ", res.data);
+          alert("Failed to save schedule due to server response");
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        alert("Failed to save schedule due to error: " + err.message);
+      });
+  };
+
   return (
-    <>
-      <Container className='container'>
-        <h1 className='title'>Work Schedule</h1>
-        <hr className='divider-title' />
+    <Container className='container'>
+      <h1 className='title'>Work Schedule</h1>
+      <hr className='divider-title' />
 
-        <div className='infoCard'>
-          <h2 className='cardTitle'>Month</h2>
-          <div className='monthList'>
-            {[...Array(12)].map((_, index) => (
-              <div
-                key={index}
-                className={`monthItem ${index === currentMonth - 1 ? 'currentMonth' : ''}`}
-                onClick={() => setMonth(index)}
-              >
-                <FontAwesomeIcon icon={faCalendarAlt} />
-                <span className='monthNumber'>{index + 1}</span>
-              </div>
-            ))}
-          </div>
+      <div className='infoCard'>
+        <h2 className='cardTitle'>Month</h2>
+        <div className='monthList'>
+          {[...Array(12)].map((_, index) => (
+            <div
+              key={index}
+              className={`monthItem ${index === currentMonth - 1 ? 'currentMonth' : ''}`}
+              onClick={() => setMonth(index)}
+            >
+              <FontAwesomeIcon icon={faCalendarAlt} />
+              <span className='monthNumber'>{index + 1}</span>
+            </div>
+          ))}
         </div>
+      </div>
 
-        <br />
-        <br />
+      <br />
+      <br />
 
-        <div id='schdlTable'>
+      <div id='schdlTable'>
         <div className='button-container'>
           <FontAwesomeIcon
             icon={faChevronLeft}
-            size="lg"
+            size='lg'
             className={`button-icon ${week <= 0 ? 'disabled' : ''}`}
             onClick={() => handleWeekChange(-1)}
           />
           <FontAwesomeIcon
             icon={faChevronRight}
-            size="lg"
+            size='lg'
             className={`button-icon ${((week + 1) * 7) >= daysInMonth ? 'disabled' : ''}`}
             onClick={() => handleWeekChange(1)}
           />
-          </div>
+        </div>
 
-          {data.length > 0 ? (
+        {data.length > 0 ? (
+          <form onSubmit={handleSubmit}>
             <Table striped bordered hover>
               <thead>
                 <tr className='theading'>
@@ -112,18 +143,19 @@ const Schedule = () => {
                         return null;
                       }
                       return (
-                        <td key={dayIndex} className="white-bg">
+                        <td key={dayIndex} className='white-bg'>
                           <label>Shift {shiftIndex + 1}: </label>
                           <Select
                             isMulti
                             options={data.map(employee => ({
                               label: employee.fname,
-                              value: employee.fname
+                              value: employee.id // Use the employee ID as the value
                             }))}
                             value={
-                              (schedule[currentDay]?.[`shift${shiftIndex + 1}`] || []).map(
-                                value => ({ label: value, value })
-                              )
+                              (schedule[currentDay]?.[`shift${shiftIndex + 1}`] || []).map(value => ({
+                                label: value,
+                                value
+                              }))
                             }
                             onChange={selectedOptions =>
                               handleWorkerChange(
@@ -140,18 +172,18 @@ const Schedule = () => {
                 ))}
               </tbody>
             </Table>
-          ) : (
-            <p>No workers available</p>
-          )}
-        </div>
-      </Container>
 
-      <div className='submitContainer'>
-        <button className='button-5' id='submitSch' type='submit'>
-          Save Schedule
-        </button>
+            <div className='submitContainer'>
+              <button type='submit' className='button-5' id='submitSch'>
+                Save Schedule
+              </button>
+            </div>
+          </form>
+        ) : (
+          <p>No workers available</p>
+        )}
       </div>
-    </>
+    </Container>
   );
 };
 
