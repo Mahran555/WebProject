@@ -4,10 +4,11 @@ import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardBody, MDBTypography } fro
 import { FiEdit2 } from 'react-icons/fi'; // pencil icon
 import { MdCameraAlt } from 'react-icons/md'; // camera icon
 import { FiEye, FiEyeOff } from 'react-icons/fi'; // Eye icons for show/hide password
-
+import { ThreeDots } from "react-loader-spinner";
 import './Profile.css';
 
 function Profile() {
+  const [loading, setLoading] = useState(true); // Initial loading state
   const [imageKey, setImageKey] = useState(Date.now());
   const [showPassword, setShowPassword] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -69,11 +70,14 @@ function Profile() {
       formData.append('image', selectedFile);
 
       try {
+        
         const response = await axios.post('http://localhost:5000/updateManager', formData, {
+          
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
+
         if (response.data.Status === 'Success') {
           console.log('Successfully updated data');
           // Update the data state with the updated manager info
@@ -114,9 +118,14 @@ function Profile() {
         if (res.data.Status === 'Success') {
           setData(res.data.Result);
         }
+        setLoading(false); // Set loading to false after data retrieval
       })
-      .catch((err) => console.log('Failed to fetch data'));
+      .catch((err) => {
+        console.log('Failed to fetch data');
+        setLoading(false); // Set loading to false if there is an error
+      });
   }, [editable.email, editable.phone, editable.address, editable.password]);
+  
 
   const handleFormKeyDown = (event) => {
     if (event.key === 'Enter') {
@@ -124,6 +133,13 @@ function Profile() {
       handleFormSubmit();
     }
   };
+  if (loading) {
+    return (
+      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
+      <ThreeDots color="#0b0436" height={50} width={50} />
+    </div>
+    );
+  }
 
   return (
     <div className="gradient-custom-2">
@@ -155,27 +171,27 @@ function Profile() {
                       <div onKeyDown={handleFormKeyDown}>
                         <MDBRow>
                           <MDBCol sm="3">
-                            <MDBTypography tag="h6">First Name</MDBTypography>
+                            <MDBTypography className='label-text' tag="h6">First Name</MDBTypography>
                           </MDBCol>
-                          <MDBCol sm="9" className="d-flex align-items-center">
+                          <MDBCol  sm="9" className="d-flex align-items-center label-data">
                             <div>{data.fname}</div>
                           </MDBCol>
                         </MDBRow>
                         <hr />
                         <MDBRow>
                           <MDBCol sm="3">
-                            <MDBTypography tag="h6">Last Name</MDBTypography>
+                            <MDBTypography className='label-text' tag="h6">Last Name</MDBTypography>
                           </MDBCol>
-                          <MDBCol sm="9" className="d-flex align-items-center">
+                          <MDBCol sm="9" className="d-flex align-items-center label-data">
                             <div>{data.lname}</div>
                           </MDBCol>
                         </MDBRow>
                         <hr />
                         <MDBRow>
                           <MDBCol sm="3">
-                            <MDBTypography tag="h6">Email</MDBTypography>
+                            <MDBTypography className='label-text' tag="h6">Email</MDBTypography>
                           </MDBCol>
-                          <MDBCol sm="9" className="d-flex align-items-center">
+                          <MDBCol sm="9" className="d-flex align-items-center label-data">
                             {editable.email ? (
                               <>
                                 <input type="text" name="email" value={data.email} onChange={handleInputChange} />
@@ -192,9 +208,9 @@ function Profile() {
                         <hr />
                         <MDBRow>
                           <MDBCol sm="3">
-                            <MDBTypography tag="h6">Phone</MDBTypography>
+                            <MDBTypography className='label-text' tag="h6">Phone</MDBTypography>
                           </MDBCol>
-                          <MDBCol sm="9" className="d-flex align-items-center">
+                          <MDBCol sm="9" className="d-flex align-items-center label-data">
                             {editable.phone ? (
                               <>
                                 <input type="text" name="phone" value={data.phone} onChange={handleInputChange} />
@@ -211,9 +227,9 @@ function Profile() {
                         <hr />
                         <MDBRow>
                           <MDBCol sm="3">
-                            <MDBTypography tag="h6">Address</MDBTypography>
+                            <MDBTypography className='label-text' tag="h6">Address</MDBTypography>
                           </MDBCol>
-                          <MDBCol sm="9" className="d-flex align-items-center">
+                          <MDBCol sm="9" className="d-flex align-items-center label-data">
                             {editable.address ? (
                               <>
                                 <input type="text" name="address" value={data.address} onChange={handleInputChange} />
@@ -230,9 +246,9 @@ function Profile() {
                         <hr />
                         <MDBRow>
                           <MDBCol sm="3">
-                            <MDBTypography tag="h6">Password</MDBTypography>
+                            <MDBTypography className='label-text' tag="h6">Password</MDBTypography>
                           </MDBCol>
-                          <MDBCol sm="9" className="d-flex align-items-center password-container">
+                          <MDBCol sm="9" className="d-flex align-items-center password-container label-data">
                             {editable.password ? (
                               <>
                                 <input
@@ -262,9 +278,9 @@ function Profile() {
                     </MDBCardBody>
                   </MDBCard>
                 </div>
-                <div className="d-flex justify-content-center mt-4">
+                <div className="d-flex justify-content-end mt-4">
                   <button
-                    type="button"
+                    type="button"s
                     className="save-button"
                     onClick={handleFormSubmit}
                   >
