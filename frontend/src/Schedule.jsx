@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { Container, Table } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import './schedule.css';
 
 const Schedule = () => {
@@ -11,6 +11,7 @@ const Schedule = () => {
   const [week, setWeek] = useState(0);
   const [schedule, setSchedule] = useState({});
   const [data, setData] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false); // New state variable
 
   useEffect(() => {
     axios
@@ -23,7 +24,22 @@ const Schedule = () => {
       .catch(err => console.log('failed'));
   }, []);
 
-  const currentMonth = new Date().getMonth() + 1;
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
+
+  const currentMonth = months[new Date().getMonth()];
   const year = new Date().getFullYear();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
@@ -49,141 +65,157 @@ const Schedule = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
+    setIsSubmitting(true); // Set isSubmitting to true when submitting
+
     const formattedData = Object.entries(schedule).reduce((acc, [day, shifts]) => {
       Object.entries(shifts).forEach(([shift, employeeIDs]) => {
         acc.push({
           day: Number(day) + 1, // Add 1 to the day to make it 1-indexed
           month: month + 1, // Add 1 to the month to make it 1-indexed
           shift: shift,
-          EmployeeID: employeeIDs,
+          EmployeeID: employeeIDs
         });
       });
       return acc;
     }, []);
 
-    axios.post('http://localhost:5000/saveSchedule', { scheduleData: formattedData, month })
+    axios
+      .post('http://localhost:5000/saveSchedule', { scheduleData: formattedData, month })
       .then(res => {
         if (res.data.Status === 'Success') {
-          alert("Schedule saved successfully");
+          alert('Schedule saved successfully');
           // Clear the schedule after successful save
           setSchedule({});
         } else {
-          console.log("Response status not Success: ", res.data);
-          alert("Failed to save schedule due to server response");
+          console.log('Response status not Success: ', res.data);
+          alert('Failed to save schedule due to server response');
         }
+        setIsSubmitting(false); // Set isSubmitting to false after receiving the response
       })
       .catch(err => {
         console.log(err);
-        alert("Failed to save schedule due to error: " + err.message);
+        alert('Failed to save schedule due to error: ' + err.message);
+        setIsSubmitting(false); // Set isSubmitting to false if an error occurs
       });
   };
 
   return (
-    <Container className='container'>
+    <>
       <h1 className='title'>Work Schedule</h1>
       <hr className='divider-title' />
 
-      <div className='infoCard'>
-        <h2 className='cardTitle'>Month</h2>
-        <div className='monthList'>
-          {[...Array(12)].map((_, index) => (
-            <div
-              key={index}
-              className={`monthItem ${index === currentMonth - 1 ? 'currentMonth' : ''}`}
-              onClick={() => setMonth(index)}
-            >
-              <FontAwesomeIcon icon={faCalendarAlt} />
-              <span className='monthNumber'>{index + 1}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <br />
-      <br />
-
-      <div id='schdlTable'>
-        <div className='button-container'>
+      <Container className='container'>
+        <div className='schedule-container'>
+        <div className='schedule-header'>
+        <div className='schedule-header-iconleft' onClick={() => handleWeekChange(-1)}>
           <FontAwesomeIcon
             icon={faChevronLeft}
             size='lg'
             className={`button-icon ${week <= 0 ? 'disabled' : ''}`}
-            onClick={() => handleWeekChange(-1)}
           />
+        </div>
+        <div className='schedule-header-month'>
+          <h2>{currentMonth}</h2>
+          <br></br>
+          
+          <hr></hr>
+          
+        </div>
+        <div className='schedule-header-iconright' onClick={() => handleWeekChange(1)}>
           <FontAwesomeIcon
             icon={faChevronRight}
             size='lg'
             className={`button-icon ${((week + 1) * 7) >= daysInMonth ? 'disabled' : ''}`}
-            onClick={() => handleWeekChange(1)}
           />
         </div>
+      </div>
 
-        {data.length > 0 ? (
-          <form onSubmit={handleSubmit}>
-            <Table striped bordered hover>
-              <thead>
-                <tr className='theading'>
-                  {[...Array(7)].map((_, day) => {
-                    const currentDay = week * 7 + day;
-                    if (currentDay >= daysInMonth) {
-                      return null;
-                    }
-                    return <th key={day}>Day {currentDay + 1}</th>;
-                  })}
-                </tr>
-              </thead>
-              <tbody>
-                {[...Array(2)].map((_, shiftIndex) => (
-                  <tr className='spaceout' key={shiftIndex}>
-                    {[...Array(7)].map((_, dayIndex) => {
-                      const currentDay = week * 7 + dayIndex;
+          {data.length > 0 ? (
+            <form className='form-con' onSubmit={handleSubmit}>
+              <Table striped bordered hover>
+                <thead>
+                  <tr className='theading'>
+                    <th></th> {/* Empty cell for spacing */}
+                    {[...Array(7)].map((_, day) => {
+                      const currentDay = week * 7 + day;
                       if (currentDay >= daysInMonth) {
                         return null;
                       }
-                      return (
-                        <td key={dayIndex} className='white-bg'>
-                          <label>Shift {shiftIndex + 1}: </label>
-                          <Select
-                            isMulti
-                            options={data.map(employee => ({
-                              label: employee.fname,
-                              value: employee.id // Use the employee ID as the value
-                            }))}
-                            value={
-                              (schedule[currentDay]?.[`shift${shiftIndex + 1}`] || []).map(value => ({
-                                label: value,
-                                value
-                              }))
-                            }
-                            onChange={selectedOptions =>
-                              handleWorkerChange(
-                                currentDay,
-                                `shift${shiftIndex + 1}`,
-                                selectedOptions
-                              )
-                            }
-                          />
-                        </td>
-                      );
+                      return <th key={day}>Day {currentDay + 1}</th>;
                     })}
                   </tr>
-                ))}
-              </tbody>
-            </Table>
+                </thead>
+                <tbody>
+                  {[...Array(2)].map((_, shiftIndex) => {
+                    const shiftData = [];
+                    for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
+                      const currentDay = week * 7 + dayIndex;
+                      if (currentDay >= daysInMonth) {
+                        break;
+                      }
+                      shiftData.push(
+                        <Select
+                          isMulti
+                          options={data.map(employee => ({
+                            label: employee.fname,
+                            value: employee.id // Use the employee ID as the value
+                          }))}
+                          value={
+                            (schedule[currentDay]?.[`shift${shiftIndex + 1}`] || []).map(value => ({
+                              label: data.find(employee => employee.id === value)?.fname,
+                              value
+                            }))
+                          }
+                          onChange={selectedOptions =>
+                            handleWorkerChange(currentDay, `shift${shiftIndex + 1}`, selectedOptions)
+                          }
+                        />
+                      );
+                    }
+                    return (
+                      <tr className='spaceout' key={shiftIndex}>
+                    <td className={shiftIndex === 0 ? 'white-bg morning-shift-cell' : 'white-bg evening-shift-cell'}>
+  {shiftIndex === 0 ? <label className="morning-shift">Morning Shift</label> : <label className="evening-shift">Evening Shift</label>}
+  
+</td>
+                        {shiftData.map((selectElement, dayIndex) => (
+                          <td key={dayIndex} className='white-bg'>
+                            {Array.isArray(selectElement) ? (
+                              <div className='worker-container'>
+                                {selectElement.map((worker, index) => (
+                                  <div key={index}>{worker}</div>
+                                ))}
+                              </div>
+                            ) : (
+                              <div className='worker-container'>{selectElement}</div>
+                            )}
+                          </td>
+                        ))}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </Table>
 
-            <div className='submitContainer'>
-              <button type='submit' className='button-5' id='submitSch'>
-                Save Schedule
-              </button>
-            </div>
-          </form>
-        ) : (
-          <p>No workers available</p>
-        )}
-      </div>
-    </Container>
+              <div className='submitContainer'>
+                <button
+                  type='submit'
+                  className={`button-sch ${isSubmitting ? 'submitting' : ''}`} // Add 'submitting' class when isSubmitting is true
+                  id='submitSch'
+                  disabled={isSubmitting} // Disable the button when isSubmitting is true
+                >
+                  {isSubmitting ? 'Submitting...' : 'Save Schedule'}
+                </button>
+              </div>
+            </form>
+          ) : (
+            <p>No workers available</p>
+          )}
+        </div>
+      </Container>
+    </>
   );
 };
 
