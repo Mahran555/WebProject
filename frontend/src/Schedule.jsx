@@ -106,7 +106,7 @@ const Schedule = () => {
       <h1 className='title'>Work Schedule</h1>
       <hr className='divider-title' />
 
-      <Container className='container'>
+      <Container className='container-for-sch'>
         <div className='schedule-container'>
         <div className='schedule-header'>
         <div className='schedule-header-iconleft' onClick={() => handleWeekChange(-1)}>
@@ -177,9 +177,9 @@ const Schedule = () => {
                     return (
                       <tr className='spaceout' key={shiftIndex}>
                     <td className={shiftIndex === 0 ? 'white-bg morning-shift-cell' : 'white-bg evening-shift-cell'}>
-  {shiftIndex === 0 ? <label className="morning-shift">Morning Shift</label> : <label className="evening-shift">Evening Shift</label>}
-  
-</td>
+                      {shiftIndex === 0 ? <label className="morning-shift">Morning Shift</label> : <label className="evening-shift">Evening Shift</label>}
+                      
+                    </td>
                         {shiftData.map((selectElement, dayIndex) => (
                           <td key={dayIndex} className='white-bg'>
                             {Array.isArray(selectElement) ? (

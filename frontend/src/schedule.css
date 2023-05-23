@@ -4,12 +4,6 @@ body {
   color: #7796b8;
 }
 
-.container {
-  padding: 0;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  height: 400px;
-  background-color: #ffffff;
-}
 
 .title {
   position: relative;
@@ -28,7 +22,11 @@ body {
   width: 50%;  
 }
 
-.schedule-container {
+.container-for-sch .schedule-container {
+  padding: 0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  height: 400px;
+  background-color: #ffffff;
   margin-top: 130px;
 }
 
