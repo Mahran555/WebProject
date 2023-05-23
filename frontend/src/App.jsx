@@ -41,13 +41,10 @@ function App() {
       <Route path='/employeePage/:id/employeeProfile/:id' element={<EmployeeProfile />}></Route>
       <Route path='/employeePage/:id/employeeSchedule/:id' element={<EmployeeSchedule />}></Route>
       </Route>
-<<<<<<< HEAD
-=======
       <Route path='/login' element={<Login />}></Route>
       <Route path='/simplelogin'  element={<LoginPageSimple />}></Route>
       
       
->>>>>>> bf66214ca15c9374037d58ab558522d4a2ba6360
     </Routes>
     </BrowserRouter>
     
