@@ -46,6 +46,7 @@
   .card-shadow {
     margin-top: 90px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+    margin-bottom: 90px;
   }
   .img-container {
     width: 170px;

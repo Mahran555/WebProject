@@ -144,7 +144,7 @@ function Profile() {
 
   return (
     <div className="gradient-custom-2">
-      <MDBContainer className='manager-pro-cont'>
+      <MDBContainer>
         <MDBRow className="justify-content-center">
           <MDBCol lg="10" xl="8">
             <MDBCard className="card-shadow">
