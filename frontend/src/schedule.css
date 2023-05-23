@@ -1,4 +1,3 @@
-
 :root {
   --main-color: #1A535C;
   --accent-color: #4ECDC4;
@@ -6,19 +5,22 @@
   --neutral-light: #FAFAFA;
   --neutral-white: #FFFFFF;
 }
+
 body {
   font-family: 'Arial', sans-serif;
   background-color: #1A535C;
   color: #7796b8;
 }
 
-
 .title {
   position: relative;
   top: 10px;
   text-align: center;
-  margin-top: 20px;
-  color: #1A535C;
+  margin: 40px 0 20px;
+  font-family: 'Arial Black', sans-serif; /* Change the font family to a title-friendly font */
+  font-size: 50px; /* Increase the font size for a bigger title */
+  font-weight: bold; /* Apply bold font weight */
+  color: #000000;
 }
 
 .divider-title {
@@ -26,27 +28,36 @@ body {
   position: relative;
   top: 30px;
   border: none;
-  border-top: 1px solid #7796b8;
-  width: 50%;  
+  border-top: 2px solid #000000;
+  width: 50%;
 }
 
 .container-for-sch .schedule-container {
   padding: 0;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  height: 400px;
   background-color: var(--neutral-white);
-  margin-top: 130px;
+  margin-top: 120px;
+  height: 100%;
 }
+.schedule-header .calendar-div {
+  border: none;
+  position: relative;
+left: 560px;
+bottom: 35px;
+  border-top: 3px solid rgb(0, 0, 0); /* Increase the border thickness as desired */
+  width: 10%;
 
 
+}
 .schedule-header {
-  background-color: white;
-  color: #1A535C;
+  background-color: #ffffff;
+  color: black;
   font-size: 16px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center; /* Update the justify-content property */
   padding: 10px;
+  height: 70px; /* Add px unit for height */
 }
 
 .schedule-header-iconleft {
@@ -60,10 +71,11 @@ body {
 }
 
 .schedule-header-month {
-  margin-top: 30px;
-  margin-bottom: 10px;
+  margin: 40px 0 10px;
   text-align: center;
   flex-grow: 1;
+  padding-bottom: 20px; /* Add padding to create space below the header */
+  padding-top: 35px;
 }
 
 .schedule-header-icons {
@@ -111,15 +123,14 @@ body {
 .table {
   width: 100%;
   height: 100%;
-  margin-top: 10px;
   border-collapse: collapse;
   table-layout: fixed; /* Add this property to force the table to use the specified height */
 }
 
 /* Styling for table header */
 .table thead {
-  background-color: #7796b8;
-  color: #ffffff;
+  background-color: #ffffff;
+  color: black;
 }
 
 .table thead th {
@@ -152,11 +163,18 @@ body {
   background-color: #ffffff;
   border: none;
 }
+
 .button-sch {
-  font-family: 'Arial', sans-serif;
+  align-items: center;
   position: relative;
-  display: inline-block;
-  margin-top: 10px;
+  background-clip: padding-box;
+  display: inline-flex;
+
+  border: 1px solid transparent;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  line-height: 1.25;
+  margin: 10px 0;
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
@@ -164,43 +182,139 @@ body {
   color: #fff;
   font-size: 16px;
   font-weight: bold;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
   cursor: pointer;
+  font-weight: 600;
+  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
   transition: background-color 0.3s ease-in-out;
-  width: fit-content; 
+  float: right; /* Add this line to float the button to the right */
+  margin-right: 50px;
   margin-top: 80px;
-  margin-left: 1140px;
+  margin-bottom: 50px;
+  justify-content: center;
+  text-decoration: none;
+  vertical-align: baseline;
+
+    width: auto;
 
 
 
 }
 
-.button-sch:hover {
+.button-sch:hover,.button-sch:focus {
   background-color: #7796b8;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+
 }
 
 .submitting {
   cursor: not-allowed;
   opacity: 0.8;
 }
+
 .morning-shift {
-  color: white; 
+  color: rgb(0, 0, 0);
   font-size: 16px;
   font-weight: bold;
-  font-family: Arial, sans-serif; 
-  
+  font-family: Arial, sans-serif;
 }
 
 .evening-shift {
-  color: white; 
+  color: rgb(0, 0, 0);
   font-size: 16px;
   font-weight: bold;
-  font-family: Arial, sans-serif; 
-  
+  font-family: Arial, sans-serif;
 }
+
 td.morning-shift-cell {
-  background-color: #7796b8!important; /* Change color as needed */
+  background-color: #ffffff !important; /* Change color as needed */
 }
 
 td.evening-shift-cell {
-  background-color: #7796b8 !important; /* Change color as needed */
+  background-color: #ffffff !important; /* Change color as needed */
+}
+
+#cardsContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 90px 0;
+}
+
+.cardDiv {
+  width: 24%;
+  box-sizing: border-box;
+  border: 1px solid rgb(225, 215, 215);
+  padding: 30px;
+  margin-right: 170px; /* Adjust the margin-right value to reduce the space */
+  margin-top: 40px;
+}
+S
+
+
+.blue {
+  background: rgba(203, 226, 243, 0.3);
+  border: 1px solid rgba(203, 226, 243, 1);
+}
+
+.blue h1 {
+  color: rgb(67, 171, 251);
+}
+
+.orange {
+  background: rgba(232, 202, 119, 0.3);
+  border: 1px solid rgba(232, 202, 119, 1);
+}
+
+.orange h1 {
+  color: rgb(247, 196, 53);
+}
+
+.red {
+  background: rgba(227, 134, 134, 0.3);
+  border: 1px solid rgba(227, 134, 134, 1);
+}
+
+.red h1 {
+  color: rgb(240, 63, 63);
+}
+
+.purple {
+  background: rgba(140, 107, 177, 0.3); /* Change the background color */
+  border: 1px solid rgba(140, 107, 177, 1); /* Change the border color */
+}
+
+
+.purple h1 {
+  color: rgba(140, 107, 177, 1); /* Change the text color */
+}
+
+.first {
+  margin-left: 170px;
+}
+
+.cardDetails {
+  width: 80%;
+  float: left;
+  font-size: 20px;
+}
+
+.cardDetails .cardTitle {
+  width: 100%;
+  float: left;
+  font-size: 20px;
+  font-weight: 500;
+  color: rgb(106, 100, 100);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.cardIcon {
+  width: 20%;
+  float: left;
+}
+
+.cardIcon h1 {
+  padding: 0;
+  margin: 0;
 }
