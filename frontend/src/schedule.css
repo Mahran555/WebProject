@@ -12,7 +12,7 @@ body {
   color: #7796b8;
 }
 
-.title {
+.title-man {
   position: relative;
   top: 10px;
   text-align: center;
@@ -23,7 +23,7 @@ body {
   color: #000000;
 }
 
-.divider-title {
+.divider-title-man {
   margin: 20px auto;
   position: relative;
   top: 30px;
@@ -199,7 +199,9 @@ bottom: 35px;
 
 
 
+
 }
+
 
 .button-sch:hover,.button-sch:focus {
   background-color: #7796b8;
@@ -234,7 +236,7 @@ td.evening-shift-cell {
   background-color: #ffffff !important; /* Change color as needed */
 }
 
-#cardsContainer {
+#cardsContainer-man {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -249,7 +251,7 @@ td.evening-shift-cell {
   margin-right: 170px; /* Adjust the margin-right value to reduce the space */
   margin-top: 40px;
 }
-S
+
 
 
 .blue {
@@ -293,13 +295,13 @@ S
   margin-left: 170px;
 }
 
-.cardDetails {
+.cardDetails-man {
   width: 80%;
   float: left;
   font-size: 20px;
 }
 
-.cardDetails .cardTitle {
+.cardDetails-man .cardTitle-man {
   width: 100%;
   float: left;
   font-size: 20px;
@@ -309,12 +311,12 @@ S
   margin-bottom: 10px;
 }
 
-.cardIcon {
+.cardIcon-man {
   width: 20%;
   float: left;
 }
 
-.cardIcon h1 {
+.cardIcon-man h1 {
   padding: 0;
   margin: 0;
 }

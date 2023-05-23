@@ -86,6 +86,35 @@ app.post("/login", async (req, res) => {
   }
     return res.send({Status: "error", error: "Invalid email or password"  });
 });
+//vacationrequest sending
+app.post('/submitVacationRequest/:id', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  const id = Number(req.params.id);
+
+
+  // Create a new VacationRequest document
+  const vacationRequest = new Vacations({
+    id:id,
+    dayFrom:req.body.dayFrom,
+    dayTo:req.body.dayTo,
+    fname:req.body.fname,
+    lname:req.body.lname,
+    monthFrom:req.body.monthFrom,
+    monthTo:req.body.monthTo,
+    reason:req.body.reason,
+  });
+  // Save the document to the database
+  vacationRequest.save()
+    .then(() => {
+      // Vacation request saved successfully
+      res.status(200).json({ message: 'Vacation request submitted successfully' });
+    })
+    .catch((error) => {
+      // Failed to save the vacation request
+      console.error('Failed to save vacation request:', error);
+      res.status(500).json({ message: 'Failed to submit vacation request' });
+    });
+});
 
 
 //update edit employee
@@ -194,7 +223,6 @@ app.get('/employeeCount', async (req, res) => {
 app.post('/saveSchedule', async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   try {
-    console.log(req.body);
     const { scheduleData } = req.body;
 
     if (!scheduleData) {

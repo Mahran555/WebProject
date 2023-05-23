@@ -12,7 +12,7 @@ import './schedule.css';
 const Schedule = () => {
   const [loading, setLoading] = useState(true); // Initial loading state
   const [month, setMonth] = useState(new Date().getMonth());
-  const [week, setWeek] = useState(0);
+  const [week, setWeek] = useState(Math.floor(new Date().getDate() / 7)); // Set initial week based on current date
   const [schedule, setSchedule] = useState({});
   const [data, setData] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false); // New state variable
@@ -84,11 +84,16 @@ const Schedule = () => {
   const handleSubmit = e => {
     e.preventDefault();
     setIsSubmitting(true); // Set isSubmitting to true when submitting
-    if (Object.keys(schedule).length === 0) {
-      alert('Cannot save an empty schedule');
-      setIsSubmitting(false);
-      return;
-    }
+     // Check if any day and shift is empty
+  const hasEmptyShifts = Object.values(schedule).some(shifts =>
+    Object.values(shifts).some(employeeIDs => employeeIDs.length === 0)
+  );
+
+  if (hasEmptyShifts) {
+    alert('you cant save empty schedule');
+    setIsSubmitting(false);
+    return;
+  }
     const formattedData = Object.entries(schedule).reduce((acc, [day, shifts]) => {
       Object.entries(shifts).forEach(([shift, employeeIDs]) => {
         acc.push({
@@ -139,33 +144,33 @@ const Schedule = () => {
 
   return (
     <>
-      <h1 className='title'>Work Schedule</h1>
-      <hr className='divider-title' />
-      <div id='cardsContainer'>
+      <h1 className='title-man'>Work Schedule</h1>
+      <hr className='divider-title-man' />
+      <div id='cardsContainer-man'>
           <div className='cardDiv first blue'>
-            <div className='cardDetails'>
-              <span className='cardTitle'>Today</span>
+            <div className='cardDetails-man'>
+              <span className='cardTitle-man'>Today</span>
               <span className='cardStat'>{ToDay} of {currentMonth}</span>
             </div>
-            <div className='cardIcon'>
+            <div className='cardIcon-man'>
               <h1><FontAwesomeIcon icon={faCalendarDay} /></h1>
             </div>
           </div>
           <div className='cardDiv orange'>
-            <div className='cardDetails'>
-              <span className='cardTitle'>Week</span>
+            <div className='cardDetails-man'>
+              <span className='cardTitle-man'>Week</span>
               <span className='cardStat'>{getWeekDates()}</span>
             </div>
-            <div className='cardIcon'>
+            <div className='cardIcon-man'>
               <h1><FontAwesomeIcon icon={faCalendarWeek} /></h1>
             </div>
           </div>
           <div className='cardDiv purple'>
-            <div className='cardDetails'>
-              <span className='cardTitle'>Available employees</span>
+            <div className='cardDetails-man'>
+              <span className='cardTitle-man'>Available employees</span>
               <span className='cardStat'>{numEmployees }</span>
             </div>
-            <div className='cardIcon'>
+            <div className='cardIcon-man'>
               <h1><FontAwesomeIcon icon={faUser} /></h1>
             </div>
           </div>
