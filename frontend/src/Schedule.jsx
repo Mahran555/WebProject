@@ -4,12 +4,13 @@ import Select from 'react-select';
 import { Container, Table } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faCalendarAlt, faCalendarDay, faCalendarWeek, faUser } from '@fortawesome/free-solid-svg-icons';
-
+import { ThreeDots } from "react-loader-spinner";
 
 
 import './schedule.css';
 
 const Schedule = () => {
+  const [loading, setLoading] = useState(true); // Initial loading state
   const [month, setMonth] = useState(new Date().getMonth());
   const [week, setWeek] = useState(0);
   const [schedule, setSchedule] = useState({});
@@ -23,10 +24,12 @@ const Schedule = () => {
       .then((res) => {
         if (res.data.Status === 'Success') {
           setData(res.data.Result);
+          setLoading(false); // Set loading to false when data has been fully loaded
           
         }
       })
       .catch(err => console.log('failed'));
+      setLoading(false); // Set loading to false if there is an error
   }, []);
   const numEmployees = data.length;
   const months = [
@@ -125,6 +128,14 @@ const Schedule = () => {
     }),
     // Add other custom styles as needed
   };
+  if (loading) {
+    return (
+      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
+      <ThreeDots color="#0b0436" height={50} width={50} />
+    </div>
+    );
+  }
+
 
   return (
     <>
