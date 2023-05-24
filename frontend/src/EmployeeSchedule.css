@@ -1,3 +1,6 @@
+
+
+
 :root {
     --main-color: #1A535C;
     --accent-color: #4ECDC4;
@@ -18,7 +21,7 @@
     text-align: center;
     margin: 40px 0 20px;
     font-family: 'Arial Black', sans-serif; /* Change the font family to a title-friendly font */
-    font-size: 50px; /* Increase the font size for a bigger title */
+    font-size: 40px; /* Increase the font size for a bigger title */
     font-weight: bold; /* Apply bold font weight */
     color: #000000;
   }
@@ -156,14 +159,11 @@
     position: relative;
     background-clip: padding-box;
     display: inline-flex;
-  
     border: 1px solid transparent;
-    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
     box-sizing: border-box;
     line-height: 1.25;
     margin: 10px 0;
     padding: 10px 20px;
-    border: none;
     border-radius: 4px;
     background-color: #1A535C;
     color: #fff;
@@ -181,10 +181,7 @@
     justify-content: center;
     text-decoration: none;
     vertical-align: baseline;
-  
       width: auto;
-  
-  
   
   
   }
@@ -201,14 +198,14 @@
     opacity: 0.8;
   }
   
-  .morning-shift {
+  .morning-shift-empl {
     color: rgb(0, 0, 0);
     font-size: 16px;
     font-weight: bold;
     font-family: Arial, sans-serif;
   }
   
-  .evening-shift {
+  .evening-shift-empl {
     color: rgb(0, 0, 0);
     font-size: 16px;
     font-weight: bold;
@@ -307,4 +304,100 @@
     padding: 0;
     margin: 0;
   }
+ 
   
+
+
+
+.show {
+  display: block;
+}
+
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  color: #16181b;
+  text-decoration: none;
+  background-color: #f8f9fa;
+}
+
+
+  
+
+.vacation-request-container button {
+  align-items: center;
+  position: relative;
+  background-clip: padding-box;
+  display: inline-flex;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  line-height: 1.25;
+  border-radius: 4px;
+  background-color: #1A535C;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  cursor: pointer;
+  font-weight: 600;
+  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  transition: background-color 0.3s ease-in-out;
+  vertical-align: baseline;
+  width: auto;
+
+
+}
+
+.vacation-request-container button:hover ,.vacation-request-container button::after {
+  background-color: #7796b8;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+
+}
+
+
+/* vacation.css */
+.vacation-request-container {
+
+  position: relative;
+  top: 20px;
+  right: -250px;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.vacation-request-container .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 420px;  /* set width to 300px */
+  height: 300px; /* set height to 300px */
+  overflow: auto;
+}
+.par1, .par2 ,.reason{
+  font-size: 20px; /* Change to the size you desire */
+}
+.textw textarea {
+  width: 100%; /* Change to the width you desire */
+}
+.textw textarea {
+  width: 380px; /* Change to the width you desire */
+}
+
+.dropdown-menu {
+  box-sizing: border-box;
+}
+.dropdown-toggle {
+  padding: 10px 20px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px; /* Rounded corners */
+}
+
+.dropdown-toggle:hover {
+  background-color: #7796b8;
+}

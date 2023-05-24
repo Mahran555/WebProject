@@ -1,13 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
-import { Container, Table } from 'react-bootstrap';
+import { Container, Table,Alert } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faCalendarAlt, faCalendarDay, faCalendarWeek, faUser } from '@fortawesome/free-solid-svg-icons';
-import { ThreeDots } from "react-loader-spinner";
-
+import { ThreeDots } from 'react-loader-spinner';
 
 import './schedule.css';
+
 
 const Schedule = () => {
   const [loading, setLoading] = useState(true); // Initial loading state
@@ -17,6 +17,8 @@ const Schedule = () => {
   const [data, setData] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false); // New state variable
   const ToDay = new Date().getDate();
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertVariant, setAlertVariant] = useState('');
 
   useEffect(() => {
     axios
@@ -25,12 +27,22 @@ const Schedule = () => {
         if (res.data.Status === 'Success') {
           setData(res.data.Result);
           setLoading(false); // Set loading to false when data has been fully loaded
-          
         }
       })
-      .catch(err => console.log('failed'));
-      setLoading(false); // Set loading to false if there is an error
+      .catch((err) => {
+        console.log('failed');
+        setLoading(false); // Set loading to false if there is an error
+      });
   }, []);
+
+  const showAlert = (message, variant) => {
+    setAlertMessage(message);
+    setAlertVariant(variant);
+    setTimeout(() => {
+      setAlertMessage('');
+      setAlertVariant('');
+    }, 3000);
+  };
   const numEmployees = data.length;
   const months = [
     'January',
@@ -44,7 +56,7 @@ const Schedule = () => {
     'September',
     'October',
     'November',
-    'December'
+    'December',
   ];
 
   const currentMonth = months[new Date().getMonth()];
@@ -60,20 +72,20 @@ const Schedule = () => {
   };
 
   const handleWorkerChange = (day, shift, selectedOptions) => {
-    const selectedValues = selectedOptions.map(option => option.value);
-    
+    const selectedValues = selectedOptions.map((option) => option.value);
+
     if (day >= ToDay) {
       setSchedule({
         ...schedule,
         [day]: {
           ...schedule[day],
-          [shift]: selectedValues
-        }
+          [shift]: selectedValues,
+        },
       });
     }
   };
 
-  const handleWeekChange = direction => {
+  const handleWeekChange = (direction) => {
     const newWeek = week + direction;
     const newWeekDays = (newWeek + 1) * 7;
     if (newWeek >= 0 && newWeekDays <= daysInMonth + 7) {
@@ -81,26 +93,35 @@ const Schedule = () => {
     }
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true); // Set isSubmitting to true when submitting
-     // Check if any day and shift is empty
-  const hasEmptyShifts = Object.values(schedule).some(shifts =>
-    Object.values(shifts).some(employeeIDs => employeeIDs.length === 0)
-  );
+  
+    // Check if any day and shift is empty
+    const hasEmptyShifts = Object.values(schedule).some((shifts) =>
+      Object.values(shifts).some((employeeIDs) => employeeIDs.length === 0)
+    );
+  
+    if (hasEmptyShifts) {
+      showAlert('Please fill in all shifts', 'danger');
+      setIsSubmitting(false);
+      return;
+    }
+  
+    // Check if the schedule is completely empty
+    if (Object.keys(schedule).length === 0) {
+      showAlert('Please select at least one worker for the schedule', 'danger');
+      setIsSubmitting(false);
+      return;
+    }
 
-  if (hasEmptyShifts) {
-    alert('you cant save empty schedule');
-    setIsSubmitting(false);
-    return;
-  }
     const formattedData = Object.entries(schedule).reduce((acc, [day, shifts]) => {
       Object.entries(shifts).forEach(([shift, employeeIDs]) => {
         acc.push({
           day: Number(day) + 1, // Add 1 to the day to make it 1-indexed
           month: month + 1, // Add 1 to the month to make it 1-indexed
           shift: shift,
-          EmployeeID: employeeIDs
+          EmployeeID: employeeIDs,
         });
       });
       return acc;
@@ -108,23 +129,25 @@ const Schedule = () => {
 
     axios
       .post('http://localhost:5000/saveSchedule', { scheduleData: formattedData, month })
-      .then(res => {
+      .then((res) => {
         if (res.data.Status === 'Success') {
-          alert('Schedule saved successfully');
+          showAlert('Schedule saved successfully', 'success');
           // Clear the schedule after successful save
           setSchedule({});
         } else {
           console.log('Response status not Success: ', res.data);
-          alert('Failed to save schedule due to server response');
+          showAlert('Failed to save schedule due to server response', 'danger');
         }
         setIsSubmitting(false); // Set isSubmitting to false after receiving the response
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
-        alert('Failed to save schedule due to error: ' + err.message);
+        showAlert('Failed to save schedule due to error: ' + err.message, 'danger');
         setIsSubmitting(false); // Set isSubmitting to false if an error occurs
       });
   };
+
+
 
   const selectStyles = {
     control: (provided, state) => ({
@@ -133,78 +156,86 @@ const Schedule = () => {
     }),
     // Add other custom styles as needed
   };
+
   if (loading) {
     return (
-      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
-      <ThreeDots color="#0b0436" height={50} width={50} />
-    </div>
-    );
-  }
-
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <ThreeDots color="#0b0436" height={50} width={50} />
+      </div>
+    );
+  }
 
   return (
     <>
-      <h1 className='title-man'>Work Schedule</h1>
-      <hr className='divider-title-man' />
-      <div id='cardsContainer-man'>
-          <div className='cardDiv first blue'>
-            <div className='cardDetails-man'>
-              <span className='cardTitle-man'>Today</span>
-              <span className='cardStat'>{ToDay} of {currentMonth}</span>
-            </div>
-            <div className='cardIcon-man'>
-              <h1><FontAwesomeIcon icon={faCalendarDay} /></h1>
-            </div>
+    {alertMessage && <Alert variant={alertVariant}>{alertMessage}</Alert>}
+      <h1 className="title-man">Work Schedule</h1>
+      <hr className="divider-title-man" />
+      <div id="cardsContainer-man">
+        <div className="cardDiv first blue">
+          <div className="cardDetails-man">
+            <span className="cardTitle-man">Today</span>
+            <span className="cardStat">
+              {ToDay} of {currentMonth}
+            </span>
           </div>
-          <div className='cardDiv orange'>
-            <div className='cardDetails-man'>
-              <span className='cardTitle-man'>Week</span>
-              <span className='cardStat'>{getWeekDates()}</span>
-            </div>
-            <div className='cardIcon-man'>
-              <h1><FontAwesomeIcon icon={faCalendarWeek} /></h1>
-            </div>
-          </div>
-          <div className='cardDiv purple'>
-            <div className='cardDetails-man'>
-              <span className='cardTitle-man'>Available employees</span>
-              <span className='cardStat'>{numEmployees }</span>
-            </div>
-            <div className='cardIcon-man'>
-              <h1><FontAwesomeIcon icon={faUser} /></h1>
-            </div>
+          <div className="cardIcon-man">
+            <h1>
+              <FontAwesomeIcon icon={faCalendarDay} />
+            </h1>
           </div>
         </div>
-      <Container className='container-for-sch'>
-        <div className='schedule-container'>
-          <div className='schedule-header'>
-            <div className='schedule-header-iconleft' onClick={() => handleWeekChange(-1)}>
+        <div className="cardDiv orange">
+          <div className="cardDetails-man">
+            <span className="cardTitle-man">Week</span>
+            <span className="cardStat">{getWeekDates()}</span>
+          </div>
+          <div className="cardIcon-man">
+            <h1>
+              <FontAwesomeIcon icon={faCalendarWeek} />
+            </h1>
+          </div>
+        </div>
+        <div className="cardDiv purple">
+          <div className="cardDetails-man">
+            <span className="cardTitle-man">Available employees</span>
+            <span className="cardStat">{numEmployees}</span>
+          </div>
+          <div className="cardIcon-man">
+            <h1>
+              <FontAwesomeIcon icon={faUser} />
+            </h1>
+          </div>
+        </div>
+      </div>
+      <Container className="container-for-sch">
+        <div className="schedule-container">
+          <div className="schedule-header">
+            <div className="schedule-header-iconleft" onClick={() => handleWeekChange(-1)}>
               <FontAwesomeIcon
                 icon={faChevronLeft}
-                size='lg'
+                size="lg"
                 className={`button-icon ${week <= 0 ? 'disabled' : ''}`}
               />
             </div>
-            <div className='schedule-header-month'>
-              <h2 className='current-mon'>{currentMonth}</h2>
+            <div className="schedule-header-month">
+              <h2 className="current-mon">{currentMonth}</h2>
               <br></br>
-              <hr className='calendar-div'></hr> 
-
+              <hr className="calendar-div"></hr>
             </div>
-            <div className='schedule-header-iconright' onClick={() => handleWeekChange(1)}>
+            <div className="schedule-header-iconright" onClick={() => handleWeekChange(1)}>
               <FontAwesomeIcon
                 icon={faChevronRight}
-                size='lg'
+                size="lg"
                 className={`button-icon ${((week + 1) * 7) >= daysInMonth ? 'disabled' : ''}`}
               />
             </div>
           </div>
 
           {data.length > 0 ? (
-            <form className='form-con' onSubmit={handleSubmit}>
+            <form className="form-con" onSubmit={handleSubmit}>
               <Table striped bordered hover>
                 <thead>
-                  <tr className='theading'>
+                  <tr className="theading">
                     <th></th> {/* Empty cell for spacing */}
                     {[...Array(7)].map((_, day) => {
                       const currentDay = week * 7 + day;
@@ -227,17 +258,17 @@ const Schedule = () => {
                       const selectElement = (
                         <Select
                           isMulti
-                          options={data.map(employee => ({
+                          options={data.map((employee) => ({
                             label: employee.fname,
-                            value: employee.id // Use the employee ID as the value
+                            value: employee.id, // Use the employee ID as the value
                           }))}
                           value={
-                            (schedule[currentDay]?.[`shift${shiftIndex + 1}`] || []).map(value => ({
-                              label: data.find(employee => employee.id === value)?.fname,
-                              value
+                            (schedule[currentDay]?.[`shift${shiftIndex + 1}`] || []).map((value) => ({
+                              label: data.find((employee) => employee.id === value)?.fname,
+                              value,
                             }))
                           }
-                          onChange={selectedOptions =>
+                          onChange={(selectedOptions) =>
                             handleWorkerChange(currentDay, `shift${shiftIndex + 1}`, selectedOptions)
                           }
                           isDisabled={isPastDay} // Disable the dropdown for past days
@@ -247,20 +278,24 @@ const Schedule = () => {
                       shiftData.push(selectElement);
                     }
                     return (
-                      <tr className='spaceout' key={shiftIndex}>
+                      <tr className="spaceout" key={shiftIndex}>
                         <td className={shiftIndex === 0 ? 'white-bg morning-shift-cell' : 'white-bg evening-shift-cell'}>
-                          {shiftIndex === 0 ? <label className="morning-shift">Morning Shift</label> : <label className="evening-shift">Evening Shift</label>}
+                          {shiftIndex === 0 ? (
+                            <label className="morning-shift">Morning Shift</label>
+                          ) : (
+                            <label className="evening-shift">Evening Shift</label>
+                          )}
                         </td>
                         {shiftData.map((selectElement, dayIndex) => (
-                          <td key={dayIndex} className='white-bg'>
+                          <td key={dayIndex} className="white-bg">
                             {Array.isArray(selectElement) ? (
-                              <div className='worker-container'>
+                              <div className="worker-container">
                                 {selectElement.map((worker, index) => (
                                   <div key={index}>{worker}</div>
                                 ))}
                               </div>
                             ) : (
-                              <div className='worker-container'>{selectElement}</div>
+                              <div className="worker-container">{selectElement}</div>
                             )}
                           </td>
                         ))}
@@ -270,11 +305,11 @@ const Schedule = () => {
                 </tbody>
               </Table>
 
-              <div className='submitContainer'>
+              <div className="submitContainer">
                 <button
-                  type='submit'
+                  type="submit"
                   className={`button-sch ${isSubmitting ? 'submitting' : ''}`} // Add 'submitting' class when isSubmitting is true
-                  id='submitSch'
+                  id="submitSch"
                   disabled={isSubmitting} // Disable the button when isSubmitting is true
                 >
                   {isSubmitting ? 'Submitting...' : 'Save Schedule'}
