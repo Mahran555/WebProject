@@ -74,6 +74,7 @@ const Manager = require("./models/ManagerDetails");
 const Vacations = require("./models/VacationDetails");
 const WorkData = require("./models/WorkInfo");
 const Schedules = require("./models/SaveSchedule");
+const Shifts = require('./models/SaveSchedule');
 //UserLogin page
 app.post("/login", async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
@@ -183,9 +184,11 @@ app.get("/vacationRequests", async (req, res) => {
 app.get('/salaries', async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   try {
-    const employees = await Employee.find({}, 'salary'); // get only 'salary' field of all employees  
-    const salaries = employees.map(employee => employee.salary);
-    res.json(salaries);
+    const employeesSalary = await Employee.find({}, 'salary'); // get 'salary' field of all employees 
+    const employeesNames = await Employee.find({}, 'fname'); // get 'first name' field of all employees   
+    const salaries = employeesSalary.map(employeesSalary => employeesSalary.salary);
+    const names=employeesNames.map(employeesNames => employeesNames.fname);
+    res.json( {Salaries : salaries, Names :names});
   } catch (err) {
     console.error(err);
     res.status(500).send('Error occurred while fetching individual salaries');
@@ -197,6 +200,27 @@ app.get('/employeeCount', async (req, res) => {
   try {
     const employeeCount = await Employee.countDocuments({});
     res.json({ count: employeeCount });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error occurred while counting employees');
+  }
+});
+
+//count Shifts
+app.get('/shiftsCount', async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  try {
+    const date = new Date();
+    const thisMonth = date.getMonth() + 1; // Adding 1 to adjust for zero-based index
+    const id = Number(req.params.id);
+    const morningCount=[0]
+    const eveningCount=[0]
+    for(let i=1;i<=thisMonth;i++)
+    {
+    morningCount[i-1] = await Shifts.countDocuments({month:i,shift:"morning"});
+    eveningCount[i-1] = await Shifts.countDocuments({month:i,shift:"evening"});
+    }
+    res.json({ MorningShifts: morningCount,EveningShifts :eveningCount});
   } catch (err) {
     console.error(err);
     res.status(500).send('Error occurred while counting employees');
@@ -372,7 +396,6 @@ app.post('/updateManager', upload.single('image'), async (req, res) => {
 app.get('/getInfo/:id', async(req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   const id = Number(req.params.id);
-  
   try {
     const result = await Employee.findOne( { id } )
     return res.send({ Status: "Success", Result: result });
@@ -382,13 +405,20 @@ app.get('/getInfo/:id', async(req, res) => {
   }
 });
 
-//Get employee Working hours and wages
-app.get('/workData/:id', async(req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+//Get employee Working hours 
+app.get('/daysCount/:id', async(req, res) => {
+  const date = new Date();
+  const thisMonth = date.getMonth() + 1; // Adding 1 to adjust for zero-based index
   const id = Number(req.params.id);
+  const count=0
+  const arrCount=[0]
   try {
-    const result = await WorkData.find( { EmployeeID:id } )
-    return res.send({ Status: "Success", Result: result });
+    for(let i = 1; i <= thisMonth; i++) {
+    const count= await Shifts.countDocuments( { month:i ,EmployeeID:id } ) 
+    arrCount[i-1]=count*8
+    }
+      // Count the matching documents
+    return res.send({ Status: "Success", ThisMonth: arrCount[thisMonth-1]/8, AllMonths:arrCount });
   } catch (error) {
     console.log(error);
     return res.status(500).send({ Status: "Error", Message: "Unable to retrieve employees" });

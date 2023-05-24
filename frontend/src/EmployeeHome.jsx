@@ -2,171 +2,242 @@ import axios from 'axios';
 import Chart from "react-apexcharts";
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faDollarSign, faMoneyBillAlt } from '@fortawesome/free-solid-svg-icons';
+import {  useParams } from 'react-router-dom'
+import {  faDollarSign, faMoneyBillAlt, faBriefcaseClock, faCalendarDay, faCalendarDays, faMoneyCheckDollar } from '@fortawesome/free-solid-svg-icons';
 import { ThreeDots } from "react-loader-spinner";
+import { Doughnut } from 'react-chartjs-2';
+import './home.css'
 
 function EmployeeHome() {
-  const [expandedRequestId, setExpandedRequestId] = useState(null);
-  const [employeeCount, setEmployeeCount] = useState();
-  const [salary, setSalary] = useState();
-  const [averageSalary, setAverageSalary] = useState(0);
-  const [managerName, setManager] = useState(null);
-  const [vacationRequests, setVacationRequests] = useState([]);
-  const [activeTab, setActiveTab] = useState('pending');
-  const [loading, setLoading] = useState(true); // Initial loading state
+  const {id} = useParams();
+  const [daysCount, setDaysCount] = useState();
+  const [employeeData, setEmployeesetData] = useState({
+    id:'',
+    fname: '',
+    lname: '',
+    email: '',
+    password: '',
+    address: '',
+    salary: '',
+    phone:'',
+    image: ''
+     })
+  const [loading, setLoading] = useState(true); // Initial loading state       
   const [state, setState] = useState({
-    options: {
-      chart: {
-        id: "basic-bar"
-      },
-      xaxis: {
-        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+          series: [{
+            name: 'Work hours',
+            type: 'column',
+            data: []
+          }],
+          options: {
+            chart: {
+              height: 350,
+              type: 'line',
+              stacked: false
+            },
+            dataLabels: {
+              enabled: false
+            },
+            stroke: {
+              width: [1, 20, 4],
+              curve:'straight'
+            },
+            title: {
+              text: 'Work Hours Last Months',
+              align: 'left',
+              offsetX: 110
+            },
+            xaxis: {
+               categories: [  'January',  'February',  'March',  'April',  'May',  'June',  'July',  'August',  'September',  'October',  'November',  'December'],
+            },
+            yaxis: [
+              {
+                axisTicks: {
+                  show: true,
+                },
+                axisBorder: {
+                  show: true,
+                  color: '#008FFB'
+                },
+                labels: {
+                  style: {
+                    colors: '#008FFB',
+                  }
+                },
+                title: {
+                  text: "Work Hours",
+                  style: {
+                    color: '#008FFB',
+                  }
+                },
+                tooltip: {
+                  enabled: true
+                }
+              },
+              
+              
+            ],
+            tooltip: {
+              fixed: {
+                enabled: true,
+                position: 'topLeft', // topRight, topLeft, bottomRight, bottomLeft
+                offsetY: 30,
+                offsetX: 60
+              },
+            },
+            legend: {
+              horizontalAlign: 'left',
+              offsetX: 40
+            }
+          }
+        });
+ 
+        const [CircularState, setCircularState] = useState({
+          series: [{
+            name: 'Work hours',
+            type: 'pie',
+            data: [20,30]
+          }],
+          options: {
+            chart: {
+              height: 350,
+              type: 'pie',
+            },
+            dataLabels: {
+              enabled: false
+            },
+            title: {
+              text: 'Work Hours Last Months',
+              align: 'left',
+              offsetX: 110
+            },
+            labels: [  'January',  'February'],
+            tooltip: {
+              enabled: true,
+              offsetY: 30,
+              offsetX: 60
+            },
+            legend: {
+              horizontalAlign: 'left',
+              offsetX: 40
+            }
+          }
+        });
+        
+
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const daysCountPromise = axios.get('http://localhost:5000/daysCount/'+id)//work hours this month
+      const employeePromise = axios.get('http://localhost:5000/getInfo/' + id)
+      
+      const [daysCountRes, employeeRes] = await Promise.all([
+        daysCountPromise,
+        employeePromise,
+        
+      ]);
+
+      // Count hours
+      setDaysCount(daysCountRes.data.ThisMonth);
+      // employee info 
+      if (employeeRes.data.Status === 'Success') {
+        setEmployeesetData({...employeeData, id: employeeRes.data.Result.id,
+                           fname: employeeRes.data.Result.fname,
+                           lname:employeeRes.data.Result.lname,
+                           email: employeeRes.data.Result.email,
+                           password: employeeRes.data.Result.password,
+                           address:employeeRes.data.Result.address,
+                           salary: employeeRes.data.Result.salary,
+                           phone: employeeRes.data.Result.phone,
+                           image: employeeRes.data.Result.image
+          
+         });
       }
-    },
-    series: [
-      {
-        name: "series-1",
-        data: [30, 40, 45, 50, 49, 60, 70, 91]
-      }
-    ]
-  })
+      setState(prevState => ({
+        ...prevState,
+        series: [
+          {
+            ...prevState.series[0],
+            data: daysCountRes.data.AllMonths 
+          }
+        ]
+      }));//put it into graph
+      setLoading(false); // Set loading to false when data has been fully loaded
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const employeeCountPromise = axios.get('http://localhost:5000/employeeCount');
-        const managerPromise = axios.get('http://localhost:5000/getManager');
-        const salariesPromise = axios.get('http://localhost:5000/salaries');
-        const vacationRequestsPromise = axios.get('http://localhost:5000/vacationRequests');
+  fetchData();
+}, []);
 
-        const [employeeCountRes, managerRes, salariesRes, vacationRequestsRes] = await Promise.all([
-          employeeCountPromise,
-          managerPromise,
-          salariesPromise,
-          vacationRequestsPromise,
-        ]);
-
-        // Count employee
-        setEmployeeCount(employeeCountRes.data.count);
-
-        // Manager info (name)
-        if (managerRes.data.Status === 'Success') {
-          setManager(managerRes.data.Result.lname);
-        }
-
-        // Salaries
-        let sum = salariesRes.data.reduce((a, b) => a + b, 0);
-        setSalary(sum);
-        // Set average salary
-        setAverageSalary(sum / salariesRes.data.length);
-
-        // Vacation requests
-        setVacationRequests(vacationRequestsRes.data.Result);
-
-        setLoading(false); // Set loading to false when data has been fully loaded
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const updateVacationRequests = async () => {
-      try {
-        const vacationRequestsRes = await axios.get('http://localhost:5000/vacationRequests');
-        setVacationRequests(vacationRequestsRes.data.Result);
-      } catch (error) {
-        console.error('Error updating vacation requests:', error);
-      }
-    };
-
-    updateVacationRequests();
-  }, [vacationRequests]); // Fetch updated vacation requests when the vacationRequests state changes
-
-  if (loading) {
-    return (
-      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
-      <ThreeDots color="#0b0436" height={50} width={50} />
-    </div>
+if (loading) {
+  return (
+    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
+    <ThreeDots color="#0b0436" height={50} width={50} />
+  </div>
     );
   }
-
+ 
   return (
     <div>
       <div className='p-3 text-center'>
-        <h1 style={{ fontSize: '2.5rem', color: '#0b0436' }}>Welcome Back Mr.{managerName}</h1>
+        <h1 style={{ fontSize: '2.5rem', color: '#0b0436' }}>Welcome Back {employeeData.fname} </h1>
         <hr style={{ margin: '20px auto', width: '50%' }} />
       </div>
 
-      {/* <div className='d-flex justify-content-around mt-3'>
-        <div className='px-3 pt-2 pb-3 border shadow-sm w-25'>
-          <div className='text-center pb-1'>
-            <h4>Employees</h4>
+       <div class='container mt-5'>
+        <div id='cardsContainer'>
+          <div class='cardDiv first blue'>
+            <div class='cardDetails'>
+              <span class='cardTitle'>Work Days This Month </span>
+              <span class='cardStat'>Total: {daysCount}</span>
+            </div>
+            <div class='cardIcon'>
+              <h1><FontAwesomeIcon icon={faCalendarDays}/></h1>
+            </div>
           </div>
-          <hr />
-          <div className=''>
-            <h5>
-              <FontAwesomeIcon icon={faUser}/> Total: {employeeCount}
-            </h5>
+          <div class='cardDiv orange'>
+            <div class='cardDetails'>
+              <span class='cardTitle'>Salary</span>
+              <span class='cardStat'>{employeeData.salary}$</span>
+            </div>
+            <div class='cardIcon'>
+              <h1><FontAwesomeIcon icon={faDollarSign}/></h1>
+            </div>
           </div>
-        </div>
-        <div className='px-3 pt-2 pb-3 border shadow-sm w-25'>
-          <div className='text-center pb-1'>
-            <h4>Salary</h4>
-          </div>
-          <hr />
-          <div className=''>
-            <h5>
-              <FontAwesomeIcon icon={faDollarSign} /> Total: {salary}$
-            </h5>
-          </div>
-        </div>
-        <div className='px-3 pt-2 pb-3 border shadow-sm w-25'>
-          <div className='text-center pb-1'>
-            <h4>Average Salary</h4>
-          </div>
-          <hr />
-          <div className='' style={{ textAlign: 'center' }}>
-            <h5>
-              <FontAwesomeIcon icon={faMoneyBillAlt} /> : {averageSalary}$
-            </h5>
+          <div class='cardDiv purple'>
+            <div class='cardDetails'>
+              <span class='cardTitle'>Work Hours This Month</span>
+              <span class='cardStat'>Total:{daysCount*8}h</span>
+            </div>
+            <div class='cardIcon'>
+              <h1><FontAwesomeIcon icon={faBriefcaseClock}/></h1>
+            </div>
           </div>
         </div>
-      </div> */}
-      <div className='container mt-5 cards' style={{background:'red'}}>
-        <div class='infoCard'>
-          <h2 class='cardTitle'>Employees</h2>
-        <h1><FontAwesomeIcon icon={faUser}/></h1>
-        <span>Total: {employeeCount}</span>
-        </div>
-        <div class='infoCard'>
-          <h2 class='cardTitle'>Total Salaries</h2>
-          <h1><FontAwesomeIcon icon={faDollarSign}/></h1>
-          <span>Total: {salary}$</span>
-        </div>
-        <div class='infoCard'>
-          <h2 class='cardTitle'>Average Salary</h2>
-          <h1><FontAwesomeIcon icon={faMoneyBillAlt}/></h1>
-          <span>Average: {averageSalary}$</span>
-        </div>
-      </div>
-
-      
-        <div id='chartContainer'>
-          <h2>Salaries Chart</h2>
-          <Chart
+        <div id='chartsContainer'>
+          <div id='leftChart'>
+            <Chart
               options={state.options}
               series={state.series}
               type="bar"
-              width="500"
-          />
+            />
+          </div>
+          <div id='rightChart'>
+            <Chart
+              options={CircularState.options}
+              series={CircularState.series}
+              type="area"
+            />
+          </div>
         </div>
+        
       </div>
       
-    
+    </div>
   );
 }
 
-export default EmployeeHome;
+export default EmployeeHome

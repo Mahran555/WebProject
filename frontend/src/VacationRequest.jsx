@@ -82,7 +82,7 @@ function VacationRequest() {
             </div>
 
             <div id="MakeRequest" className="text-center mt-3">
-                <button className="btn-design btn-bgc text-white" OnClick={SubmitRequest}>
+                <button className="btn-design btn-bgc text-white" >
                     Submit Request
                 </button>
             </div>

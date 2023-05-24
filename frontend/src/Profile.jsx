@@ -3,22 +3,16 @@ import React, { useEffect, useState, useRef } from 'react';
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBTypography } from 'mdb-react-ui-kit';
 import { FiEdit2 } from 'react-icons/fi'; // pencil icon
 import { MdCameraAlt } from 'react-icons/md'; // camera icon
-<<<<<<< HEAD
-=======
 import { FiEye, FiEyeOff } from 'react-icons/fi'; // Eye icons for show/hide password
 
->>>>>>> a1f71bdf5e7507ebae9e90ceb9e87567ff837a87
 import './Profile.css';
 
 function Profile() {
   const [imageKey, setImageKey] = useState(Date.now());
-<<<<<<< HEAD
-=======
   const [showPassword, setShowPassword] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef();
 
->>>>>>> a1f71bdf5e7507ebae9e90ceb9e87567ff837a87
   const [data, setData] = useState({
     id: '',
     fname: '',
@@ -33,27 +27,16 @@ function Profile() {
   const [editable, setEditable] = useState({
     email: false,
     phone: false,
-<<<<<<< HEAD
-    address: false
-  });
-
-  const fileInputRef = useRef();
-
-=======
     address: false,
     password: false,
   });
 
->>>>>>> a1f71bdf5e7507ebae9e90ceb9e87567ff837a87
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setData({ ...data, [name]: value });
   };
 
-<<<<<<< HEAD
-=======
   
->>>>>>> a1f71bdf5e7507ebae9e90ceb9e87567ff837a87
   const handleEditClick = (field) => {
     setEditable({ ...editable, [field]: !editable[field] });
   };
@@ -64,76 +47,6 @@ function Profile() {
 
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
-<<<<<<< HEAD
-  
-    // Create a FormData object to send the file
-    const formData = new FormData();
-    formData.append('image', file);
-  
-    try {
-      const response = await axios.post('http://localhost:5000/updateManagerImage', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-  
-      if (response.data.Status === 'Success') {
-        console.log('Successfully updated profile picture');
-  
-        // Update the imageKey to trigger re-rendering of the image
-        setImageKey(Date.now());
-        
-      }
-    } catch (error) {
-      console.log('Failed to update profile picture');
-    }
-  };
-  
-  
-  
-  
-  
-  
-
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-  
-    const formData = new FormData();
-    formData.append('_id', data._id);
-    formData.append('fname', data.fname);
-    formData.append('lname', data.lname);
-    formData.append('email', data.email);
-    formData.append('password', data.password);
-    formData.append('phone', data.phone);
-    formData.append('address', data.address);
-    formData.append('image', fileInputRef.current.files[0]);
-  
-    try {
-      const response = await axios.post('http://localhost:5000/updateManager', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      if (response.data.Status === 'Success') {
-        console.log('Successfully updated data');
-        // Update the data state with the updated manager info
-        setData(response.data.Result);
-      }
-    } catch (error) {
-      console.log('Failed to update data:', error);
-    }
-  };
-  
-
-  const handleKeyDown = (event, field) => {
-    if (event.key === 'Enter') {
-      setEditable({ ...editable, [field]: false });
-
-      // Find the input element by name
-      const inputElement = event.target.form.elements[field];
-      if (inputElement) {
-        inputElement.blur();
-=======
     const localImageUrl = URL.createObjectURL(file);
   
     // Set local URL of selected image immediately
@@ -190,7 +103,6 @@ function Profile() {
         }
       } catch (error) {
         console.log('Failed to update data:', error);
->>>>>>> a1f71bdf5e7507ebae9e90ceb9e87567ff837a87
       }
     }
   };
@@ -204,11 +116,7 @@ function Profile() {
         }
       })
       .catch((err) => console.log('Failed to fetch data'));
-<<<<<<< HEAD
-  }, []);
-=======
   }, [editable.email, editable.phone, editable.address, editable.password]);
->>>>>>> a1f71bdf5e7507ebae9e90ceb9e87567ff837a87
 
   return (
     <div className="gradient-custom-2" style={{ backgroundColor: '#3333' }}>
@@ -221,19 +129,6 @@ function Profile() {
                 style={{ backgroundColor: '#000', height: '200px' }}
               >
                 <div className="ms-4 mt-5 position-relative" style={{ width: '150px' }}>
-<<<<<<< HEAD
-                <img
-                  key={imageKey}
-                  src={`http://localhost:5000/images/` + data.image}
-                  alt="Generic placeholder image"
-                  className="mt-2 mb-2 img-thumbnail"
-                  fluid
-                  style={{ width: '160px', zIndex: '1', height: '120px' }}
-                  />
-                  <MdCameraAlt className="camera-icon" onClick={handleImageClick} />
-                  <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={handleImageChange} />
-
-=======
                   <img
                     key={imageKey}
                     src={data.image.includes("blob:") ? data.image : `http://localhost:5000/images/` + data.image}
@@ -244,7 +139,6 @@ function Profile() {
                   />
                   <MdCameraAlt className="camera-icon" onClick={handleImageClick} />
                   <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={handleImageChange} />
->>>>>>> a1f71bdf5e7507ebae9e90ceb9e87567ff837a87
                 </div>
                 <div className="ms-3" style={{ marginTop: '100px' }}>
                   <MDBTypography tag="h3">{data.fname + ' ' + data.lname}</MDBTypography>
@@ -288,10 +182,6 @@ function Profile() {
                                   name="email"
                                   value={data.email}
                                   onChange={handleInputChange}
-<<<<<<< HEAD
-                                  onKeyDown={(event) => handleKeyDown(event, 'email')}
-=======
->>>>>>> a1f71bdf5e7507ebae9e90ceb9e87567ff837a87
                                 />
                                 <FiEdit2 className="edit-icon" onClick={() => handleEditClick('email')} />
                               </>
@@ -316,10 +206,6 @@ function Profile() {
                                   name="phone"
                                   value={data.phone}
                                   onChange={handleInputChange}
-<<<<<<< HEAD
-                                  onKeyDown={(event) => handleKeyDown(event, 'phone')}
-=======
->>>>>>> a1f71bdf5e7507ebae9e90ceb9e87567ff837a87
                                 />
                                 <FiEdit2 className="edit-icon" onClick={() => handleEditClick('phone')} />
                               </>
@@ -344,10 +230,6 @@ function Profile() {
                                   name="address"
                                   value={data.address}
                                   onChange={handleInputChange}
-<<<<<<< HEAD
-                                  onKeyDown={(event) => handleKeyDown(event, 'address')}
-=======
->>>>>>> a1f71bdf5e7507ebae9e90ceb9e87567ff837a87
                                 />
                                 <FiEdit2 className="edit-icon" onClick={() => handleEditClick('address')} />
                               </>
@@ -360,8 +242,6 @@ function Profile() {
                           </MDBCol>
                         </MDBRow>
                         <hr />
-<<<<<<< HEAD
-=======
                         <MDBRow>
                           <MDBCol sm="3">
                             <MDBCardText>Password</MDBCardText>
@@ -391,7 +271,6 @@ function Profile() {
                         </MDBRow>
                         <hr />
 
->>>>>>> a1f71bdf5e7507ebae9e90ceb9e87567ff837a87
                         <button type="submit">Save</button>
                       </form>
                     </MDBCardBody>

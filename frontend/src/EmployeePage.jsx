@@ -7,7 +7,6 @@ import "../src/Theme.css"
 
 function EmployeePage() {
 	const {id} = useParams();
-	const history = useHistory();
 	const handleLogout = () => {
 		axios.get('http://localhost:5000/logout')
 		.then(res => {
