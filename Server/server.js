@@ -350,11 +350,11 @@ app.post("/create", upload.single('image'), async (req, res) => {
       lname: req.body.lname,
       email: req.body.email,
       password: req.body.password,
-      userType: req.body.userType,
       address: req.body.address,
       salary: req.body.salary,
-      image: req.file.filename,
-      phone: "enter your phone on entery"
+      phone: req.body.phone,
+      image: req.file.filename
+      
     });
 
     const check1 = await Employee.findOne({ id: newEmployee.id });
@@ -537,7 +537,6 @@ app.put('/update/:id', async(req, res) => {
     lname: req.body.lname,
     email: req.body.email,
     password: req.body.password,
-    userType: req.body.userType,
     address: req.body.address,
     salary: Number(req.body.salary),
     image: req.body.image,
