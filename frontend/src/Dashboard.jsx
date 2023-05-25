@@ -26,14 +26,14 @@ function Dashboard() {
 		axios.get('http://localhost:5000/dashboard')
 			.then(res => {
 				if (res.data.Status === "Success") {
-					if (res.data.role === "manager") {
+					if (res.data.role === "Manager") {
 						navigate('/');
 					} else {
 						const id = res.data.id;
 						navigate('/employeedetail/' + id)
 					}
 				} else {
-					navigate('/start')
+					navigate('/login')
 				}
 			})
 	}, [])

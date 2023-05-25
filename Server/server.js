@@ -36,7 +36,7 @@ app.use(express.json())
 app.use(cors())
 // Middleware to parse request bodies
 app.use(bodyParser.json());
-
+app.use(cookieParser());
 //Storage Setting
 let storage = multer.diskStorage({
   destination:'./public/images', //directory (folder) setting
@@ -81,16 +81,21 @@ app.post("/login", async (req, res) => {
   const { email, password} = req.body;
   const userEmployee = await Employee.findOne({ email });
   const userManager = await Manager.findOne({ email });
-  if (userManager && userManager.password == password ) {
-    return res.json({Status:"Success", Role:"Manager"});
+
+  if (userManager && userManager.password === password) {
+    const token = jwt.sign({ role: "Manager" }, JWT_SECRET, { expiresIn: '1h' });
+    return res.json({ Status: "Success", role: "Manager", token });
   }
-  if ( userEmployee && userEmployee.password==password) {
-    const token = jwt.sign({Role: "Employee" , id:userEmployee.id }, JWT_SECRET, {expiresIn: '1h'});
+
+  if (userEmployee && userEmployee.password === password) {
+    const token = jwt.sign({ role: "Employee", id: userEmployee.id }, JWT_SECRET, { expiresIn: '1h' });
     res.cookie('token', token);
-      return res.send({Status: "Success", Role:"Employee", Result: userEmployee });
+    return res.send({ Status: "Success", role: "Employee", Result: userEmployee });
   }
-    return res.send({Status: "error", error: "Invalid email or password"  });
+
+  return res.send({ Status: "error", error: "Invalid email or password" });
 });
+
 
 
 //update edit employee
@@ -327,7 +332,35 @@ app.post("/create",upload.single('image') ,async(req, res) => {
   
   
 // Verify User
-app.get('/IsLoginManager', async (req, res) => {
+const verifyUser = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.json({ Error: "You are not authenticated" });
+  } else {
+    jwt.verify(token, JWT_SECRET, (err, decoded) => {
+      if (err) return res.json({ Error: "Token is invalid" });
+      req.role = decoded.role;
+      req.id = decoded.id;
+      next();
+    });
+  }
+};
+
+
+app.get('/dashboard', verifyUser, (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+ res.header('Access-Control-Allow-Credentials', true);
+  try {
+    
+    return res.json({Status: "Success", role: req.role});
+  } catch (error) {
+    console.log("hi")
+    return res.status(500).json({ Status: "Error", error: "Internal Server Error" });
+  }
+});
+
+
+/*app.get('/IsLoginManager', async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   try {
     const fname="Gus";
@@ -341,7 +374,7 @@ app.get('/IsLoginManager', async (req, res) => {
     console.log(error);
     return res.status(500).send({ Status: "Error", Message: "Unable to retrieve employees" });
   }
-});
+})*/
 
 //Get Employee List
 app.get("/getEmployee", async (req, res) => {

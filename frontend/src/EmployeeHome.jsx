@@ -1,11 +1,12 @@
 import axios from 'axios';
 import Chart from "react-apexcharts";
+import ReactApexChart from 'react-apexcharts';
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {  useParams } from 'react-router-dom'
 import {  faDollarSign, faMoneyBillAlt, faBriefcaseClock, faCalendarDay, faCalendarDays, faMoneyCheckDollar } from '@fortawesome/free-solid-svg-icons';
 import { ThreeDots } from "react-loader-spinner";
-import { Doughnut } from 'react-chartjs-2';
+
 import './home.css'
 
 function EmployeeHome() {
@@ -91,38 +92,29 @@ function EmployeeHome() {
             }
           }
         });
- 
-        const [CircularState, setCircularState] = useState({
-          series: [{
-            name: 'Work hours',
-            type: 'pie',
-            data: [20,30]
-          }],
-          options: {
-            chart: {
-              height: 350,
-              type: 'pie',
+        const [seriesData, setSeriesData] = useState([]);
+        const chartOptions = {
+          chart: {
+            type: 'donut',
+          },
+          labels: ['Work Day', 'Day off'],
+          series: seriesData,
+          colors: [ '#00E396',  '#FF4560'],
+          responsive: [
+            {
+              breakpoint: 480,
+              options: {
+                chart: {
+                  width: 200,
+                },
+                legend: {
+                  position: 'bottom',
+                },
+              },
             },
-            dataLabels: {
-              enabled: false
-            },
-            title: {
-              text: 'Work Hours Last Months',
-              align: 'left',
-              offsetX: 110
-            },
-            labels: [  'January',  'February'],
-            tooltip: {
-              enabled: true,
-              offsetY: 30,
-              offsetX: 60
-            },
-            legend: {
-              horizontalAlign: 'left',
-              offsetX: 40
-            }
-          }
-        });
+          ],
+        };
+       
         
 
 
@@ -138,7 +130,7 @@ useEffect(() => {
         
       ]);
 
-      // Count hours
+      // Count work days this month
       setDaysCount(daysCountRes.data.ThisMonth);
       // employee info 
       if (employeeRes.data.Status === 'Success') {
@@ -163,6 +155,13 @@ useEffect(() => {
           }
         ]
       }));//put it into graph
+      //get the current month's length
+      const date = new Date();
+      const month = date.getMonth();
+      const year = date.getUTCFullYear();
+       const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
+      const newData = [daysCountRes.data.ThisMonth, (lastDayOfMonth-daysCountRes.data.ThisMonth)];
+    setSeriesData(newData);
       setLoading(false); // Set loading to false when data has been fully loaded
     } catch (err) {
       console.log(err);
@@ -225,12 +224,8 @@ if (loading) {
               type="bar"
             />
           </div>
-          <div id='rightChart'>
-            <Chart
-              options={CircularState.options}
-              series={CircularState.series}
-              type="area"
-            />
+          <div id="rightChart">
+            <ReactApexChart options={chartOptions} series={chartOptions.series} type="donut" height={300} />
           </div>
         </div>
         
