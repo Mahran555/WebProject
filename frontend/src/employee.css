@@ -1,0 +1,201 @@
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.btn-search{
+    color:black;
+}
+
+.btn-search i{
+    color:black;
+}
+
+table{
+    width:100%;
+    float:left;
+    border:1px solid rgb(225, 217, 217);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+table tr{
+    width:100%;
+    float:left;
+    border-bottom:1px solid rgb(225, 217, 217);
+    box-sizing:border-box;
+    padding: 8px;
+}
+
+table tr th{
+    width:11.111111111111111111111111111%;
+    float:left;
+}
+
+.imgCol{
+    padding-top:0;
+}
+
+.actionCol{
+    padding-top:12px;
+}
+
+
+
+table tr td{
+    width:11.111111111111111111111111111%;
+    float:left;
+    padding-top:18px;
+}
+
+.editIcon{
+    width:20%;
+    float:left;
+    font-size: 25px;
+    background: #1096ab;
+    text-align: center;
+    border-radius: 50%;
+    transition: all 250ms;
+}
+
+.editIcon:hover{
+    background:#89dce8;
+}
+
+.deleteIcon{
+    width:20%;
+    float:left;
+    font-size:25px;
+    margin-left:5%;
+}
+
+.deleteIcon button{
+
+    border-radius: 50%;
+    text-align: center;
+    background-color: rgb(228, 64, 64);
+    transition: all 250ms;
+}
+
+.deleteIcon button:hover{
+    background-color: rgb(236, 132, 132);
+}
+
+
+/**************************SEARCH BOX START *******************************/
+
+#aboveTable{
+    width:100%;
+    float:left;
+    margin-bottom: 30px;;
+}
+
+#addBTND{
+    float:left;
+}
+
+.search-box{
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+    float:right;
+  }
+  .input-search{
+    height: 50px;
+    width: 50px;
+    border-style: none;
+    padding: 10px;
+    font-size: 18px;
+    letter-spacing: 2px;
+    outline: none;
+    border-radius: 25px;
+    transition: all .5s ease-in-out;
+    background-color: #1A535C;
+    padding-right: 40px;
+    color:#fff;
+  }
+  .input-search::placeholder{
+    color:rgba(255,255,255,.5);
+    font-size: 18px;
+    letter-spacing: 2px;
+    font-weight: 100;
+  }
+  .btn-search{
+    width: 50px;
+    height: 50px;
+    border-style: none;
+    font-size: 20px;
+    font-weight: bold;
+    outline: none;
+    cursor: pointer;
+    border-radius: 50%;
+    position: absolute;
+    right: 0px;
+    color:#fff ;
+    background-color:transparent;
+    pointer-events: painted;  
+  }
+  .btn-search:focus ~ .input-search{
+    width: 300px;
+    border-radius: 0px;
+    border-bottom:1px solid rgba(255,255,255,.5);
+    transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+  }
+  .input-search:focus{
+    width: 300px;
+    border-radius: 0px;
+    border-bottom:1px solid rgba(255,255,255,.5);
+    transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+  }
+
+/**************************SEARCH BOX END *******************************/
+
+
+.addEmpBTN {
+    align-items: center;
+    background-clip: padding-box;
+    background-color: #1A535C;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 1.25;
+    margin: 0 4px;
+    min-height: 3rem;
+    padding: calc(.235rem - 1px) calc(1.0rem - 1px);
+    position: relative;
+    text-decoration: none;
+    transition: all 250ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    width: auto;
+  }
+  
+  .button-5:hover,
+  .button-5:focus {
+    background-color: #386d75;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  }
+  
+  .button-5:hover {
+    transform: translateY(-1px);
+  }
+  
+  .button-5:active {
+    background-color: #386d75;
+    box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+    transform: translateY(0);
+  }
+
+.button-5:disabled,
+.button-5[disabled]{
+    background-color: #8ca7ab;
+}

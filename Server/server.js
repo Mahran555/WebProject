@@ -258,9 +258,10 @@ app.get('/delete/:id', async (req, res) => {
     
 
 // create new employee
-app.post("/create",upload.single('image') ,async(req, res) => {
+app.post("/create", upload.single('image'), async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
-  const newEmployee =mongoose.model("EmployeeInfo") ({
+  try {
+    const newEmployee = mongoose.model("EmployeeInfo")({
       id: req.body.id,
       fname: req.body.fname,
       lname: req.body.lname,
@@ -270,21 +271,24 @@ app.post("/create",upload.single('image') ,async(req, res) => {
       address: req.body.address,
       salary: req.body.salary,
       image: req.file.filename,
-      phone: req.body.phone
+      phone: "enter your phone on entery"
     });
-    const check1 = await Employee.findOne({id:newEmployee.id});
-    const check2 = await Employee.findOne({ email:newEmployee.email });
-   if (check1  || check2 ) {
-     return res.send({Status: "error", error: "This ID or email already exists"  });
-   }
-    newEmployee.save()// Save new Employee document to MongoDB
-  .then(() => {
-    return res.send({ Status : "Success" });
-  })
-  .catch((error) => {
-    return res.status(500).json({ error: "Can't Add this employee" });
-  });
-  });
+
+    const check1 = await Employee.findOne({ id: newEmployee.id });
+    const check2 = await Employee.findOne({ email: newEmployee.email });
+
+    if (check1 || check2) {
+      return res.send({ Status: "error", error: "This ID or email already exists" });
+    }
+
+    await newEmployee.save() // Save new Employee document to MongoDB
+    return res.send({ Status: "Success" });
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Can't Add this employee" });
+  }
+});
 
 /*
 //Get dashboard

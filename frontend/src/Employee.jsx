@@ -1,7 +1,9 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import "../src/Theme.css"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import "./employee.css"
 
 function Employee() {
   const [data, setData] = useState([]);
@@ -39,23 +41,29 @@ function Employee() {
       <div className='d-flex justify-content-center mt-2'>
         <h3>Employee List</h3>
       </div>
-      <div className="col-3 mt-3">
-        <div class="input-group col-9 mt-3">
-          <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
-          <button type="button" class="btn-design btn-search">search</button>
+      <div id='aboveTable'>
+      <Link id='addBTND' to='/create'><button class='addEmpBTN'>Add Employee</button></Link>
+        <div class="search-box">
+          <button class="btn-search"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+          <input type="search" class="input-search" placeholder="Type to Search..." onChange={e => setSearchTerm(e.target.value)}/>
         </div>
       </div>
 
+
+      <div id='searchDiv'>
+      
+      </div>
       <div className='mt-4'>
-        <table className='table table-bordered table-stripped border-0 text-center' >
+        <table>
           <thead >
-            <tr style={{ backgroundColor: '#93C0A4', borderColor: '#f2f2f3' ,fontSize:'18px',textDecoration:'underline'}} >
+            <tr>
               <th scope="col"> </th>
               <th scope="col">ID</th>
               <th scope="col">First Name</th>
               <th scope="col">Last Name</th>
               <th scope="col">Email</th>
               <th scope="col">Address</th>
+              <th scope="col">Phone</th>
               <th scope="col">Salary</th>
               <th scope="col">Action</th>
             </tr>
@@ -63,15 +71,15 @@ function Employee() {
           <tbody>
             {filteredData.length > 0 ? (
               filteredData.map((employee, i) => (
-                <tr className={`row${i % 2}`} key={i} style={{ borderColor: '#f2f2f3',fontSize:'18px' }} >
-                  <td >
+                <tr>
+                  <td class='imgCol'>
                     <img
                       src={`http://localhost:5000/images/` + employee.image}
                       className='employee_image'
                       class='rounded-circle'
                       alt='Cinque Terre'
-                      width='50'
-                      height='50'
+                      width='60'
+                      height='60'
                     />
                   </td>
                   <td scope='row'>{employee.id}</td>
@@ -79,21 +87,23 @@ function Employee() {
                   <td>{employee.lname}</td>
                   <td>{employee.email}</td>
                   <td>{employee.address}</td>
+                  <td>{employee.phone}</td>
                   <td>${employee.salary}</td>
-                  <td>
-                    <Link
+                  <td class='actionCol'>
+                    <Link class='editIcon'
                       to={`/employeeEdit/` + employee.id}
                       style={{ color: 'black' }}
                     >
                       <i class="bi bi-pen"></i>
                     </Link>
+                    <div  class='deleteIcon'>
                     <button
                       onClick={e => handleDelete(employee.id)}
                       style={{border: 'none'}} className={`row${i % 2}`}
                       
                     >
                       <i class="bi bi-trash" backgroundColor="white" borderColor="white" outline="none"></i>
-                    </button>
+                    </button></div>
                   </td>
                 </tr>
               ))
@@ -104,10 +114,6 @@ function Employee() {
             )}
           </tbody>
         </table>
-      </div>
-
-      <div className="d-flex justify-content-end w-100">
-        <Link to='/create' className='btn text-white ' style={{ backgroundColor: '#93C0A4' }}>Add Employee</Link>
       </div>
 
     </div>

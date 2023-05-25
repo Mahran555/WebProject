@@ -414,43 +414,6 @@ function Home() {
           </table>
         </div>
         <div style={{margin: ' 0 100px'}}>
-        {/* {filteredRequests.length > 0 ? (
-          <ul className='list-unstyled'>
-            {filteredRequests.map((request) => (
-              <li key={request._id} className='border p-3 mb-3 menuTab'>
-                <div class='menuTabLine'>
-                  <strong>Employee:</strong> {request.fname} {request.lname}
-                </div>
-                <div>
-                  <strong>From:</strong> {request.dayFrom}/{request.monthFrom}
-                </div>
-                <div>
-                  <strong>To:</strong> {request.dayTo}/{request.monthTo}
-                </div>
-                <div onClick={() => handleToggleReason(request._id)}>
-                  <strong class='menuTabLine'>Reason: </strong>
-                  {expandedRequestId === request._id
-                    ? request.reason
-                    : `${request.reason.substring(0, 3)}...`}
-                </div>
-                <div id='buttonsLine' className='mt-3'>
-                  {request.status === 'pending' && (
-                    <>
-                      <button className='button-5 green' onClick={() => handleAccept(request._id)}>
-                        Accept
-                      </button>
-                      <button className='button-5 red' onClick={() => handleDecline(request._id)}>
-                        Decline
-                      </button>
-                    </>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No vacation requests</p>
-        )} */}
         </div>
       </div>
     </div>
