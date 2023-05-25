@@ -17,19 +17,17 @@
   
   .title-employee-sch {
     position: relative;
-    top: 10px;
+    top: -25px;
     text-align: center;
     margin: 40px 0 20px;
-    font-family: 'Arial Black', sans-serif; /* Change the font family to a title-friendly font */
-    font-size: 40px; /* Increase the font size for a bigger title */
-    font-weight: bold; /* Apply bold font weight */
-    color: #000000;
+    color: #1A535C;
+    font-size: 35px; /* Increase the font size for a bigger title */
   }
   
   .divider-title-employee-sch {
     margin: 20px auto;
     position: relative;
-    top: 30px;
+    top: -25px;
     border: none;
     border-top: 2px solid #000000;
     width: 50%;
@@ -220,20 +218,20 @@
     background-color: #ffffff !important; /* Change color as needed */
   }
   
-  #cardsContainer-sch-empl {
+  .cardsContainer-sch-empl {
     width: 100%;
     display: flex;
-    justify-content: space-between;
-    margin: 90px 0;
+    justify-content: center;
+    margin: 40px 0;
   }
   
-  .cardDiv {
+  .cardsContainer-sch-empl  .cardDiv {
     width: 24%;
     box-sizing: border-box;
-    border: 1px solid rgb(225, 215, 215);
     padding: 30px;
-    margin-right: 170px; /* Adjust the margin-right value to reduce the space */
-    margin-top: 40px;
+    margin-top: 30px;
+    margin-left: 40px;
+    margin-right: 20px;
   }
   
   
@@ -324,18 +322,21 @@
 
   
 
+
+/* vacation.css */
+
+
 .vacation-request-container button {
   align-items: center;
-  position: relative;
   background-clip: padding-box;
   display: inline-flex;
   border: 1px solid transparent;
   box-sizing: border-box;
   line-height: 1.25;
   border-radius: 4px;
-  background-color: #1A535C;
-  color: #fff;
-  font-size: 16px;
+  background-color: transparent;
+  color: #1A535C;
+  font-size: 20px;
   font-weight: bold;
   box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
   cursor: pointer;
@@ -346,33 +347,33 @@
   width: auto;
 
 
+
 }
 
 .vacation-request-container button:hover ,.vacation-request-container button::after {
-  background-color: #7796b8;
-  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  color: #7796b8;
+  background-color: transparent;
 
 }
 
-
-/* vacation.css */
 .vacation-request-container {
 
-  position: relative;
-  top: 20px;
-  right: -250px;
+
   width: 100%;
   max-width: 960px;
-  margin: 0 auto;
-  padding: 20px;
-  box-sizing: border-box;
+  margin-top: -110px;
+  margin-bottom: 0px;
+  margin-right: auto;
+  margin-left: 20px;
+  padding: 10px;
+  
 }
 
 .vacation-request-container .container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 420px;  /* set width to 300px */
+  width: 450px;  /* set width to 300px */
   height: 300px; /* set height to 300px */
   overflow: auto;
 }
@@ -395,6 +396,7 @@
   border: none;
   cursor: pointer;
   font-size: 16px;
+margin-right: 50px;
   border-radius: 5px; /* Rounded corners */
 }
 

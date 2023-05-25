@@ -170,7 +170,7 @@ const Schedule = () => {
     {alertMessage && <Alert variant={alertVariant}>{alertMessage}</Alert>}
       <h1 className="title-man">Work Schedule</h1>
       <hr className="divider-title-man" />
-      <div id="cardsContainer-man">
+      <div className="cardsContainer-man">
         <div className="cardDiv first blue">
           <div className="cardDetails-man">
             <span className="cardTitle-man">Today</span>

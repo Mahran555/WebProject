@@ -14,19 +14,17 @@ body {
 
 .title-man {
   position: relative;
-  top: 10px;
+  top: -25px;
   text-align: center;
   margin: 40px 0 20px;
-  font-family: 'Arial Black', sans-serif; /* Change the font family to a title-friendly font */
-  font-size: 40px; /* Increase the font size for a bigger title */
-  font-weight: bold; /* Apply bold font weight */
-  color: #000000;
+  color: #1A535C;
+  font-size: 35px; /* Increase the font size for a bigger title */
 }
 
 .divider-title-man {
   margin: 20px auto;
   position: relative;
-  top: 30px;
+  top: -25px;
   border: none;
   border-top: 2px solid #000000;
   width: 50%;
@@ -233,20 +231,20 @@ td.evening-shift-cell {
   background-color: #ffffff !important; /* Change color as needed */
 }
 
-#cardsContainer-man {
+.cardsContainer-man {
   width: 100%;
   display: flex;
-  justify-content: space-between;
-  margin: 90px 0;
+  justify-content: center;
+  margin: 40px 0;
 }
 
-.cardDiv {
+.cardsContainer-man .cardDiv {
   width: 24%;
   box-sizing: border-box;
-  border: 1px solid rgb(225, 215, 215);
   padding: 30px;
-  margin-right: 170px; /* Adjust the margin-right value to reduce the space */
-  margin-top: 40px;
+  margin-top: 30px;
+  margin-left: 40px;
+  margin-right: 20px;
 }
 
 
@@ -288,9 +286,7 @@ td.evening-shift-cell {
   color: rgba(140, 107, 177, 1); /* Change the text color */
 }
 
-.first {
-  margin-left: 170px;
-}
+
 
 .cardDetails-man {
   width: 80%;

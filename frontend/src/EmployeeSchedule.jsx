@@ -242,7 +242,7 @@ function EmployeeSchedule() {
       </div>
     
 
-      <div id="cardsContainer-sch-empl">
+      <div className="cardsContainer-sch-empl">
         <div className="cardDiv first blue">
           <div className="cardDetails-sch-empl">
             <span className="cardTitle-sch-empl">Week</span>
