@@ -1,4 +1,8 @@
-
+.fcContainer{
+    width:90%;
+    float:left;
+    margin-left:5%;
+}
 #cardsContainer{
     width:100%;
     float:left;
@@ -50,7 +54,8 @@
     color:rgba(214, 95, 236, 1)
 }
 
-.first{
+#firstCard{
+    float:left;
     margin-left:0;
 }
 

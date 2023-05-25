@@ -329,9 +329,9 @@ function Home() {
         <hr style={{ margin: '20px auto', width: '50%' }} />
       </div>
 
-      <div class='container mt-5'>
+      <div class='fcContainer'>
         <div id='cardsContainer'>
-          <div class='cardDiv first blue'>
+          <div id='firstCard' class='cardDiv first blue'>
             <div class='cardDetails'>
               <span class='cardTitle'>Employees </span>
               <span class='cardStat'>{employeeCount}</span>
