@@ -10,7 +10,7 @@ function Login() {
   const [error, setError] = useState('');
   const navigate = useNavigate()
 
- 
+  axios.defaults.withCredentials = true;
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };

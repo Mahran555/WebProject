@@ -21,7 +21,7 @@ function Dashboard() {
 		// Toggle the showNotifications state
 		setShowNotifications(!showNotifications);
 	};
-
+	axios.defaults.withCredentials = true;
 	useEffect(() => {
 		axios.get('http://localhost:5000/verifyManager')
 			.then(res => {

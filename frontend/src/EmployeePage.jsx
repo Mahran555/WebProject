@@ -8,6 +8,7 @@ import "../src/Theme.css"
 function EmployeePage() {
     const {id} = useParams();
 	const navigate = useNavigate()
+	axios.defaults.withCredentials = true;
 	useEffect(() => {
 		axios.get('http://localhost:5000/verifyEmployee')
 			.then(res => {
