@@ -9,12 +9,6 @@ function Dashboard() {
 	const [showNotifications, setShowNotifications] = useState(false);
 	const navigate = useNavigate()
 	axios.defaults.withCredentials = true;
-	// For example, suppose we have these notifications
-	const notifications = [
-		'Notification 1',
-		'Notification 2',
-		'Notification 3',
-	];
 
 
 	const handleIconClick = () => {
@@ -74,19 +68,11 @@ function Dashboard() {
 					</div>
 				</div>
 				<div className="col p-0 m-0">
-					<div className='p-2 d-flex justify-content-center shadow'>
+					<div className='p-2 d-flex justify-content-center shadow' style={{minHeight:'45px'}}>
 						<h4 className="text-font d-flex center-horizintally"><b>Employee Management System</b></h4>
 
 						<div className='ms-auto'>
-							<NotificationIcon notifications={notifications.length} onClick={handleIconClick} />
-
-							{showNotifications && (
-								<div style={{ position: 'absolute', top: '50px', right: '20px', background: 'white', padding: '10px', boxShadow: '0px 0px 10px rgba(0,0,0,0.1)' }}>
-									{notifications.map((notification, index) => (
-										<p key={index} style={{ margin: '10px 0', backgroundColor: '#f5f5f5', borderRadius: '4px', padding: '10px', cursor: 'pointer', transition: '.3s', '&:hover': { backgroundColor: '#ddd' } }}>{notification}</p>
-									))}
-								</div>
-							)}
+							
 						</div>
 					</div>
 
