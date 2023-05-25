@@ -10,9 +10,9 @@ function AddEmployee() {
 		lname: '',
 		email: '',
 		password: '',
-		userType: 'employee',
 		address: '',
 		salary: '',
+		phone: '',
 		image: ''
 	})
 	const navigate = useNavigate()
@@ -25,9 +25,9 @@ function AddEmployee() {
 		formdata.append("lname", data.lname);
 		formdata.append("email", data.email);
 		formdata.append("password", data.password);
-		formdata.append("userType", data.userType);
 		formdata.append("address", data.address);
 		formdata.append("salary", data.salary);
+		formdata.append("phone", data.phone);
 		formdata.append("image", data.image);
 		axios.post('http://localhost:5000/create', formdata)
 			.then(res => {
@@ -79,6 +79,11 @@ function AddEmployee() {
 					<label for="inputAddress" class="form-label">Address</label>
 					<input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" autoComplete='off'
 						onChange={e => setData({ ...data, address: e.target.value })} />
+				</div>
+				<div class="col-12">
+					<label for="inputPhone" class="form-label">Phone Number</label>
+					<input type="text" class="form-control" id="inputPhone" placeholder="Enter Phone Number" autoComplete='off'
+						onChange={e => setData({ ...data, phone: e.target.value })} />
 				</div>
 				<div class="col-12 mb-3">
 					<label class="form-label" for="inputGroupFile01">Select Image</label>

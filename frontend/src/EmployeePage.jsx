@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
@@ -6,7 +6,20 @@ import "../src/Theme.css"
 
 
 function EmployeePage() {
-	const {id} = useParams();
+    const {id} = useParams();
+	const navigate = useNavigate()
+	useEffect(() => {
+		axios.get('http://localhost:5000/verifyEmployee')
+			.then(res => {
+				if (res.data.Status === "Success") {
+					if (res.data.role === "Employee") {
+						navigate('/employeePage/'+id);
+					} 
+				} else {
+					navigate('/login')
+				}
+			})
+	}, [])
 	const handleLogout = () => {
 		axios.get('http://localhost:5000/logout')
 		.then(res => {

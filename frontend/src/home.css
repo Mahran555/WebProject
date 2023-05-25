@@ -1,87 +1,183 @@
-.cards{
+#cardsContainer{
     width:100%;
-    margin-bottom:400px;
-}
-.infoCard{
-    background:#fff;
-    padding:9px;
-    box-sizing: border-box;
-    border:solid 1px #c9c5c5;
-    width: 25%;
-    margin:0 4.16666%;
     float:left;
-    text-align: center;
-    box-shadow: 4px 7px #e9e4e4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-h2.cardTitle{
-    text-align:center;
-    padding-bottom:16px;
-    border-bottom:1px solid black;
+.cardDiv{
+    float:left;
+    width:24%;
+    box-sizing:border-box;
+    border:1px solid rgb(225, 215, 215);
+    padding: 25px;
+    margin-left:1.33%
 }
 
-.infoCard h1{
-    font-size: 80px;
-    color:black;
-    margin-bottom: 10px;
+.blue{
+    background:rgba(203, 226, 243,0.3);
+    border:1px solid rgba(203, 226, 243,1);
 }
 
-.infoCard span{
+.blue h1{
+    color:rgb(67, 171, 251);
+}
+
+.orange{
+    background:rgba(232, 202, 119, 0.3);
+    border:1px solid rgba(232, 202, 119, 1);
+}
+
+.orange h1{
+    color:rgb(247, 196, 53);
+}
+
+.red{
+    background:rgba(227, 134, 134, 0.3);
+    border:1px solid rgba(227, 134, 134,1);
+}
+
+.red h1{
+    color:rgb(240, 63, 63);
+}
+
+.purple{
+    background:rgba(214, 95, 236, 0.3);
+    border:1px solid rgb(214, 95, 236);
+}
+
+.purple h1{
+    color:rgba(214, 95, 236, 1)
+}
+
+.first{
+    margin-left:0;
+}
+
+
+.cardDetails{
+    width:80%;
+    float:left;
+}
+
+.cardDetails .cardTitle{
+    width:100%;
+    float:left;
     font-size:20px;
+    font-weight: 500;
+    color:rgb(106, 100, 100);
+    text-transform:uppercase;
+    margin-bottom:10px; 
+}
+
+.cardIcon{
+    width:20%;
+    float:left;
+}
+
+.cardIcon h1{
+    padding:0;
+    margin:0;
+}
+
+#chartsContainer{
+    width:100%;
+    float:left;
+    margin-top:80px;
+}
+
+#leftChart{
+    width:50%;
+    float:left;
+}
+
+#rightChart{
+    width:50%;
+    float:left;
+}
+
+
+#vacationsContainer{
+    width:100%;
+    float:left;
+    box-sizing:border-box;
+    border:1px solid rgb(234, 223, 223);
+    padding:20px;
+    margin:50px 0;
+}
+
+#vacationsContainer h2{
+    width:50%;
+    float:left;
+    text-transform: uppercase;
+    font-weight: 700;
+    color:rgb(86, 81, 81);
+}
+
+#filterDiv{
+    width:50%;
+    float:left;
+    margin-top:3px;
+}
+
+#filterDiv span{
+    margin-left:54%;
+    padding:4px 8px;
+    font-size:20px;
+    font-weight:500;
+    text-transform: uppercase;
+    float:left;
+}
+
+#selectFilter{
+    width:30%;
+    float:left;
+}
+
+#vacationsTable{
+    width:100%;
+    float:left;
+    border:none;
+}
+#vacationsTable table{
+    border:none;
+}
+
+#vacationsTable tr{
+    width:100%;
+    float:left;
+    border-top:1px solid rgb(234, 223, 223);
+    box-sizing:border-box;
+    padding:15px;
+    text-align: center;
+}
+
+#vacationsTable th{
+    width:20%;
+    float:left;
+}
+
+
+#vacationsTable td{
+    width:20%;
+    float:left;
+}
+
+#vacationsTable td.accepted{
+    text-transform: uppercase;
+    color:green;
     font-weight: 600;
 }
 
-#menuContainer{
-    width:40%;
-    float:left;
+#vacationsTable td.declined{
+    text-transform: uppercase;
+    color:rgb(209, 27, 27);
+    font-weight: 600;
 }
 
-#menuContainer h2{
-    margin-bottom:25px;
-    color:#93C0A4;
-    text-decoration: underline;
+#vacationsTable td.pending{
+    padding-left:35px;
 }
 
-.menuTab{
-    width:100%;
-    float:left;
-    font-size:20px;
-}
-
-.menuTabLine{
-    width:100%;
-    float:left;
-}
-
-.vNavBTN{
-    border:none;
-    background:#93C0A4;
-    padding:14px;
-    color:#fff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    border:1px solid #93C0A4;
-    border-bottom: none;
-}
-
-.vNavBTN:hover,
-.vNavBTN:focus{
-    background-color: #ffffff;
-    color:black;
-    transition: all 900ms;
-    border:1px solid rgb(238, 228, 228);
-    border-bottom: none;
-}
-
-
-#buttonsLine{
-    float:right;
-}
-
-
-.list-unstyled{
-    
-    box-shadow: 4px 7px #e9e4e4;
-}
 
 .button-5 {
     align-items: center;
@@ -100,7 +196,7 @@ h2.cardTitle{
     justify-content: center;
     line-height: 1.25;
     margin: 0 4px;
-    min-height: 3rem;
+    min-height: 1.3rem;
     padding: calc(.235rem - 1px) calc(1.0rem - 1px);
     position: relative;
     text-decoration: none;
@@ -133,30 +229,18 @@ h2.cardTitle{
     background-color: #aed8bd;
 }
 
-.green{
+button.green{
     background:rgb(27, 186, 27);
 }
-.green:hover,
-  .green:focus {
+button.green:hover,
+button.green:focus {
     background:rgb(49, 165, 49);
 }
 
-.red{
+button.red{
     background:rgb(230, 54, 54);
 }
-.red:hover,
-  .red:focus {
+button.red:hover,
+  button.red:focus {
     background:rgb(184, 58, 58);
-}
-
-#chartContainer{
-    width:40%;
-    float:left;
-    margin-left:18%;
-}
-
-#chartContainer h2{
-    color:#93C0A4;
-    text-decoration: underline;
-    margin-bottom:50px;
 }

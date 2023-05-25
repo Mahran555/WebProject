@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const { db } = require('./db/db');
 const {readdirSync} = require('fs')
+const cookieParser = require('cookie-parser')
 const app = express();
 require('dotenv').config()
 const bodyParser = require('body-parser');
@@ -10,17 +11,29 @@ const bcrypt = require('bcrypt');
 const path = require('path');
 const multer = require('multer');
 const { error } = require('console');
+const jwt = require('jsonwebtoken');
 const PORT=process.env.PORT
 const JWT_SECRET =process.env.JWT_SECRET
+const session = require('express-session');
+const crypto = require('crypto');
+
+const generateSecretKey = () => {
+  return crypto.randomBytes(32).toString('hex');
+};
+
+const sessionSecret = generateSecretKey();
+
+app.use(session({
+  secret: sessionSecret,
+  resave: false,
+  saveUninitialized: false,
+}));
 
 app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
-app.use(cors(
-    {
-        origin: ["http://localhost:5173"],
-        methods: ["POST", "GET", "PUT"],
-        credentials: true
-    }
-));
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 
 app.use(cors({
   credentials: true,
@@ -34,7 +47,7 @@ app.use(express.json())
 app.use(cors())
 // Middleware to parse request bodies
 app.use(bodyParser.json());
-
+app.use(cookieParser());
 //Storage Setting
 let storage = multer.diskStorage({
   destination:'./public/images', //directory (folder) setting
@@ -72,19 +85,27 @@ const Manager = require("./models/ManagerDetails");
 const Vacations = require("./models/VacationDetails");
 const WorkData = require("./models/WorkInfo");
 const Schedules = require("./models/SaveSchedule");
+const Shifts = require('./models/SaveSchedule');
 //UserLogin page
 app.post("/login", async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   const { email, password} = req.body;
   const userEmployee = await Employee.findOne({ email });
   const userManager = await Manager.findOne({ email });
-  if (userManager && userManager.password == password ) {
-    return res.json({Status:"Success", Role:"Manager"});
+
+  if (userManager && userManager.password === password) {
+    const token = jwt.sign({ role: "Manager",id: userManager._id }, JWT_SECRET, { expiresIn: '1h' });
+    res.cookie('token', token);
+    return res.json({ Status: "Success", role: "Manager", token });
   }
-  if ( userEmployee && userEmployee.password==password) {
-      return res.send({Status: "Success", Role:"Employee", Result: userEmployee });
+
+  if (userEmployee && userEmployee.password === password) {
+    const token = jwt.sign({ role: "Employee", id: userEmployee.id }, JWT_SECRET, { expiresIn: '1h' });
+    res.cookie('token', token);
+    return res.send({ Status: "Success", role: "Employee", Result: userEmployee , token});
   }
-    return res.send({Status: "error", error: "Invalid email or password"  });
+
+  return res.send({ Status: "error", error: "Invalid email or password" });
 });
 //vacationrequest sending
 app.post('/submitVacationRequest/:id', (req, res) => {
@@ -115,6 +136,7 @@ app.post('/submitVacationRequest/:id', (req, res) => {
       res.status(500).json({ message: 'Failed to submit vacation request' });
     });
 });
+
 
 
 //update edit employee
@@ -172,8 +194,18 @@ app.put('/vacationRequests/:id', async (req, res) => {
     const status = req.body.status;
 
     // Find the vacation request by ID and update the status
-    await Vacations.findByIdAndUpdate(requestId, { status });
-
+    const Employee = await Vacations.findByIdAndUpdate(requestId, { status }); 
+    for(let i = Employee.monthFrom; i <= Employee.monthTo; i++) {
+      for (let j = Employee.dayFrom; j <= Employee.dayTo; j++) {
+        const shifts = await Schedules.find( {day:j ,month:i ,EmployeeID:Employee.id} )
+        for (const shift of shifts) {
+          await Schedules.updateOne(
+            { _id : shift._id }, // Specify the document to update
+            { $pull: { EmployeeID: { $in: [Employee.id] } } } // remove/update from array in object collection
+          )
+        }
+      }
+    }
     res.sendStatus(200);
   } catch (error) {
     console.error('Error updating vacation request status:', error);
@@ -198,9 +230,11 @@ app.get("/vacationRequests", async (req, res) => {
 app.get('/salaries', async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   try {
-    const employees = await Employee.find({}, 'salary'); // get only 'salary' field of all employees  
-    const salaries = employees.map(employee => employee.salary);
-    res.json(salaries);
+    const employeesSalary = await Employee.find({}, 'salary'); // get 'salary' field of all employees 
+    const employeesNames = await Employee.find({}, 'fname'); // get 'first name' field of all employees   
+    const salaries = employeesSalary.map(employeesSalary => employeesSalary.salary);
+    const names=employeesNames.map(employeesNames => employeesNames.fname);
+    res.json( {Salaries : salaries, Names :names});
   } catch (err) {
     console.error(err);
     res.status(500).send('Error occurred while fetching individual salaries');
@@ -212,6 +246,27 @@ app.get('/employeeCount', async (req, res) => {
   try {
     const employeeCount = await Employee.countDocuments({});
     res.json({ count: employeeCount });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error occurred while counting employees');
+  }
+});
+
+//count Shifts
+app.get('/shiftsCount', async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  try {
+    const date = new Date();
+    const thisMonth = date.getMonth() + 1; // Adding 1 to adjust for zero-based index
+    const id = Number(req.params.id);
+    const morningCount=[0]
+    const eveningCount=[0]
+    for(let i=1;i<=thisMonth;i++)
+    {
+    morningCount[i-1] = await Shifts.countDocuments({month:i,shift:"morning"});
+    eveningCount[i-1] = await Shifts.countDocuments({month:i,shift:"evening"});
+    }
+    res.json({ MorningShifts: morningCount,EveningShifts :eveningCount});
   } catch (err) {
     console.error(err);
     res.status(500).send('Error occurred while counting employees');
@@ -318,12 +373,59 @@ app.post("/create", upload.single('image'), async (req, res) => {
   }
 });
 
-/*
-//Get dashboard
-app.get('/dashboard',verifyUser, (req, res) => {
-  return res.json({Status: "Success", userType: req.userType, id: req.id})
-})
-*/
+  
+  
+// Verify User
+const verifyUser = (req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  const token = req.cookies.token;
+  if (!token) {
+    return res.json({ error: "You are not authenticated" });
+  } else {
+    jwt.verify(token, JWT_SECRET, (err, decoded) => {
+      if (err) return res.send({ Error: "Token is invalid" });
+      req.role = decoded.role;
+      req.id = decoded.id;
+      next();
+    });
+  }
+};
+// verify user for Manager
+app.get('/verifyManager', verifyUser, (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  try {
+    return res.json({ Status: "Success", role: req.role });
+  } catch (error) {
+    next(error); // Pass the error to the next middleware (error handling middleware)
+  }
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err); // Log the error for debugging purposes
+  return res.status(500).json({ Status: "Error", error: "Internal Server Error" });
+});
+
+//verify user for Employee
+app.get('/verifyEmployee', verifyUser, (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  try {
+    return res.json({ Status: "Success", role: req.role ,id:req.id});
+  } catch (error) {
+    next(error); // Pass the error to the next middleware (error handling middleware)
+  }
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err); // Log the error for debugging purposes
+  return res.status(500).json({ Status: "Error", error: "Internal Server Error" });
+});
+
+
+
 
 //Get Employee List
 app.get("/getEmployee", async (req, res) => {
@@ -349,11 +451,35 @@ app.get("/getManager", async (req, res) => {
     return res.status(500).send({ Status: "Error", Message: "Unable to retrieve employees" });
   }
 });
+
+//update edit manager
+app.post('/updateManager', upload.single('image'), async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  const { _id, fname, lname, email, password, phone, address } = req.body;
+  const imageData = req.file;
+
+  try {
+    let updatedFields = { fname, lname, email, password, phone, address };
+
+    // Check if there is an uploaded image
+    if (imageData) {
+      updatedFields.image = imageData.filename;
+    }
+
+    const updatedManager = await Manager.findByIdAndUpdate(_id, updatedFields, { new: true });
+    console.log('Successfully updated manager:', updatedManager);
+    res.json({ Status: 'Success', Result: updatedManager });
+  } catch (err) {
+    console.log('Failed to update manager:', err);
+    res.status(500).json({ Status: 'Error', message: 'Failed to update manager' });
+  }
+});
+
+
  //Get Employee Information
 app.get('/getInfo/:id', async(req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   const id = Number(req.params.id);
-  
   try {
     const result = await Employee.findOne( { id } )
     return res.send({ Status: "Success", Result: result });
@@ -363,14 +489,21 @@ app.get('/getInfo/:id', async(req, res) => {
   }
 });
 
-//Get employee Working hours and wages
-app.get('/workData/:id', async(req, res) => {
+//Get employee Working hours 
+app.get('/daysCount/:id', async(req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  const date = new Date();
+  const thisMonth = date.getMonth() + 1; // Adding 1 to adjust for zero-based index
   const id = Number(req.params.id);
+  const count=0
+  const arrCount=[0]
   try {
-    const result = await WorkData.find( { EmployeeID:id } )
-    console.log(result)
-    return res.send({ Status: "Success", Result: result });
+    for(let i = 1; i <= thisMonth; i++) {
+    const count= await Shifts.countDocuments( { month:i ,EmployeeID:id } ) 
+    arrCount[i-1]=count*8
+    }
+      // Count the matching documents
+    return res.send({ Status: "Success", ThisMonth: arrCount[thisMonth-1]/8, AllMonths:arrCount });
   } catch (error) {
     console.log(error);
     return res.status(500).send({ Status: "Error", Message: "Unable to retrieve employees" });
@@ -383,7 +516,7 @@ app.get('/workData/:id', async(req, res) => {
   const id = Number(req.params.id);
   try {
     const result = await Schedules.find( { EmployeeID:id } )
-    console.log(result)
+
     return res.send({ Status: "Success", Result: result });
   } catch (error) {
     console.log(error);
@@ -426,9 +559,15 @@ app.put('/update/:id', async(req, res) => {
 //logout
 app.get('/logout', (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
-  res.clearCookie('token');
-  return res.json({Status: "Success"});
-})
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+      // Handle the error accordingly
+    }
+    res.clearCookie('token');
+    return res.send({ Status: 'Success' });
+  });
+});
 
 app.listen(PORT, () => {
   console.log('You are listening to port:',PORT);
