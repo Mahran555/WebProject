@@ -54,7 +54,7 @@ function Employee() {
       
       </div>
       <div className='mt-4'>
-        <table>
+        <table id='empTable'>
           <thead >
             <tr>
               <th scope="col"> </th>
