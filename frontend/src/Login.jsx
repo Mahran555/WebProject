@@ -25,7 +25,7 @@ function Login() {
       .then((res) => {
         if (res.data.Status === "Success") {
           // Redirect to the home page after successful login
-           if(res.data.Role==="Manager")
+           if(res.data.role==="Manager")
            {
             navigate('/');
            }

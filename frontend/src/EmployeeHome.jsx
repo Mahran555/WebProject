@@ -119,6 +119,7 @@ function EmployeeHome() {
 
 
 useEffect(() => {
+ 
   const fetchData = async () => {
     try {
       const daysCountPromise = axios.get('http://localhost:5000/daysCount/'+id)//work hours this month

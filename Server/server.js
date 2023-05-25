@@ -14,15 +14,26 @@ const { error } = require('console');
 const jwt = require('jsonwebtoken');
 const PORT=process.env.PORT
 const JWT_SECRET =process.env.JWT_SECRET
+const session = require('express-session');
+const crypto = require('crypto');
+
+const generateSecretKey = () => {
+  return crypto.randomBytes(32).toString('hex');
+};
+
+const sessionSecret = generateSecretKey();
+
+app.use(session({
+  secret: sessionSecret,
+  resave: false,
+  saveUninitialized: false,
+}));
 
 app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
-app.use(cors(
-    {
-        origin: ["http://localhost:5173"],
-        methods: ["POST", "GET", "PUT"],
-        credentials: true
-    }
-));
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 
 app.use(cors({
   credentials: true,
@@ -83,14 +94,15 @@ app.post("/login", async (req, res) => {
   const userManager = await Manager.findOne({ email });
 
   if (userManager && userManager.password === password) {
-    const token = jwt.sign({ role: "Manager" }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ role: "Manager",id: userManager._id }, JWT_SECRET, { expiresIn: '1h' });
+    res.cookie('token', token);
     return res.json({ Status: "Success", role: "Manager", token });
   }
 
   if (userEmployee && userEmployee.password === password) {
     const token = jwt.sign({ role: "Employee", id: userEmployee.id }, JWT_SECRET, { expiresIn: '1h' });
     res.cookie('token', token);
-    return res.send({ Status: "Success", role: "Employee", Result: userEmployee });
+    return res.send({ Status: "Success", role: "Employee", Result: userEmployee , token});
   }
 
   return res.send({ Status: "error", error: "Invalid email or password" });
@@ -333,48 +345,55 @@ app.post("/create",upload.single('image') ,async(req, res) => {
   
 // Verify User
 const verifyUser = (req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   const token = req.cookies.token;
   if (!token) {
-    return res.json({ Error: "You are not authenticated" });
+    return res.json({ error: "You are not authenticated" });
   } else {
     jwt.verify(token, JWT_SECRET, (err, decoded) => {
-      if (err) return res.json({ Error: "Token is invalid" });
+      if (err) return res.send({ Error: "Token is invalid" });
       req.role = decoded.role;
       req.id = decoded.id;
       next();
     });
   }
 };
-
-
-app.get('/dashboard', verifyUser, (req, res) => {
+// verify user for Manager
+app.get('/verifyManager', verifyUser, (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
- res.header('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Credentials', true);
   try {
-    
-    return res.json({Status: "Success", role: req.role});
+    return res.json({ Status: "Success", role: req.role });
   } catch (error) {
-    console.log("hi")
-    return res.status(500).json({ Status: "Error", error: "Internal Server Error" });
+    next(error); // Pass the error to the next middleware (error handling middleware)
   }
 });
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err); // Log the error for debugging purposes
+  return res.status(500).json({ Status: "Error", error: "Internal Server Error" });
+});
 
-/*app.get('/IsLoginManager', async (req, res) => {
+//verify user for Employee
+app.get('/verifyEmployee', verifyUser, (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  res.setHeader('Access-Control-Allow-Credentials', true);
   try {
-    const fname="Gus";
-    const manager = await Manager.findOne({fname});
-    if(manager.IsLogin==1){
-    return res.send({ Status: "Success" });
-    }else{
-      res.send({ Status: "Failed" });
-    }
+    return res.json({ Status: "Success", role: req.role ,id:req.id});
   } catch (error) {
-    console.log(error);
-    return res.status(500).send({ Status: "Error", Message: "Unable to retrieve employees" });
+    next(error); // Pass the error to the next middleware (error handling middleware)
   }
-})*/
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err); // Log the error for debugging purposes
+  return res.status(500).json({ Status: "Error", error: "Internal Server Error" });
+});
+
+
+
 
 //Get Employee List
 app.get("/getEmployee", async (req, res) => {
@@ -440,6 +459,7 @@ app.get('/getInfo/:id', async(req, res) => {
 
 //Get employee Working hours 
 app.get('/daysCount/:id', async(req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   const date = new Date();
   const thisMonth = date.getMonth() + 1; // Adding 1 to adjust for zero-based index
   const id = Number(req.params.id);
@@ -507,9 +527,15 @@ app.put('/update/:id', async(req, res) => {
 //logout
 app.get('/logout', (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
-  res.clearCookie('token');
-  return res.send({Status: "Success"});
-})
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+      // Handle the error accordingly
+    }
+    res.clearCookie('token');
+    return res.send({ Status: 'Success' });
+  });
+});
 
 app.listen(PORT, () => {
   console.log('You are listening to port:',PORT);

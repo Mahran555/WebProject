@@ -41,10 +41,6 @@ function App() {
       <Route path='/employeePage/:id/employeeProfile/:id' element={<EmployeeProfile />}></Route>
       <Route path='/employeePage/:id/employeeSchedule/:id' element={<EmployeeSchedule />}></Route>
       </Route>
-      <Route path='/login' element={<Login />}></Route>
-      <Route path='/simplelogin'  element={<LoginPageSimple />}></Route>
-      
-      
     </Routes>
     </BrowserRouter>
     
