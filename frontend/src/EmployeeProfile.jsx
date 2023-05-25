@@ -105,31 +105,31 @@ function EmployeeProfile() {
     }
   };
   useEffect(() => {
-    axios.get('http://localhost:5000/getInfo/'+id)
-    .then((res) => {
-          if (res.data.Status === 'Success') {
-            setData(res.data.Result);
-          }
-          setLoading(false); // Set loading to false after data retrieval
-        })
-        .catch((err) => console.log('Failed to fetch data'));
-        setLoading(false); // Set loading to false after data retrieval
-    }, [editable.email, editable.phone, editable.address, editable.password]);
-  
+    axios
+      .get('http://localhost:5000/getInfo/' + id)
+      .then((res) => {
+        if (res.data.Status === 'Success') {
+          setData(res.data.Result);
+        }
+      })
+      .catch((err) => console.log('Failed to fetch data'))
+      .finally(() => setLoading(false)); // Set loading to false after data retrieval
+  }, [editable.email, editable.phone, editable.address, editable.password]);
 
-    const handleFormKeyDown = (event) => {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-        handleFormSubmit();
-      }
-    };
-    if (loading) {
-      return (
-        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
+  const handleFormKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleFormSubmit();
+    }
+  };
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
         <ThreeDots color="#0b0436" height={50} width={50} />
       </div>
-      );
-    }
+    );
+  }
 
 
       return (
