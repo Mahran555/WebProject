@@ -356,25 +356,6 @@ app.post("/create", upload.single('image'), async (req, res) => {
       image: req.file.filename,
       phone: "enter your phone on entery"
     });
-<<<<<<< HEAD
-=======
-
-    const check1 = await Employee.findOne({ id: newEmployee.id });
-    const check2 = await Employee.findOne({ email: newEmployee.email });
-
-    if (check1 || check2) {
-      return res.send({ Status: "error", error: "This ID or email already exists" });
-    }
-
-    await newEmployee.save() // Save new Employee document to MongoDB
-    return res.send({ Status: "Success" });
-
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Can't Add this employee" });
-  }
-});
->>>>>>> amransBranch
 
     const check1 = await Employee.findOne({ id: newEmployee.id });
     const check2 = await Employee.findOne({ email: newEmployee.email });

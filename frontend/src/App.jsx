@@ -33,7 +33,6 @@ function App() {
       <Route path='/create' element={<AddEmployee />}></Route>
       <Route path='/employeeEdit/:id' element={<EditEmployee />}></Route>
       <Route path='/VacationRequest' element={<VacationRequest />}></Route>
-      <Route  path='/ExchangeShifts' element={<ExchangeShifts />}></Route>
       
       </Route>
       <Route path='/employeePage/:id' element={<EmployeePage />}>
