@@ -88,7 +88,8 @@ function AddEmployee() {
 				<div class="col-12 mb-3">
 					<label class="form-label" for="inputGroupFile01">Select Image</label>
 					<input type="file" className="form-control" id="inputGroupFile01"
-						onChange={e => setData({ ...data, image: e.target.files[0] })} accept='.jpeg, .png, .jpg' />
+						onChange={e => setData({ ...data, image: e.target.files[0] })}
+						accept='.jpeg, .png, .jpg' />
 				</div>
 				
 				<div class="col-12">

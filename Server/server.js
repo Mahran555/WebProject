@@ -341,8 +341,12 @@ app.get('/delete/:id', async (req, res) => {
     
 
 // create new employee
+// create new employee
 app.post("/create", upload.single('image'), async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  let image = req.file ? req.file.filename : 'User.jpg';
+
+
   try {
     const newEmployee = mongoose.model("EmployeeInfo")({
       id: req.body.id,
@@ -353,7 +357,7 @@ app.post("/create", upload.single('image'), async (req, res) => {
       address: req.body.address,
       salary: req.body.salary,
       phone: req.body.phone,
-      image: req.file.filename
+      image: image
       
     });
 
@@ -372,6 +376,7 @@ app.post("/create", upload.single('image'), async (req, res) => {
     return res.status(500).json({ error: "Can't Add this employee" });
   }
 });
+
 
   
   
