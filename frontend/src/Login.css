@@ -1,22 +1,106 @@
-.login-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-  }
-  
-  .login-input {
-    margin-bottom: 10px;
-    padding: 5px;
+*,
+*:before,
+*:after{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: #FAFAFA;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.loginBackground{
+    width: 430px;
+    height: 520px;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    top: 50%;
+}
+.loginBackground .shape{
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    border-radius: 50%;
+}
+.shape:first-child{
+    background: linear-gradient(
+        #1A535C,
+        #87d8e4
+    );
+    left: -80px;
+    top: -80px;
+}
+.shape:last-child{
+    background: linear-gradient(
+        to right,
+        #87d8e4,
+        #1A535C
+    );
+    right: -30px;
+    bottom: -80px;
+}
+#loginForm {
+    height: 520px;
+    width: 400px;
+    background-color: rgba(255,255,255,0.73);
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+    padding: 50px 35px;
+}
+#loginForm  *{
+    font-family: 'Poppins',sans-serif;
+    color: #fff;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+}
+#loginForm  h3{
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 42px;
+    text-align: center;
+    color:black;
+}
+
+#loginForm label{
+    display: block;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    color:#333;
+    text-transform: uppercase;
+}
+#loginForm input{
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(115, 112, 112, 0.37);
+    color:black;
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+}
+#loginForm ::placeholder{
+    color: black;
+}
+#loginForm button{
+    margin-top: 50px;
+    width: 100%;
+    background-color: #1A535C;
+    color: #fff;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
     border-radius: 5px;
-    border: 1px solid gray;
-    width: 300px;
-    max-width: 100%;
-  }
-  
-  .login-error {
-    color: red;
-    font-weight: bold;
-  }
-  
+    cursor: pointer;
+}

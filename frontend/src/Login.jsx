@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
+import './login.css'
 
 
 
@@ -46,7 +49,7 @@ function Login() {
   return (
 
     <div className='d-flex justify-content-center align-items-center vh-100 loginPage'>
-    <div className='p-3 rounded w-25 border loginForm'>
+    {/* <div className='p-3 rounded w-25 border loginForm'>
         <div className='text-danger'>
             {error && error}
         </div>
@@ -67,7 +70,33 @@ function Login() {
             <button type='submit' className='btn btn-success w-100 rounded-0'> Log in</button>
             <p>You are agree to aour terms and policies</p>
         </form>
-     </div>
+     </div> */}
+
+
+
+
+<div class="loginBackground">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form id='loginForm' onSubmit={handleSubmit}>
+        <h3>Login Here</h3>
+
+        <label for="email">Email</label>
+        <input type="email" placeholder="Email" id="username" name='email'
+                  onChange={handleEmailChange} className='form-control rounded-0' autoComplete='off' style={{color:'black'}}/>
+
+        <label for="password">Password</label>
+        <input type="password" placeholder="Password" id="password" name='password'
+         onChange={handlePasswordChange} className='form-control rounded-0' />
+
+        <button type='submit'>LogIn</button>
+        <div className='text-danger'>
+            {error && error}
+        </div>
+    </form>
+
+
 </div>
 
   );

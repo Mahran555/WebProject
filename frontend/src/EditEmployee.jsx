@@ -1,6 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faIdCard, faUser, faEnvelope, faLock, faSackDollar, faLocationDot, faPhone } from '@fortawesome/free-solid-svg-icons';
+import "./addEmp.css"
 
 function EditEmployee() {
 	const [data, setData] = useState({
@@ -52,50 +55,59 @@ function EditEmployee() {
 	}
   return (
     <div className='d-flex flex-column align-items-center pt-4'>
-			<h2>Update Employee</h2>
-			<form class="row g-3 w-50" onSubmit={handleSubmit}>
-			<div class="col-12">
-					<label for="inputID" class="form-label">ID</label>
-					<input type="number" class="form-control" id="inputID" placeholder='Enter ID' autoComplete='off'
-					onChange={e => setData({...data, id: e.target.value})} value={data.id}/>
-				</div>
-                <div class="col-12">
-					<label for="inputFname" class="form-label">First Name</label>
-					<input type="text" class="form-control" id="inputFname" placeholder='Enter First Name' value={data.fname} autoComplete='off'
-					onChange={e => setData({...data, fname: e.target.value})} />
-				</div>
-                <div class="col-12">
-					<label for="inputLname" class="form-label">Last Name</label>
-					<input type="text" class="form-control" id="inputLname" placeholder='Enter Last Name' autoComplete='off'
-					onChange={e => setData({...data, lname: e.target.value})} value={data.lname}/>
-				</div>
-				<div class="col-12">
-					<label for="inputEmail4" class="form-label">Email</label>
-					<input type="email" class="form-control" id="inputEmail4" placeholder='Enter Email' autoComplete='off'
-					onChange={e => setData({...data, email: e.target.value})} value={data.email}/>
-				</div>
-				<div class="col-12">
-					<label for="inputSalary" class="form-label">Salary</label>
-					<input type="number" class="form-control" id="inputSalary" placeholder="Enter Salary" autoComplete='off'
-					onChange={e => setData({...data, salary: e.target.value})} value={data.salary}/>
-				</div>
-				<div class="col-12">
-					<label for="inputAddress" class="form-label">Address</label>
-					<input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" autoComplete='off'
-					onChange={e => setData({...data, address: e.target.value})} value={data.address}/>
-				</div>
-				<div class="col-12">
-					<label for="inputPhone" class="form-label">Phone Number</label>
-					<input type="text" class="form-control" id="inputPhone" placeholder="Enter Phone Number" autoComplete='off'
-					onChange={e => setData({...data, phone: e.target.value})} value={data.phone}/>
-				</div>
-				<div class="col-12">
-				 <button type="submit" class="btn btn-primary">Update</button>
-				 <span >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                   <label className='text-danger'>{error && error}</label>          
-                 </span>
-				</div>
-			</form>
+			
+			<div class="form_wrapper">
+  <div class="form_container">
+    <div class="title_container">
+      <h2>Update Employee Details</h2>
+    </div>
+    <div class="row clearfix">
+      <div class="">
+        <form  onSubmit={handleSubmit}>
+          <div class="input_field"> <span><FontAwesomeIcon icon={faIdCard} /></span>
+            <input type="text" name="id" placeholder="ID" required  
+						onChange={e => setData({ ...data, id: e.target.value })} value={data.id}/>
+          </div>
+          <div class="row clearfix">
+            <div class="col_half">
+              <div class="input_field"><span><FontAwesomeIcon icon={faUser} /></span>
+                <input type="text" name="name" placeholder="First Name" 
+						onChange={e => setData({ ...data, fname: e.target.value })} value={data.fname}/>
+              </div>
+            </div>
+            <div class="col_half">
+              <div class="input_field"><span><FontAwesomeIcon icon={faUser} /></span>
+                <input type="text" name="name" placeholder="Last Name" required 
+						onChange={e => setData({ ...data, lname: e.target.value })} value={data.lname} />
+              </div>
+            </div>
+          </div>
+          
+            <div class="input_field"><span><FontAwesomeIcon icon={faEnvelope} /></span>
+            <input type="email" name="email" placeholder="Email" required 
+						onChange={e => setData({ ...data, email: e.target.value })} value={data.email}/>
+          </div>
+		  <div class="input_field"> <span><FontAwesomeIcon icon={faSackDollar} /></span>
+            <input type="number" name="salary" placeholder="Salary" required 
+						onChange={e => setData({ ...data, salary: e.target.value })} value={data.salary}/>
+          </div>
+		  <div class="input_field"> <span><FontAwesomeIcon icon={faLocationDot} /></span>
+            <input type="text" name="address" placeholder="Address" required 
+						onChange={e => setData({ ...data, address: e.target.value })} value={data.address} />
+          </div>
+		  <div class="input_field"> <span><FontAwesomeIcon icon={faPhone} /></span>
+            <input type="text" name="phoneNumber" placeholder="Phone Number" required 
+						onChange={e => setData({ ...data, phone: e.target.value })} value={data.phone} />
+          </div>
+          <input class="button" type="submit" value="Update" />
+					<span >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<label className='text-danger'>{error && error}</label>
+					</span>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 		</div>
   )
 }
