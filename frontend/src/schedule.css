@@ -17,7 +17,9 @@ body {
   top: -25px;
   text-align: center;
   margin: 40px 0 20px;
-  color: #1A535C;
+  text-transform: uppercase;
+  font-weight: 700;
+  color:rgb(86, 81, 81);
   font-size: 35px; /* Increase the font size for a bigger title */
 }
 

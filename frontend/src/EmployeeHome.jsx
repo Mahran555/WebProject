@@ -183,13 +183,13 @@ if (loading) {
   return (
     <div>
       <div className='p-3 text-center'>
-        <h1 style={{ fontSize: '2.5rem', color: '#0b0436' }}>Welcome Back {employeeData.fname} </h1>
+        <h1 id='homeTitle' style={{ fontSize: '2.5rem' }}>Welcome Back {employeeData.fname} </h1>
         <hr style={{ margin: '20px auto', width: '50%' }} />
       </div>
 
        <div class='container mt-5'>
-        <div id='cardsContainer'>
-          <div class='cardDiv first blue'>
+        <div id='cardsContainerEmp'>
+          <div id ='firstCardEmp' class='cardDiv first blue widecard'>
             <div class='cardDetails'>
               <span class='cardTitle'>Work Days This Month </span>
               <span class='cardStat'>Total: {daysCount}</span>
@@ -207,7 +207,7 @@ if (loading) {
               <h1><FontAwesomeIcon icon={faDollarSign}/></h1>
             </div>
           </div>
-          <div class='cardDiv purple'>
+          <div class='cardDiv purple widecard'>
             <div class='cardDetails'>
               <span class='cardTitle'>Work Hours This Month</span>
               <span class='cardStat'>Total:{daysCount*8}h</span>
@@ -217,20 +217,20 @@ if (loading) {
             </div>
           </div>
         </div>
-        <div id='chartsContainer'>
+        
+      </div>
+        <div id='chartsContainerEmp'>
           <div id='leftChart'>
             <Chart
               options={state.options}
               series={state.series}
-              type="bar"
+              type="bar"height={560}
             />
           </div>
           <div id="rightChart">
-            <ReactApexChart options={chartOptions} series={chartOptions.series} type="donut" height={300} />
+            <ReactApexChart options={chartOptions} series={chartOptions.series} type="donut" height={500} />
           </div>
         </div>
-        
-      </div>
       
     </div>
   );

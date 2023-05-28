@@ -11,6 +11,13 @@ body{
     color:black;
 }
 
+#titleEmpP{
+  
+  text-transform: uppercase;
+  font-weight: 700;
+  color:rgb(86, 81, 81);
+}
+
 #empTable{
     width:100%;
     float:left;
@@ -48,17 +55,23 @@ body{
 }
 
 .editIcon{
-    width:20%;
-    float:left;
-    font-size: 25px;
-    background: #1096ab;
-    text-align: center;
-    border-radius: 50%;
-    transition: all 250ms;
+  background-color: #48abe0;
+  color: white;
+  border: none;
+  padding: 3px 9.5px;
+  font-size: 24px;
+  height: 43px;
+  width: 43px;
+  box-shadow: 0 2px 4px darkslategray;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius:70%;
+  float:left;
 }
 
 .editIcon:hover{
-    background:#89dce8;
+    background:#3592c4;
+    color:#fff;
 }
 
 .deleteIcon{
@@ -69,11 +82,17 @@ body{
 }
 
 .deleteIcon button{
-
-    border-radius: 50%;
-    text-align: center;
-    background-color: rgb(228, 64, 64);
-    transition: all 250ms;
+  background-color: rgb(212, 79, 79);
+  color: white;
+  border: none;
+  padding: 5px;
+  font-size: 24px;
+  height: 43px;
+  width: 43px;
+  box-shadow: 0 2px 4px darkslategray;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius:70%;
 }
 
 .deleteIcon button:hover{

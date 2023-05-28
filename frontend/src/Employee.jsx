@@ -39,7 +39,7 @@ function Employee() {
   return (
     <div className='px-5 py-3'>
       <div className='d-flex justify-content-center mt-2'>
-        <h3>Employee List</h3>
+        <h1 id='titleEmpP'>Employee List</h1>
       </div>
       <div id='aboveTable'>
       <Link id='addBTND' to='/create'><button class='addEmpBTN'>Add Employee</button></Link>
@@ -92,16 +92,11 @@ function Employee() {
                   <td class='actionCol'>
                     <Link class='editIcon'
                       to={`/employeeEdit/` + employee.id}
-                      style={{ color: 'black' }}
                     >
                       <i class="bi bi-pen"></i>
                     </Link>
                     <div  class='deleteIcon'>
-                    <button
-                      onClick={e => handleDelete(employee.id)}
-                      style={{border: 'none'}} className={`row${i % 2}`}
-                      
-                    >
+                    <button onClick={e => handleDelete(employee.id)}>
                       <i class="bi bi-trash" backgroundColor="white" borderColor="white" outline="none"></i>
                     </button></div>
                   </td>

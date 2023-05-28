@@ -294,23 +294,41 @@ function Home() {
     );
   }
 
-  const handleAccept = async (id) => {
-    try {
-      await axios.put(`http://localhost:5000/vacationRequests/${id}`, { status: 'accepted' });
-      console.log('Accepted vacation request with ID:', id);
-    } catch (error) {
-      console.error('Error accepting vacation request:', error);
-    }
-  };
+const handleAccept = async (id) => {
+  try {
+    await axios.put(`http://localhost:5000/vacationRequests/${id}`, { status: 'accepted' });
+    console.log('Accepted vacation request with ID:', id);
 
-  const handleDecline = async (id) => {
-    try {
-      await axios.put(`http://localhost:5000/vacationRequests/${id}`, { status: 'declined' });
-      console.log('Declined vacation request with ID:', id);
-    } catch (error) {
-      console.error('Error declining vacation request:', error);
-    }
-  };
+    // Update the state
+    setVacationRequests(prevRequests => prevRequests.map(request => {
+      if (request._id === id) {
+        return {...request, status: 'accepted'};
+      }
+      return request;
+    }));
+
+  } catch (error) {
+    console.error('Error accepting vacation request:', error);
+  }
+};
+
+const handleDecline = async (id) => {
+  try {
+    await axios.put(`http://localhost:5000/vacationRequests/${id}`, { status: 'declined' });
+    console.log('Declined vacation request with ID:', id);
+
+    // Update the state
+    setVacationRequests(prevRequests => prevRequests.map(request => {
+      if (request._id === id) {
+        return {...request, status: 'declined'};
+      }
+      return request;
+    }));
+
+  } catch (error) {
+    console.error('Error declining vacation request:', error);
+  }
+};
 
   const filterVacationRequests = (status) => {
     setActiveTab(status);
@@ -325,7 +343,7 @@ function Home() {
   return (
     <div>
       <div className='p-3 text-center'>
-        <h1 style={{ fontSize: '2.5rem', color: '#0b0436' }}>Welcome Back Mr.{managerName}</h1>
+        <h1 id='homeTitle' style={{ fontSize: '2.5rem' }}>Welcome Back Mr.{managerName}</h1>
         <hr style={{ margin: '20px auto', width: '50%' }} />
       </div>
 
