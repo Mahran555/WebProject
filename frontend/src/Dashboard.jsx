@@ -38,34 +38,58 @@ function Dashboard() {
     return (
         <div className="container-fluid text-font">
             <div className="row flex-nowrap">
+<<<<<<< HEAD
                 <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-2 db-bgc">
+=======
+                <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 db-bgc">
+>>>>>>> 1232fd0ae7c2655e7076ccf2d568c09d8f8ab825
                     <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                         <a href="/" className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none">
                             <span className="fs-5 fw-bolder d-none d-sm-inline tc text-font">Manager Dashboard</span>
                         </a>
                         <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                             <li>
+<<<<<<< HEAD
                                 <Link to="/" className={location.pathname === '/' ? 'nav-link text-white px-2 align-middle active' : 'nav-link text-white px-0 align-middle'}>
+=======
+                                <Link to="/" className={location.pathname === '/' ? 'nav-link text-white px-0 align-middle active' : 'nav-link text-white px-0 align-middle'}>
+>>>>>>> 1232fd0ae7c2655e7076ccf2d568c09d8f8ab825
                                     <i className="fs-4 bi-house tc"></i> <span className="tc ms-1 d-none d-sm-inline">Home</span>
                                 </Link>
                             </li>
                             <li>
+<<<<<<< HEAD
                                 <Link to="/employee" className={location.pathname === '/employee' ? 'nav-link px-2 align-middle text-white active' : 'nav-link px-0 align-middle text-white'}>
+=======
+                                <Link to="/employee" className={location.pathname === '/employee' ? 'nav-link px-0 align-middle text-white active' : 'nav-link px-0 align-middle text-white'}>
+>>>>>>> 1232fd0ae7c2655e7076ccf2d568c09d8f8ab825
                                     <i className="fs-4 bi-people tc"></i> <span className="tc ms-1 d-none d-sm-inline">Manage Employees</span>
                                 </Link>
                             </li>
                             <li>
+<<<<<<< HEAD
                                 <Link to="/schedule" className={location.pathname === '/schedule' ? 'nav-link px-2 align-middle text-white active' : 'nav-link px-0 align-middle text-white'}>
+=======
+                                <Link to="/schedule" className={location.pathname === '/schedule' ? 'nav-link px-0 align-middle text-white active' : 'nav-link px-0 align-middle text-white'}>
+>>>>>>> 1232fd0ae7c2655e7076ccf2d568c09d8f8ab825
                                     <i className="fs-4 bi-table tc"></i> <span className="tc ms-1 d-none d-sm-inline">Schedule</span>
                                 </Link>
                             </li>
                             <li>
+<<<<<<< HEAD
                                 <Link to="/profile" className={location.pathname === '/profile' ? 'nav-link px-2 align-middle text-white active' : 'nav-link px-0 align-middle text-white'}>
+=======
+                                <Link to="/profile" className={location.pathname === '/profile' ? 'nav-link px-0 align-middle text-white active' : 'nav-link px-0 align-middle text-white'}>
+>>>>>>> 1232fd0ae7c2655e7076ccf2d568c09d8f8ab825
                                     <i className="fs-4 bi-person tc"></i> <span className="tc ms-1 d-none d-sm-inline">Profile</span>
                                 </Link>
                             </li>
                             <li onClick={handleLogout}>
+<<<<<<< HEAD
                                 <a href="#" className="nav-link px-2 align-middle text-white">
+=======
+                                <a href="#" className="nav-link px-0 align-middle text-white">
+>>>>>>> 1232fd0ae7c2655e7076ccf2d568c09d8f8ab825
                                     <i className="fs-4 bi-power tc"></i> <span className="tc ms-1 d-none d-sm-inline">Logout</span>
                                 </a>
                             </li>
@@ -84,4 +108,8 @@ function Dashboard() {
     )
 }
 
+<<<<<<< HEAD
 export default Dashboard;
+=======
+export default Dashboard;
+>>>>>>> 1232fd0ae7c2655e7076ccf2d568c09d8f8ab825

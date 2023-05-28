@@ -170,7 +170,7 @@ function EmployeeSchedule() {
     <>
       {alertMessage && <Alert variant={alertVariant}>{alertMessage}</Alert>}
 
-      <h1 className="title-employee-sch">Schedule</h1>
+      <h1 id='eSchT' className="title-employee-sch">Schedule</h1>
       <hr className="divider-title-employee-sch" />
 
       <div className="vacation-request-container">
@@ -182,12 +182,10 @@ function EmployeeSchedule() {
             <div className="dropdown-menu show">
               <h2 className="text-center">Vacation Request</h2>
 
-              <div className="container ">
-                <div className="row ">
-                  <div className="col-auto">
-                    <p className="par1">From:</p>
-                  </div>
-                  <div className="col-auto1">
+              <div id='datesContainer'>
+                <div id='dateSelectRow'>
+                  <div class='dateTitle'>
+                    <span>From: </span>
                     <DatePicker
                       selected={selectedDateFrom}
                       onChange={(date) => setSelectedDateFrom(date)}
@@ -198,13 +196,14 @@ function EmployeeSchedule() {
                       customInput={<CustomInput />}
                     />
                     {selectedDateFrom && (
-                      <p className="selected-date">{selectedDateFrom.toLocaleDateString()}</p>
+                      <span className="selected-date">{selectedDateFrom.toLocaleDateString()}</span>
                     )}
                   </div>
-                  <div className="col-auto">
-                    <p className="par2">To:</p>
+                  <div>
+                    
                   </div>
-                  <div className="col-auto2">
+                  <div class='dateTitle'>
+                    <span>To: </span>
                     <DatePicker
                       selected={selectedDateTo}
                       onChange={(date) => setSelectedDateTo(date)}
@@ -214,14 +213,17 @@ function EmployeeSchedule() {
                       scrollableMonthYearDropdown
                       customInput={<CustomInput />}
                     />
-                    {selectedDateTo && <p className="selected-date">{selectedDateTo.toLocaleDateString()}</p>}
+                    {selectedDateTo && <span className="selected-date">{selectedDateTo.toLocaleDateString()}</span>}
+                  </div>
+                  <div>
+                    
                   </div>
                 </div>
               
 
               <div id="Reason" className="textw">
                 <p className="reason">Reason:</p>
-                <textarea
+                <textarea class='has-fixed-size'
                   value={description}
                   onChange={handleChange}
                   rows="8"
@@ -230,8 +232,8 @@ function EmployeeSchedule() {
                 />
               </div>
 
-              <div id="MakeRequest" className="text-center">
-                <button className="button-sch-empl" onClick={submitVacationRequest}>
+              <div id="MakeRequest">
+                <button id='button-20'  onClick={submitVacationRequest}>
                   Submit Request
                 </button>
               </div>

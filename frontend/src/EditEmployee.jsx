@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
 import { faIdCard, faUser, faEnvelope, faLock, faSackDollar, faLocationDot, faPhone } from '@fortawesome/free-solid-svg-icons';
 import "./addEmp.css"
 
@@ -55,6 +56,13 @@ function EditEmployee() {
 	}
   return (
     <div className='d-flex flex-column align-items-center pt-4'>
+    <div class='breadcrumbs'>
+      <Link to="/employee" class='bLink'>
+									<span className=" ms-1 d-none d-sm-inline">Manage Employees</span> </Link>
+      <span class='breakL'> &gt; </span>
+      <Link to="" class='bLink'>
+									<span className=" ms-1 d-none d-sm-inline">Edit Employee</span> </Link>
+    </div>
 			
 			<div class="form_wrapper">
   <div class="form_container">

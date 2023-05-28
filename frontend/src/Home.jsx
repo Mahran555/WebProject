@@ -343,7 +343,7 @@ const handleDecline = async (id) => {
   return (
     <div>
       <div className='p-3 text-center'>
-        <h1 style={{ fontSize: '2.5rem', color: '#0b0436' }}>Welcome Back Mr.{managerName}</h1>
+        <h1 id='homeTitle' style={{ fontSize: '2.5rem' }}>Welcome Back Mr.{managerName}</h1>
         <hr style={{ margin: '20px auto', width: '50%' }} />
       </div>
 

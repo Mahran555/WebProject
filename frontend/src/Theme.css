@@ -141,6 +141,14 @@ body {
     color: var(--neutral-white);
 }
 
+<<<<<<< HEAD
+=======
+ 
+#menu .nav-link.active {
+    background:#10434b;
+}
+
+>>>>>>> 1232fd0ae7c2655e7076ccf2d568c09d8f8ab825
 #menu{
     width: 109%;
 }
@@ -152,8 +160,12 @@ body {
 }
 
 .db-bgc .nav-pills .nav-link.active {
+<<<<<<< HEAD
     background-color: #10434b;
     
+=======
+    background-color: #414144;
+>>>>>>> 1232fd0ae7c2655e7076ccf2d568c09d8f8ab825
 }
 
 #menu li{
@@ -167,7 +179,13 @@ body {
     margin: 0 !important;
     transition: all 0.5s;
 }
+<<<<<<< HEAD
 
 #menu .nav-link:hover{
     background:#10434b;
 }
+=======
+#menu .nav-link:hover{
+    background:#10434b;
+}
+>>>>>>> 1232fd0ae7c2655e7076ccf2d568c09d8f8ab825

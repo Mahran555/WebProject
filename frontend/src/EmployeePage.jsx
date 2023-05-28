@@ -12,15 +12,11 @@ function EmployeePage() {
 	useEffect(() => {
 		axios.get('http://localhost:5000/verifyEmployee')
 			.then(res => {
-				if (res.data.Status === "Success") {
-					if (res.data.role === "Employee") {
-						navigate('/employeePage/'+id);
-					} 
-				} else {
+				if (res.data.Status !== "Success") {
 					navigate('/login')
 				}
 			})
-	}, [])
+	}, [])
 	const handleLogout = () => {
 		axios.get('http://localhost:5000/logout')
 		.then(res => {
