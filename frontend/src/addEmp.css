@@ -284,3 +284,24 @@ body {
     font-weight: 600;
     color:black;
 }
+
+
+@media (max-width: 600px) {
+    .form_wrapper {
+        width: 90%;
+    }
+    .form_wrapper .col_half {
+        width: 100%;
+        float: none;
+    }
+    .bottom_row .col_half {
+        width: 50%;
+        float: left;
+    }
+    .form_container .row .col_half.last {
+        border-left: none;
+    }
+    .remember_me {
+        padding-bottom: 20px;
+    }
+}

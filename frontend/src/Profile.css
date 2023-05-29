@@ -26,8 +26,7 @@
     transform: scale(1.2);
     color: #ff0000;
     cursor: pointer;
-<<<<<<< HEAD
-=======
+
   }
   .input-icon-container {
     position: relative;
@@ -44,7 +43,6 @@
     right: 10px;
     transform: translateY(-50%);
     cursor: pointer;
-<<<<<<< HEAD
   }
   .card-shadow {
     margin-top: 90px;
@@ -166,7 +164,67 @@
   background-color: #1A535C;
   min-height: 200px;
 }
-=======
->>>>>>> a1f71bdf5e7507ebae9e90ceb9e87567ff837a87
+@media (max-width: 480px) {
+  .img-container {
+    width: 100px;
+    height: 100px;
+    left: 10px;
+    top: 10px;
   }
->>>>>>> Branch-Mohammad
+  
+  .profile-name{
+    font-size: 24px;
+    padding: 20px;
+  }
+
+  .camera-icon {
+    font-size: 30px;
+    bottom: 5px;
+    right: 5px;
+  }
+
+  .input-with-icon {
+    padding-right: 20px; /* Space for the icon */
+  }
+
+  .eye-icon {
+    right: 5px;
+  }
+
+  .card-shadow {
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+
+  .profile-info label {
+    font-size: 14px;
+  }
+
+  .profile-info input[type='text'] {
+    padding: 3px;
+  }
+
+  .profile-info .password-container input[type='password'],
+  .profile-info .password-container input[type='text'] {
+    padding: 3px;
+  }
+
+  .save-button {
+    padding: 5px 10px;
+    font-size: 14px;
+    right: 20px;
+  }
+
+  .label-text {
+    font-size: 14px;
+  }
+
+  .label-data{
+    font-size: 14px;
+  }
+
+  .top-container{
+    min-height: 100px;
+  }
+}
+

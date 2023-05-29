@@ -315,3 +315,43 @@ td.evening-shift-cell {
   padding: 0;
   margin: 0;
 }
+@media (max-width: 600px) {
+  .cardsContainer-man {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cardDiv {
+    width: 100% !important;
+    margin-bottom: 10px;
+  }
+  
+  .widecard {
+    width: 100% !important;
+  }
+  
+  .table-container {
+    width: 120%!important; /* Adjust the width as desired */
+    overflow-x: auto!important;
+    margin-bottom: 20px;
+  }
+  
+  .table {
+    width: 120%!important; /* Set table width to 100% */
+    font-size: 12px; /* Adjust the font size for table cells */
+  }
+  
+  .table thead th,
+  .table tbody td {
+    padding: 10px!important; /* Adjust the padding for table cells */
+    text-align: center!important;
+    white-space: nowrap!important;
+    word-break: break-word; /* Add this line to allow content to wrap */
+  }
+  
+  .select-container select {
+    width: 100%!important; /* Ensure select options fit within the container */
+    font-size: 14px!important; /* Adjust the font size for select options */
+  }
+}
