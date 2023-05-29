@@ -62,6 +62,7 @@ function Home() {
           },
           title: {
             text: "Income ($)",
+            align: 'left',
             style: {
               color: '#008FFB',
             }
@@ -152,6 +153,7 @@ function Home() {
           },
           title: {
             text: "Shifts (#)",
+            align: 'left',
             style: {
               color: '#008FFB',
             }
@@ -405,7 +407,7 @@ const handleDecline = async (id) => {
         <div id='vacationsContainer'>
           <h2>Vacation Requests</h2>
           <div id='filterDiv'>
-            <span class='filterSpan'>Filter: </span>
+            <span id='labelfilter' class='filterSpan'>Filter: </span>
             <div id='selectFilter'>
             <Form.Select class='filterSelect' id='status' onChange={(e) => filterVacationRequests(e.target.value)}>
               <option value="pending">Pending</option>

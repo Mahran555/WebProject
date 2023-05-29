@@ -282,7 +282,7 @@ button.red:hover,
 button.red:focus {
   background: rgb(184, 58, 58);
 }
-@media (max-width: 600px) {
+@media (max-width: 680px) {
   .cardDiv {
     width: 100%;
     margin-bottom: 20px;
@@ -293,8 +293,10 @@ button.red:focus {
   }
   
   #leftChart, #rightChart {
-    width: 100%;
+    width: 110%;
+  
   }
+  
   
   #vacationsTable th, #vacationsTable td {
     width: 100%;
@@ -304,4 +306,12 @@ button.red:focus {
     width: 100%;
     text-align: center;
   }
+  .filterSpan {
+    margin-left: -8px !important;
+  }
+
+  #selectFilter{
+    width: calc(100%) !important;
+  }
+  
 }

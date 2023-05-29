@@ -73,8 +73,8 @@ function Dashboard() {
                     </div>
                 </div>
                 <div className="col p-0 m-0">
-                    <div className='p-2 d-flex justify-content-center shadow' style={{minHeight:'45px'}}>
-                        <h4 className="text-font d-flex center-horizintally"><b>Employee Management System</b></h4>
+                    <div className='p-2 d-flex justify-content-center shadow top-con-title' style={{minHeight:'45px'}}>
+                    <h4 id="ems-title" className="text-font d-flex center-horizintally"><b>Employee Management System</b></h4>
                         <div className='ms-auto'></div>
                     </div>
                     <Outlet />
