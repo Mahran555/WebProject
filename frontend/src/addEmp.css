@@ -248,7 +248,7 @@ body {
         opacity: 1;
    }
 }
-@media (max-width: 600px) {
+@media (max-width: 680px) {
     .form_wrapper .col_half {
         width: 100%;
         float: none;
@@ -304,4 +304,5 @@ body {
     .remember_me {
         padding-bottom: 20px;
     }
+    
 }

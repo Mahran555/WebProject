@@ -214,22 +214,21 @@ body {
 
 /* Media Queries */
 
-@media only screen and (max-width: 480px) {
-  /* Styles for devices up to 480px */
-
+@media only screen and (max-width: 680px) {
+  /* Styles for devices up to 680px */
   .editIcon,
   .deleteIcon {
-    width: 25%;
+    width: auto;
     font-size: 20px;
-    margin-left: 0;
+    margin-left: 5px;
+    margin-bottom: 10px;
+    
   }
 
   #empTable tr th,
   #empTable tr td {
     width: 80%;
     text-align: left;
-
-
   }
 
   .addEmpBTN {
@@ -241,6 +240,7 @@ body {
     margin: 0;
     width: 100%;
   }
+  
   #empTable {
     table-layout: fixed;
   }
@@ -253,10 +253,13 @@ body {
     width: 100%;
     height: 100%;
   }
+
   #empTable tr {
-  width: 100%;
-  float: left;
-  box-sizing: border-box;
-  padding: 8px;
-}
+    width: 100%;
+    float: left;
+    box-sizing: border-box;
+    padding: 8px;
+  }
+
+
 }
