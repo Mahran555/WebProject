@@ -132,7 +132,8 @@ function Home() {
         text: 'Number of Shifts in Months',
         align: 'left',
         fontSize: 25,
-        offsetX: 110
+        offsetX: 110,
+        margin: 35 // Add margin to the left of the title
       },
       xaxis: {
         categories: ['January',  'February',  'March',  'April',  'May',  'June',  'July',  'August',  'September',  'October',  'November',  'December']

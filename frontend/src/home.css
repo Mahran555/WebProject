@@ -287,31 +287,38 @@ button.red:focus {
     width: 100%;
     margin-bottom: 20px;
   }
-  
+
   .widecard {
     width: 100%;
   }
-  
+
+  #chartsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
   #leftChart, #rightChart {
-    width: 110%;
-  
+    flex: 1 0 100%;
+    margin: 10px 0;
   }
-  
-  
+
   #vacationsTable th, #vacationsTable td {
+    display: block;
     width: 100%;
+    text-align: left;
   }
-  
+
   #vacationsContainer h2, #filterDiv {
     width: 100%;
     text-align: center;
   }
+
   .filterSpan {
-    margin-left: -8px !important;
+    margin-left: 0;
   }
 
-  #selectFilter{
-    width: calc(100%) !important;
+  #selectFilter {
+    width: 100%;
   }
-  
 }
