@@ -283,6 +283,9 @@ button.red:focus {
   background: rgb(184, 58, 58);
 }
 @media (max-width: 680px) {
+  #firstCardEmp{
+    margin-left: 5px;
+  }
   .cardDiv {
     width: 100%;
     margin-bottom: 20px;
@@ -315,10 +318,15 @@ button.red:focus {
   }
 
   .filterSpan {
-    margin-left: 0;
+    margin-left: 0 !important;
   }
 
   #selectFilter {
     width: 100%;
+  }
+  #chartsContainerEmp{
+        display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
   }
 }

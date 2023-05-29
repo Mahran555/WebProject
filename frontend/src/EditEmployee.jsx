@@ -55,14 +55,16 @@ function EditEmployee() {
 		.catch(err => console.log(err));
 	}
   return (
-    <div className='d-flex flex-column align-items-center pt-4'>
-    <div class='breadcrumbs'>
-      <Link to="/employee" class='bLink'>
-									<span className=" ms-1 d-none d-sm-inline">Manage Employees</span> </Link>
-      <span class='breakL'> &gt; </span>
-      <Link to="" class='bLink'>
-									<span className=" ms-1 d-none d-sm-inline">Edit Employee</span> </Link>
-    </div>
+	<div className='d-flex flex-column align-items-center pt-4'>
+	<div className='breadcrumbs'>
+	  <Link to="/employee" className='bLink'>
+		<span className="breadcrumbs-full">Manage Employees</span>
+	  </Link>
+	  <span className='breakL'> &gt; </span>
+	  <Link to="/create" className='bLink'>
+		<span className="breadcrumbs-full">Edit Employee</span>
+	  </Link>
+	</div>
 			
 			<div class="form_wrapper">
   <div class="form_container">

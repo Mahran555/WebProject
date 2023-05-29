@@ -189,7 +189,7 @@ if (loading) {
 
        <div class='container mt-5'>
         <div id='cardsContainerEmp'>
-          <div id ='firstCardEmp' class='cardDiv first blue widecard'>
+          <div id ='firstCardEmp' class='first blue widecard cardDiv '>
             <div class='cardDetails'>
               <span class='cardTitle'>Work Days This Month </span>
               <span class='cardStat'>Total: {daysCount}</span>
