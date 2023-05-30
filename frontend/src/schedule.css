@@ -324,8 +324,11 @@ td.evening-shift-cell {
   }
   
   .cardsContainer-man .cardDiv {
-    width: 100% !important;
+    width: 90% !important;
     margin-bottom: -7px ;  /* decreased the margin-bottom */
+    margin-left: auto;
+    margin-right: auto;
+   
   }
   
   .widecard {
@@ -333,39 +336,28 @@ td.evening-shift-cell {
   }
   
   .table-container {
-    width: 100%!important; 
+    width: 100% !important; 
     overflow-x: auto!important;
     margin-bottom: 20px;
   }
   
   .table {
-    display: flex;
-    flex-direction: column;
-    height: 300px;  /* should be adjusted */
+    display: block;
+    width: 100% ;
     overflow-x: auto;
-    overflow-y: hidden;
-    width: auto;
-  }
-  .table tr {
-    display: flex;
-    flex-direction: row;
-    width: 300px;  /* should be adjusted */
-    box-sizing: border-box;
-  }
+   
+}
 
 
-  
   .select-container select {
     width: 100%!important;
     font-size: 14px!important;
+
   }
-  .calendar-div{
-    margin-left: -400px !important;
+  .react-select__menu {
+    position: absolute !important;
   }
-  .theading{
-    width: 100% !important;
-    margin-left: 150px;
-    padding-right: 5px !important;
-    
-  }
-  }
+
+
+
+}

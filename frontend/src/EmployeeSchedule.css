@@ -497,3 +497,50 @@ margin-right: 50px;
   font-weight: 700;
   color:rgb(86, 81, 81);
 }
+
+@media (max-width: 600px) {
+  .cardsContainer-man {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 5px;
+  }
+  
+  .cardsContainer-man .cardDiv {
+    width: 90% !important;
+    margin-bottom: -7px ;  /* decreased the margin-bottom */
+    margin-left: auto;
+    margin-right: auto;
+   
+  }
+  
+  .widecard {
+    width: 100% !important;
+  }
+  
+  .table-container {
+    width: 100% !important; 
+    overflow-x: auto!important;
+    margin-bottom: 20px;
+  }
+  
+  .table {
+    display: block;
+    width: 100% ;
+    overflow-x: auto;
+   
+}
+
+
+  .select-container select {
+    width: 100%!important;
+    font-size: 14px!important;
+
+  }
+  .react-select__menu {
+    position: absolute !important;
+  }
+
+
+
+}
