@@ -192,7 +192,7 @@ if (loading) {
           <div id ='firstCardEmp' class='first blue widecard cardDiv '>
             <div class='cardDetails'>
               <span class='cardTitle'>Work Days This Month </span>
-              <span class='cardStat'>Total: {daysCount}</span>
+              <span class='cardStat'>{daysCount}</span>
             </div>
             <div class='cardIcon'>
               <h1><FontAwesomeIcon icon={faCalendarDays}/></h1>
@@ -210,7 +210,7 @@ if (loading) {
           <div class='cardDiv purple widecard'>
             <div class='cardDetails'>
               <span class='cardTitle'>Work Hours This Month</span>
-              <span class='cardStat'>Total:{daysCount*8}h</span>
+              <span class='cardStat'>{daysCount*8}h</span>
             </div>
             <div class='cardIcon'>
               <h1><FontAwesomeIcon icon={faBriefcaseClock}/></h1>
