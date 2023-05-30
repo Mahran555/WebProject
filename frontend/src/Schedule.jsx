@@ -220,7 +220,6 @@ const Schedule = () => {
             <div className="schedule-header-month">
               <h2 className="current-mon">{currentMonth}</h2>
               <br></br>
-              <hr className="calendar-div"></hr>
             </div>
             <div className="schedule-header-iconright" onClick={() => handleWeekChange(1)}>
               <FontAwesomeIcon

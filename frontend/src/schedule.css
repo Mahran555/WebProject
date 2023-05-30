@@ -75,7 +75,7 @@ bottom: 35px;
   text-align: center;
   flex-grow: 1;
   padding-bottom: 20px; /* Add padding to create space below the header */
-  padding-top: 35px;
+  padding-top: 25px;
 }
 
 .schedule-header-icons {
@@ -320,11 +320,12 @@ td.evening-shift-cell {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-right: 5px;
   }
-
-  .cardDiv {
+  
+  .cardsContainer-man .cardDiv {
     width: 100% !important;
-    margin-bottom: 10px;
+    margin-bottom: -7px ;  /* decreased the margin-bottom */
   }
   
   .widecard {
@@ -332,26 +333,39 @@ td.evening-shift-cell {
   }
   
   .table-container {
-    width: 120%!important; /* Adjust the width as desired */
+    width: 100%!important; 
     overflow-x: auto!important;
     margin-bottom: 20px;
   }
   
   .table {
-    width: 120%!important; /* Set table width to 100% */
-    font-size: 12px; /* Adjust the font size for table cells */
+    display: flex;
+    flex-direction: column;
+    height: 300px;  /* should be adjusted */
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: auto;
   }
-  
-  .table thead th,
-  .table tbody td {
-    padding: 10px!important; /* Adjust the padding for table cells */
-    text-align: center!important;
-    white-space: nowrap!important;
-    word-break: break-word; /* Add this line to allow content to wrap */
+  .table tr {
+    display: flex;
+    flex-direction: row;
+    width: 300px;  /* should be adjusted */
+    box-sizing: border-box;
   }
+
+
   
   .select-container select {
-    width: 100%!important; /* Ensure select options fit within the container */
-    font-size: 14px!important; /* Adjust the font size for select options */
+    width: 100%!important;
+    font-size: 14px!important;
   }
-}
+  .calendar-div{
+    margin-left: -400px !important;
+  }
+  .theading{
+    width: 100% !important;
+    margin-left: 150px;
+    padding-right: 5px !important;
+    
+  }
+  }
