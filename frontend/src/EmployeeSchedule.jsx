@@ -284,7 +284,7 @@ function EmployeeSchedule() {
             <div className="schedule-header-month-empl">
               <h2 className="current-mon">{currentMonth}</h2>
               <br></br>
-              <hr className="calendar-div-empl"></hr>
+
             </div>
             <div className="schedule-header-iconright-empl" onClick={() => handleWeekChange(1)}>
               <FontAwesomeIcon

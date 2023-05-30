@@ -73,7 +73,7 @@
     text-align: center;
     flex-grow: 1;
     padding-bottom: 20px; /* Add padding to create space below the header */
-    padding-top: 35px;
+    padding-top: 25px;
   }
   
   .schedule-header-icons {
@@ -499,14 +499,14 @@ margin-right: 50px;
 }
 
 @media (max-width: 600px) {
-  .cardsContainer-man {
+  .cardsContainer-sch-empl {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-right: 5px;
   }
   
-  .cardsContainer-man .cardDiv {
+  .cardsContainer-sch-empl .cardDiv {
     width: 90% !important;
     margin-bottom: -7px ;  /* decreased the margin-bottom */
     margin-left: auto;
@@ -532,14 +532,13 @@ margin-right: 50px;
 }
 
 
-  .select-container select {
-    width: 100%!important;
-    font-size: 14px!important;
+.vacation-request-container button {
 
-  }
-  .react-select__menu {
-    position: absolute !important;
-  }
+  margin-top: 60px;
+  margin-left: -20px;
+
+}
+
 
 
 
