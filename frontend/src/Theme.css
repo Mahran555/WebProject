@@ -156,7 +156,7 @@
   }
 
   .db-bgc .nav-pills .nav-link.active {
-    background-color: #10434b;
+    background-color: #10434b !important;
   }
 
   #menu li {
@@ -174,7 +174,7 @@
   #menu .nav-link:hover {
     background: #10434b;
   }
-
+ 
   /* Media Queries */
   @media only screen and (max-width: 768px) {
     .center-horizintally {

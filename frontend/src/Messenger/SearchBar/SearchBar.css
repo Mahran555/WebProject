@@ -1,0 +1,17 @@
+.form{
+    display: flex;
+}
+
+.FormControl{
+    flex: 2;
+}
+
+.MyButton{
+    flex: 0;
+    border-color: #0d6efd;
+    color: #0d6efd;
+}
+
+.MyButton:hover{
+    background-color: #0d6efd;
+}

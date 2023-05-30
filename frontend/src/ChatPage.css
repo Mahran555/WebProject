@@ -1,0 +1,88 @@
+.chat-text0 {
+    border-radius: 20%;
+    background-color: #f2f2f3;
+    text-align: left;
+}
+
+.chat-text1 {
+    text-align: right;
+    border-radius: 20%;
+    background-color: #f2f2f3;
+}
+
+
+.grid-container {
+    display : grid;
+    grid-template-columns : 38vw 38vw;
+    grid-auto-rows : minmax(5vh , auto);
+    grid-gap: 20px;
+}
+
+
+.myContainer {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* Responsive layout - makes the container wider on large screens (≥992px) */
+@media (min-width: 992px) {
+    .myContainer {
+        max-width: 960px;
+    }
+}
+
+/* Responsive layout - makes the container wider on extra large screens (≥1200px) */
+@media (min-width: 1200px) {
+    .myContainer {
+        max-width: 1140px;
+    }
+}
+
+.chatBoxWrapper{
+    height: 700px;
+}
+.chatBoxTop{
+    height: 680px;
+    overflow-y: scroll;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+.message-own{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    align-items: flex-start;
+}
+
+.message-other{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    align-items: flex-end;
+}
+
+.message-other .messageText{
+    background-color: rgb(245, 241, 241);
+    color: black;
+}
+
+.messageTop{
+    display: flex;
+}
+
+.messageText{
+    pad: 10px;
+    border-radius: 20px;
+    background-color: #1877f2;
+    color: white;
+    max-width: 300px;
+}
+
+.messageBottom{
+    font-size: 12px;
+    margin-top: 20px;
+}
+

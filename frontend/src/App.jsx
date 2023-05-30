@@ -16,7 +16,8 @@ import VacationRequest from './VacationRequest'
 import LoginPageSimple from './LoginPageSimple'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ExchangeShifts from './ExchangeShifts'
-
+import ChatPage from './ChatPage'
+import Messenger from './Messenger/Messanger/Messenger'
 function App() {
   
   return (
@@ -32,6 +33,7 @@ function App() {
       <Route path='/schedule' element={<Schedule />}></Route>
       <Route path='/create' element={<AddEmployee />}></Route>
       <Route path='/employeeEdit/:id' element={<EditEmployee />}></Route>
+      <Route path='/ChatPage/:Myid/:id' element={<ChatPage />}></Route>
       <Route path='/VacationRequest' element={<VacationRequest />}></Route>
       
       </Route>
@@ -40,6 +42,7 @@ function App() {
       <Route path='/employeePage/:id/employeeProfile/:id' element={<EmployeeProfile />}></Route>
       <Route path='/employeePage/:id/employeeSchedule/:id' element={<EmployeeSchedule />}></Route>
       </Route>
+      <Route path='/Messenger/:id' element={<Messenger />}></Route>
     </Routes>
     </BrowserRouter>
     

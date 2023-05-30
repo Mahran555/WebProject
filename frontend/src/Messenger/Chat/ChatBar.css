@@ -1,0 +1,64 @@
+.myContainer {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.btn-bgc {
+    background-color: #1a535c;
+}
+
+
+.chatBoxWrapper {
+    height: 700px;
+}
+
+.chatBoxTop {
+    height: 700px;
+    overflow-y: scroll;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.message-own {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    align-items: flex-start;
+}
+
+.message-other {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    align-items: flex-end;
+}
+
+.message-other .messageText {
+    background-color: rgb(245, 241, 241);
+    color: black;
+}
+
+.messageTop {
+    display: flex;
+}
+
+.messageText {
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #1877f2;
+    color: white;
+    max-width: 300px;
+    width: fit-content;
+    /* Add this line to adjust the width based on content */
+    white-space: normal;
+    /* Add this line to allow wrapping of long messages */
+}
+
+.messageBottom {
+    font-size: 12px;
+    margin-top: 20px;
+}
+

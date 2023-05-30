@@ -80,12 +80,15 @@ let upload = multer({
 
 
 db()
+var ImagesArray = ['', '', '']
+var ImagesSet = new Set()
 const Employee = require("./models/EmployeeDetails");
 const Manager = require("./models/ManagerDetails");
 const Vacations = require("./models/VacationDetails");
 const WorkData = require("./models/WorkInfo");
 const Schedules = require("./models/SaveSchedule");
 const Shifts = require('./models/SaveSchedule');
+const Chats = require("./models/Chats");
 //UserLogin page
 app.post("/login", async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
@@ -576,6 +579,173 @@ app.get('/logout', (req, res) => {
 app.listen(PORT, () => {
   console.log('You are listening to port:',PORT);
 })  
+app.get("/EmployeesInCurrentShift/", async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  res.header('Access-Control-Allow-Credentials', true);
+  try {
+    const date = new Date()
+    const day = date.getDate();
+    const month = date.getMonth() + 1;  // Adding 1 to account for zero-based indexing
+    const hour = date.getHours();
+    let ShiftTime;
+    if (hour >= 0 && hour < 12) {
+      ShiftTime = 'morning'
+    } else {
+      ShiftTime = 'evening'
+    }
+    console.log('day=' + day + ' month=' + month + ' ShiftTime=' + ShiftTime)
+    const shifts = await Shifts.findOne({ day: day, month: month, shift: ShiftTime });
+    const EmployeesIDs = shifts.toObject().EmployeeID
+    let EmployeesArray = [];
+    for (const EmployeeID of EmployeesIDs) {
+      const Emp = await Employee.findOne({ id: EmployeeID });
+      console.log('Emp=' + Emp)
+      EmployeesArray.push(Emp)
+    }
+    console.log('employees in current shift=' + EmployeesArray)
+    return res.json({ Status: "Success", Result: EmployeesArray });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ Status: "Error", Message: "Unable to retrieve vacations requests" });
+  }
+});
+
+//Get Employees that are working at the current shift
+app.get("/Shifts/", async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  res.header('Access-Control-Allow-Credentials', true);
+  try {
+    const date = new Date()
+    const day = date.getDay();
+    const month = date.getMonth();
+    const hour = date.getHours();
+    let ShiftTime;
+    if (hour >= 0 && hour < 12) {
+      ShiftTime = 'morning'
+    } else {
+      ShiftTime = 'evening'
+    }
+    console.log('day=' + day + ' hour=' + hour + ' ShiftTime=' + ShiftTime)
+    const shifts = await Shifts.findOne({ day: day, month: month, shift: ShiftTime });
+    console.log('Shifts=' + shifts)
+    return res.json({ Status: "Success", Result: shifts });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ Status: "Error", Message: "Unable to retrieve vacations requests" });
+  }
+});
+
+
+//Get Chats for specefic employee with another employees
+app.get('/GetChats/:id', async (req, res) => {
+  console.log("im here at GetChats .")
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  res.setHeader('Access-Control-Allow-Credentials', 'true'); // Add this line
+
+  const id = Number(req.params.id);
+
+  try {
+    var result1 = await Chats.find({ $or: [{ EmployeeID1: id }, { EmployeeID2: id }] });
+    const resultarray = [];
+    resultarray.push(result1);
+    for (let chat of result1) {
+      const img = await Employee.findOne({ id: chat.EmployeeID2 }, 'image');
+      ImagesArray.push(img);
+
+    }
+
+    ImagesSet = new Set([...ImagesArray]); // add the elements of the Set to the array
+    console.log('imagesURLS=')
+    for (let value of ImagesSet) {
+      console.log(value);
+    }
+
+    ImagesArray = Array.from(ImagesSet);
+
+    for (let chat of result1) {
+      let internalcounter = 0;
+      let chatObj = chat.toObject(); // Convert each Mongoose document to a plain JS object
+      chatObj.Image = ImagesArray.pop(); // Add the ImagesArray property
+      result1[result1.indexOf(chat)] = chatObj; // Replace the original document in the array with the modified object
+    }
+
+
+
+    return res.send({ Status: "Success", Result: result1 });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ Status: "Error", Message: "Unable to retrieve employees" });
+  }
+});
+
+
+//get messages
+app.get('/GetMessages/:id1/:id2', async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  res.setHeader('Access-Control-Allow-Credentials', 'true'); // Add this line
+  const id1 = req.params.id1;
+  const id2 = req.params.id2;
+
+
+  try {
+    // Find the document by the specified IDs and update the Messages field
+    const Messages = await Chats.findOne(
+      {
+        $or: [
+          {
+            $and: [
+              { EmployeeID1: id2 },
+              { EmployeeID2: id1 }
+            ]
+          },
+          {
+            $and: [
+              { EmployeeID1: id1 },
+              { EmployeeID2: id2 }
+            ]
+          }
+        ]
+      }
+    );
+
+    res.status(200).json({ status: 'Success', chat: Messages });
+  } catch (error) {
+    res.status(500).json({ status: 'Error', error: error.message });
+  }
+
+});
+// Handle Message Recieved
+app.put('/Message/:id1/:id2', async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  res.header('Access-Control-Allow-Credentials', true);
+
+  try {
+    const id1 = req.params.id1;
+    const id2 = req.params.id2;
+    const data = req.body.data;
+    data.MessageDate = new Date(data.MessageDate);
+    console.log('Recieved message id1=' + id1 + ' id2=' + id2 + ' data=' + data);
+    // Find the document by the specified IDs and update the Messages field
+    let updatedChat = await Chats.findOneAndUpdate(
+      { $or: [{ $and: [{ EmployeeID1: id1 }, { EmployeeID2: id2 }] }, { $and: [{ EmployeeID1: id2 }, { EmployeeID2: id1 }] }] },
+      { $push: { Messages: data } },
+      { new: true }
+    );
+
+    if (!updatedChat) {
+      const newChat = new Chats({ EmployeeID1: id1, EmployeeID2: id2, Messages: [data] })
+      await newChat.save();
+      updatedChat = newChat.toObject();
+    }
+
+    console.log('updatedChat=' + updatedChat);  // Check what you're getting back from the database
+
+    res.status(200).json({ status: 'Success', chat: updatedChat });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: 'Error', error: error.message });
+  }
+});
 ///test mohamad
 // schdule updated 16/05 19:27
 //test amran from amransBranch

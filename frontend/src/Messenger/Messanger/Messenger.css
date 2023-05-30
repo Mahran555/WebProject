@@ -1,0 +1,17 @@
+.Messenger{
+    display: flex;
+}
+
+.FriendsBox{
+    flex: 3.5;
+}
+
+.ChatBox{
+    flex: 6;
+}
+
+.OnlineBox{
+    flex: 2.5;
+}
+
+

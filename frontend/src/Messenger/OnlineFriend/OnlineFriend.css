@@ -1,0 +1,31 @@
+.OnlineFriendBox {
+    margin: 10px;
+}
+
+.FriendImg {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+
+}
+
+.FriendName {
+    font-weight: bold;
+    margin: 10px;
+}
+
+.ImgBadge {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: limegreen;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+}
+
+.ImgContainer{
+    display: inline-block;
+    position: relative;
+}
