@@ -381,8 +381,8 @@ const handleDecline = async (id) => {
           </div>
           <div class='cardDiv purple'>
             <div class='cardDetails'>
-              <span class='cardTitle'>Average Salary</span>
-              <span class='cardStat'>{averageSalary}$</span>
+              <span class='cardTitle'>Pending Requests</span>
+              <span class='cardStat'>{vacationRequests.filter((request) => request.status === 'pending').length}</span>
             </div>
             <div class='cardIcon'>
               <h1><FontAwesomeIcon icon={faMoneyBillAlt}/></h1>

@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom'
 import axios from 'axios'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 import "../src/Theme.css"
 
 function Dashboard() {
     const [showNotifications, setShowNotifications] = useState(false);
-    const navigate = useNavigate()
+    const [startDate, setStartDate] = useState(new Date());
+    const navigate = useNavigate();
     const location = useLocation();
 
     axios.defaults.withCredentials = true;
@@ -15,7 +18,6 @@ function Dashboard() {
         setShowNotifications(!showNotifications);
     };
 
-    axios.defaults.withCredentials = true;
     useEffect(() => {
         axios.get('http://localhost:5000/verifyManager')
             .then(res => {
@@ -35,6 +37,11 @@ function Dashboard() {
                 navigate('/login')
             }).catch(err => console.log(err));
     }
+
+    const CustomInput = ({ value, onClick }) => (
+        <i className="fs-4 bi-calendar3" style={{ cursor: 'pointer' }} onClick={onClick}></i>
+    );
+    
     return (
         <div className="container-fluid text-font">
             <div className="row flex-nowrap">
@@ -76,6 +83,7 @@ function Dashboard() {
                     <div className='p-2 d-flex justify-content-center shadow top-con-title' style={{minHeight:'45px'}}>
                     <h4 id="ems-title" className="text-font d-flex center-horizintally"><b>Employee Management System</b></h4>
                         <div className='ms-auto'></div>
+                        <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} customInput={<CustomInput />} />
                     </div>
                     <Outlet />
                 </div>
