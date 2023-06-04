@@ -6,7 +6,7 @@ import { MdCameraAlt } from 'react-icons/md'; // camera icon
 import { FiEye, FiEyeOff } from 'react-icons/fi'; // Eye icons for show/hide password
 import { ThreeDots } from "react-loader-spinner";
 
-import './Profile.css';
+import './CssFiles/Profile.css';
 
 function Profile() {
   const [loading, setLoading] = useState(true); // Initial loading state

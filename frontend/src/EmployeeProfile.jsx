@@ -7,7 +7,7 @@ import { FiEye, FiEyeOff } from 'react-icons/fi'; // Eye icons for show/hide pas
 import { useParams } from 'react-router-dom';
 import { ThreeDots } from "react-loader-spinner";
 
-import './Profile.css';
+import './CssFiles/Profile.css';
 
 function EmployeeProfile() {
   const [loading, setLoading] = useState(true); // Initial loading state

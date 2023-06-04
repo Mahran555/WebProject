@@ -2,7 +2,7 @@ import React, { useEffect,useState } from 'react'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
-import "../src/Theme.css"
+import "./CssFiles/Theme.css"
 import ChatComponent from './Chat'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'

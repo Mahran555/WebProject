@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComments } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import "./Chat.css"
+import "./CssFiles/Chat.css"
 
 const ChatComponent = () => {
     //states + variables

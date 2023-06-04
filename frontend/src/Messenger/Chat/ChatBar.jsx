@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComments } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import "./ChatBar.css"
-import "../../Theme.css"
+import "../../CssFiles/Theme.css"
 
 const ChatBar = ({ SenderId, RecieverId }) => {
     const [error, setError] = useState('');

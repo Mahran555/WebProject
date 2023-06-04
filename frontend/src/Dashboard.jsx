@@ -4,7 +4,7 @@ import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom'
 import axios from 'axios'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import "../src/Theme.css"
+import "./CssFiles/Theme.css"
 
 function Dashboard() {
     const [showNotifications, setShowNotifications] = useState(false);
@@ -14,9 +14,6 @@ function Dashboard() {
 
     axios.defaults.withCredentials = true;
 
-    const handleIconClick = () => {
-        setShowNotifications(!showNotifications);
-    };
 
     useEffect(() => {
         axios.get('http://localhost:5000/verifyManager')

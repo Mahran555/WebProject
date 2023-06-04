@@ -7,7 +7,7 @@ import {  useParams } from 'react-router-dom'
 import {  faDollarSign, faMoneyBillAlt, faBriefcaseClock, faCalendarDay, faCalendarDays, faMoneyCheckDollar } from '@fortawesome/free-solid-svg-icons';
 import { ThreeDots } from "react-loader-spinner";
 
-import './home.css'
+import './CssFiles/home.css'
 
 function EmployeeHome() {
   const {id} = useParams();

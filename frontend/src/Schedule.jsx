@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faCalendarAlt, faCalendarDay, faCalendarWeek, faUser } from '@fortawesome/free-solid-svg-icons';
 import { ThreeDots } from 'react-loader-spinner';
 
-import './schedule.css';
+import './CssFiles/schedule.css';
 
 
 const Schedule = () => {
