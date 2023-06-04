@@ -7,7 +7,7 @@ import { ThreeDots } from 'react-loader-spinner';
 import DatePicker from 'react-datepicker';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faCalendarDay, faCalendarWeek, faUser, faCheck } from '@fortawesome/free-solid-svg-icons';
-import './EmployeeSchedule.css';
+import './CssFiles/EmployeeSchedule.css';
 
 const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
   <button className="custom-input" style={{ background: 'transparent' }} onClick={onClick} ref={ref}>

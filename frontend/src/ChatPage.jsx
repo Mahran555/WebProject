@@ -3,8 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComments } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-import "./ChatPage.css"
-import "./Theme.css"
+import "./CssFiles/ChatPage.css"
+import "./CssFiles/Theme.css"
 
 const ChatPage = () => {
     const [error, setError] = useState('');

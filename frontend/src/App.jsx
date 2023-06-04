@@ -13,9 +13,7 @@ import EmployeeProfile from './EmployeeProfile'
 import EmployeeSchedule from './EmployeeSchedule'
 import EmployeeHome from './EmployeeHome'
 import VacationRequest from './VacationRequest'
-import LoginPageSimple from './LoginPageSimple'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ExchangeShifts from './ExchangeShifts'
 import ChatPage from './ChatPage'
 import Messenger from './Messenger/Messanger/Messenger'
 function App() {
