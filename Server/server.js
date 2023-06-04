@@ -156,7 +156,6 @@ app.post('/updateEmployee/:id', upload.single('image'), async (req, res) => {
     let updatedFields = { fname, lname, email, password, phone, address, image };
 
     const updatedEmployee = await Employee.findByIdAndUpdate(_id, updatedFields, { new: true });
-    console.log('Successfully updated Employee:', updatedEmployee);
     res.json({ Status: 'Success', Result: updatedEmployee });
   } catch (err) {
     console.log('Failed to update Employee:', err);
@@ -180,7 +179,6 @@ app.post('/updateManager', upload.single('image'), async (req, res) => {
     let updatedFields = { fname, lname, email, password, phone, address, image };
 
     const updatedManager = await Manager.findByIdAndUpdate(_id, updatedFields, { new: true });
-    console.log('Successfully updated manager:', updatedManager);
     res.json({ Status: 'Success', Result: updatedManager });
   } catch (err) {
     console.log('Failed to update manager:', err);
@@ -475,7 +473,6 @@ app.post('/updateManager', upload.single('image'), async (req, res) => {
     }
 
     const updatedManager = await Manager.findByIdAndUpdate(_id, updatedFields, { new: true });
-    console.log('Successfully updated manager:', updatedManager);
     res.json({ Status: 'Success', Result: updatedManager });
   } catch (err) {
     console.log('Failed to update manager:', err);
@@ -593,16 +590,14 @@ app.get("/EmployeesInCurrentShift/", async (req, res) => {
     } else {
       ShiftTime = 'evening'
     }
-    console.log('day=' + day + ' month=' + month + ' ShiftTime=' + ShiftTime)
     const shifts = await Shifts.findOne({ day: day, month: month, shift: ShiftTime });
     const EmployeesIDs = shifts.toObject().EmployeeID
     let EmployeesArray = [];
     for (const EmployeeID of EmployeesIDs) {
       const Emp = await Employee.findOne({ id: EmployeeID });
-      console.log('Emp=' + Emp)
       EmployeesArray.push(Emp)
     }
-    console.log('employees in current shift=' + EmployeesArray)
+    
     return res.json({ Status: "Success", Result: EmployeesArray });
   } catch (error) {
     console.log(error);
@@ -625,9 +620,9 @@ app.get("/Shifts/", async (req, res) => {
     } else {
       ShiftTime = 'evening'
     }
-    console.log('day=' + day + ' hour=' + hour + ' ShiftTime=' + ShiftTime)
+    
     const shifts = await Shifts.findOne({ day: day, month: month, shift: ShiftTime });
-    console.log('Shifts=' + shifts)
+    
     return res.json({ Status: "Success", Result: shifts });
   } catch (error) {
     console.log(error);
@@ -638,7 +633,7 @@ app.get("/Shifts/", async (req, res) => {
 
 //Get Chats for specefic employee with another employees
 app.get('/GetChats/:id', async (req, res) => {
-  console.log("im here at GetChats .")
+  
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   res.setHeader('Access-Control-Allow-Credentials', 'true'); // Add this line
 
@@ -655,10 +650,7 @@ app.get('/GetChats/:id', async (req, res) => {
     }
 
     ImagesSet = new Set([...ImagesArray]); // add the elements of the Set to the array
-    console.log('imagesURLS=')
-    for (let value of ImagesSet) {
-      console.log(value);
-    }
+    
 
     ImagesArray = Array.from(ImagesSet);
 
@@ -724,7 +716,6 @@ app.put('/Message/:id1/:id2', async (req, res) => {
     const id2 = req.params.id2;
     const data = req.body.data;
     data.MessageDate = new Date(data.MessageDate);
-    console.log('Recieved message id1=' + id1 + ' id2=' + id2 + ' data=' + data);
     // Find the document by the specified IDs and update the Messages field
     let updatedChat = await Chats.findOneAndUpdate(
       { $or: [{ $and: [{ EmployeeID1: id1 }, { EmployeeID2: id2 }] }, { $and: [{ EmployeeID1: id2 }, { EmployeeID2: id1 }] }] },
@@ -738,7 +729,7 @@ app.put('/Message/:id1/:id2', async (req, res) => {
       updatedChat = newChat.toObject();
     }
 
-    console.log('updatedChat=' + updatedChat);  // Check what you're getting back from the database
+
 
     res.status(200).json({ status: 'Success', chat: updatedChat });
   } catch (error) {

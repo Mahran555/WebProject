@@ -56,6 +56,9 @@ function Home() {
             color: '#008FFB'
           },
           labels: {
+            formatter: function (val) {
+              return val.toFixed(0);
+            },
             style: {
               colors: '#008FFB',
             }
@@ -82,6 +85,9 @@ function Home() {
             color: '#00E396'
           },
           labels: {
+            formatter: function (val) {
+              return val.toFixed(0);
+            },
             style: {
               colors: '#00E396',
             }
@@ -148,6 +154,9 @@ function Home() {
             color: '#008FFB'
           },
           labels: {
+            formatter: function (val) {
+              return val.toFixed(0);
+            },
             style: {
               colors: '#008FFB',
             }
@@ -174,6 +183,9 @@ function Home() {
             color: '#00E396'
           },
           labels: {
+            formatter: function (val) {
+              return val.toFixed(0);
+            },
             style: {
               colors: '#00E396',
             }
@@ -355,7 +367,7 @@ const handleDecline = async (id) => {
           <div id='firstCard' class='cardDiv first blue'>
             <div class='cardDetails'>
               <span class='cardTitle'>Employees </span>
-              <span class='cardStat'>{employeeCount}</span>
+              <span class='cardStat'>{employeeCount.toFixed(0)}</span>
             </div>
             <div class='cardIcon'>
               <h1><FontAwesomeIcon icon={faUser}/></h1>
@@ -364,7 +376,7 @@ const handleDecline = async (id) => {
           <div class='cardDiv orange'>
             <div class='cardDetails'>
               <span class='cardTitle'>Average Salary</span>
-              <span class='cardStat'>{averageSalary}$</span>
+              <span class='cardStat'>{averageSalary.toFixed(2)}$</span>
             </div>
             <div class='cardIcon'>
               <h1><FontAwesomeIcon icon={faMoneyBillAlt}/></h1>
@@ -373,7 +385,7 @@ const handleDecline = async (id) => {
           <div class='cardDiv red'>
             <div class='cardDetails'>
               <span class='cardTitle'>Total Salaries</span>
-              <span class='cardStat'>{salary}$</span>
+              <span class='cardStat'>{salary.toFixed(0)}$</span>
             </div>
             <div class='cardIcon'>
               <h1><FontAwesomeIcon icon={faDollarSign}/></h1>
@@ -382,7 +394,7 @@ const handleDecline = async (id) => {
           <div class='cardDiv purple'>
             <div class='cardDetails'>
               <span class='cardTitle'>Pending Requests</span>
-              <span class='cardStat'>{vacationRequests.filter((request) => request.status === 'pending').length}</span>
+              <span class='cardStat'>{vacationRequests.filter((request) => request.status === 'pending').length.toFixed(0)}</span>
             </div>
             <div class='cardIcon'>
               <h1><FontAwesomeIcon icon={faClock}/></h1>

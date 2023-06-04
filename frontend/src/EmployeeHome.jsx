@@ -61,6 +61,9 @@ function EmployeeHome() {
                   color: '#008FFB'
                 },
                 labels: {
+                  formatter: function (val) {
+                    return val.toFixed(0);
+                  },
                   style: {
                     colors: '#008FFB',
                   }
@@ -94,6 +97,11 @@ function EmployeeHome() {
         });
         const [seriesData, setSeriesData] = useState([]);
         const chartOptions = {
+          title: {
+            text: 'Working Days per Months',
+            align: 'center',
+            offsetX: 110
+          },
           chart: {
             type: 'donut',
           },
@@ -192,7 +200,7 @@ if (loading) {
           <div id ='firstCardEmp' class='first blue widecard cardDiv '>
             <div class='cardDetails'>
               <span class='cardTitle'>Work Days This Month </span>
-              <span class='cardStat'>{daysCount}</span>
+              <span class='cardStat'>{daysCount.toFixed(0)}</span>
             </div>
             <div class='cardIcon'>
               <h1><FontAwesomeIcon icon={faCalendarDays}/></h1>
@@ -201,7 +209,7 @@ if (loading) {
           <div class='cardDiv orange'>
             <div class='cardDetails'>
               <span class='cardTitle'>Salary</span>
-              <span class='cardStat'>{employeeData.salary}$</span>
+              <span class='cardStat'>{employeeData.salary.toFixed(0)}$</span>
             </div>
             <div class='cardIcon'>
               <h1><FontAwesomeIcon icon={faDollarSign}/></h1>
@@ -210,7 +218,7 @@ if (loading) {
           <div class='cardDiv purple widecard'>
             <div class='cardDetails'>
               <span class='cardTitle'>Work Hours This Month</span>
-              <span class='cardStat'>{daysCount*8}h</span>
+              <span class='cardStat'>{daysCount*8..toFixed(0)}h</span>
             </div>
             <div class='cardIcon'>
               <h1><FontAwesomeIcon icon={faBriefcaseClock}/></h1>
