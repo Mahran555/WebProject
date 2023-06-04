@@ -3,7 +3,7 @@ import Chart from "react-apexcharts";
 import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faDollarSign, faMoneyBillAlt } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faDollarSign, faMoneyBillAlt,faClock  } from '@fortawesome/free-solid-svg-icons';
 import { ThreeDots } from "react-loader-spinner";
 import './home.css'
 function Home() {
@@ -385,7 +385,7 @@ const handleDecline = async (id) => {
               <span class='cardStat'>{vacationRequests.filter((request) => request.status === 'pending').length}</span>
             </div>
             <div class='cardIcon'>
-              <h1><FontAwesomeIcon icon={faMoneyBillAlt}/></h1>
+              <h1><FontAwesomeIcon icon={faClock}/></h1>
             </div>
           </div>
         </div>
