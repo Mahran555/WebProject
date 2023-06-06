@@ -20,7 +20,10 @@ function FriendsBar({id, onFriendClick }) {
       });
   }, []);
 
-  const filteredFriends = AllFriends.filter((friend) => friend.id != id && friend.fname.includes(searchValue));
+  const filteredFriends = AllFriends.filter((friend) => 
+  friend.id != id && friend.fname.toLowerCase().includes(searchValue.toLowerCase())
+);
+
 
 
   return (
