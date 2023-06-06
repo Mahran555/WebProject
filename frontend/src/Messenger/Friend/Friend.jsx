@@ -6,13 +6,10 @@ import { useParams } from 'react-router-dom'
 function Friend({FriendName , FriendImg  , FriendId , onFriendClick})  {
     const { id } = useParams();
     const MyId = id;
-    console.log('MyId='+ MyId)
-    console.log('FriendId='+ FriendId)
+   
 
     function HandleFriendClick() {
         setReceiverId(FriendId);  // Update the receiverId state
-        console.log('im at clicked function FriendId='+FriendId)
-        console.log('recieverId='+receiverId)
     }
 
     return (

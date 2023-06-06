@@ -4,16 +4,14 @@ import './OnlineFriendsBar.css'
 import { useState , useEffect } from 'react';
 import axios from 'axios';
 
-function OnlineFriendsBar() {
+function OnlineFriendsBar({id}) {
     const [Employees , setEmployees ] = useState([])
-
     useEffect(() => {
         axios
-          .get('http://localhost:5000/EmployeesInCurrentShift/')
+          .get('http://localhost:5000/EmployeesInCurrentShift/'+id)
           .then((res) => {
             if (res.data.Status === 'Success') {
               setEmployees(res.data.Result)
-            console.log('EmployeesArray='+JSON.stringify(res.data.Result))
             }
           })
           .catch((err) => {

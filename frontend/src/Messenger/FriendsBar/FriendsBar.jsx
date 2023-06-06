@@ -5,10 +5,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import './FriendsBar.css';
 
-function FriendsBar({ onFriendClick }) {
+function FriendsBar({id, onFriendClick }) {
   const [AllFriends, SetAllFriends] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-
   useEffect(() => {
     axios.get('http://localhost:5000/getEmployee')
       .then((res) => {
@@ -21,7 +20,8 @@ function FriendsBar({ onFriendClick }) {
       });
   }, []);
 
-  const filteredFriends = AllFriends.filter(friend => friend.fname.includes(searchValue));
+  const filteredFriends = AllFriends.filter((friend) => friend.id != id && friend.fname.includes(searchValue));
+
 
   return (
     <div className='FriendsBar'>
@@ -32,7 +32,6 @@ function FriendsBar({ onFriendClick }) {
         onChange={e => setSearchValue(e.target.value)} 
       />
       {filteredFriends.map((friend) => {
-        console.log('AllFriends=' + AllFriends);
         return (
           <Friend 
             key={friend.id} 

@@ -17,7 +17,7 @@ const ChatBar = ({ SenderId, RecieverId }) => {
     const [Chats, setChats] = useState([]);
 
 
-    console.log('********** i did re-render *************** SenderId = ' + SenderId + ' RecieverId = ' + RecieverId)
+   
     const handleSend = (event) => {
         event.preventDefault();
         // Get the input element by ID
@@ -26,7 +26,7 @@ const ChatBar = ({ SenderId, RecieverId }) => {
         // Read the value from the input element
         const inputValue = inputElement.value;
 
-        console.log("inputValue=" + inputValue)
+      
 
         axios.put('http://localhost:5000/Message/' + SenderId + '/' + RecieverId, {
             data: {
@@ -52,9 +52,6 @@ const ChatBar = ({ SenderId, RecieverId }) => {
         axios.get('http://localhost:5000/GetMessages/' + SenderId + '/' + RecieverId)
             .then((res) => {
                 if (res.data.status === 'Success') {
-                    console.log('im at client get messages')
-                    console.log('SenderId = ' + SenderId + ' RecieverId = ' + RecieverId)
-                    console.log('res.data.chat.Messages=' + res.data.chat.Messages)
                     setResponse(res.data.chat.Messages);
 
                 }
@@ -71,8 +68,6 @@ const ChatBar = ({ SenderId, RecieverId }) => {
         <div className="chatBoxWrapper">
             <div className="chatBoxTop">
                 {Response.map((obj, index) => {
-                    console.log('obj=' + JSON.stringify(obj));
-                    console.log('')
                     return (
                         <div className={`${obj.SenderID == SenderId ? 'message-own' : 'message-other'}`} key={index}>
                             <div className="messageTop">

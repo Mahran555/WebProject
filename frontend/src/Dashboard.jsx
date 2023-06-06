@@ -18,7 +18,7 @@ function Dashboard() {
     useEffect(() => {
         axios.get('http://localhost:5000/verifyManager')
             .then(res => {
-                if (res.data.Status !== "Success") {
+                if (res.data.Status !== "Success" || res.data.role!=="Manager") {
                         navigate('/login');
                 } 
 

@@ -20,7 +20,7 @@ function EmployeePage() {
 	useEffect(() => {
 		axios.get('http://localhost:5000/verifyEmployee')
 			.then(res => {
-				if (res.data.Status !== "Success") {
+				if (res.data.Status !== "Success" || res.data.id != id) {
 					navigate('/login')
 				}
 			})
@@ -56,7 +56,7 @@ function EmployeePage() {
       </Link>
     </li>
     <li>
-      <Link to={'/Messenger/'+id} className={"nav-link px-0 align-middle text-white " + (activeLink === 'chat' ? 'active' : '')} onClick={() => setActiveLink('chat')}>
+      <Link to={'/employeePage/'+id+'/Messenger/'+id} className={"nav-link px-0 align-middle text-white " + (activeLink === 'chat' ? 'active' : '')} onClick={() => setActiveLink('chat')}>
         <i className="tc fs-4 bi-chat-dots"></i> <span className="tc ms-1 d-none d-sm-inline">Chat</span>
       </Link>
     </li>

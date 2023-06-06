@@ -85,7 +85,6 @@ var ImagesSet = new Set()
 const Employee = require("./models/EmployeeDetails");
 const Manager = require("./models/ManagerDetails");
 const Vacations = require("./models/VacationDetails");
-const WorkData = require("./models/WorkInfo");
 const Schedules = require("./models/SaveSchedule");
 const Shifts = require('./models/SaveSchedule');
 const Chats = require("./models/Chats");
@@ -484,7 +483,7 @@ app.post('/updateManager', upload.single('image'), async (req, res) => {
  //Get Employee Information
 app.get('/getInfo/:id', async(req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
-  const id = Number(req.params.id);
+  const id = req.params.id;
   try {
     const result = await Employee.findOne( { id } )
     return res.send({ Status: "Success", Result: result });
@@ -576,10 +575,11 @@ app.get('/logout', (req, res) => {
 app.listen(PORT, () => {
   console.log('You are listening to port:',PORT);
 })  
-app.get("/EmployeesInCurrentShift/", async (req, res) => {
+app.get("/EmployeesInCurrentShift/:id", async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   res.header('Access-Control-Allow-Credentials', true);
   try {
+    id=req.params.id
     const date = new Date()
     const day = date.getDate();
     const month = date.getMonth() + 1;  // Adding 1 to account for zero-based indexing
@@ -595,7 +595,10 @@ app.get("/EmployeesInCurrentShift/", async (req, res) => {
     let EmployeesArray = [];
     for (const EmployeeID of EmployeesIDs) {
       const Emp = await Employee.findOne({ id: EmployeeID });
+      if(EmployeeID!=id)
+      {
       EmployeesArray.push(Emp)
+      }
     }
     
     return res.json({ Status: "Success", Result: EmployeesArray });
@@ -633,37 +636,29 @@ app.get("/Shifts/", async (req, res) => {
 
 //Get Chats for specefic employee with another employees
 app.get('/GetChats/:id', async (req, res) => {
-  
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   res.setHeader('Access-Control-Allow-Credentials', 'true'); // Add this line
-
   const id = Number(req.params.id);
-
+  const ImagesArray=[]
   try {
-    var result1 = await Chats.find({ $or: [{ EmployeeID1: id }, { EmployeeID2: id }] });
-    const resultarray = [];
-    resultarray.push(result1);
-    for (let chat of result1) {
-      const img = await Employee.findOne({ id: chat.EmployeeID2 }, 'image');
-      ImagesArray.push(img);
+    var chats = await Chats.find({ $or: [{ EmployeeID1: id }, { EmployeeID2: id }] }); 
+    for (let chat of chats) {
+      if(chat.EmployeeID1==id){
+        const img = await Employee.findOne({ id: chat.EmployeeID2 }, 'image');
+        ImagesArray.push(img);
+      }else{
+        const img = await Employee.findOne({ id: chat.EmployeeID1 }, 'image');
+        ImagesArray.push(img);
+      }
 
     }
 
-    ImagesSet = new Set([...ImagesArray]); // add the elements of the Set to the array
-    
-
-    ImagesArray = Array.from(ImagesSet);
-
-    for (let chat of result1) {
-      let internalcounter = 0;
+    for (let chat of chats) {
       let chatObj = chat.toObject(); // Convert each Mongoose document to a plain JS object
-      chatObj.Image = ImagesArray.pop(); // Add the ImagesArray property
-      result1[result1.indexOf(chat)] = chatObj; // Replace the original document in the array with the modified object
+      chatObj.Image = ImagesArray.shift(); // Add the ImagesArray property
+      chats[chats.indexOf(chat)] = chatObj; // Replace the original document in the array with the modified object
     }
-
-
-
-    return res.send({ Status: "Success", Result: result1 });
+    return res.send({ Status: "Success", Result: chats });
   } catch (error) {
     console.log(error);
     return res.status(500).send({ Status: "Error", Message: "Unable to retrieve employees" });
