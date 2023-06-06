@@ -13,8 +13,7 @@ import EmployeeProfile from './EmployeeProfile'
 import EmployeeSchedule from './EmployeeSchedule'
 import EmployeeHome from './EmployeeHome'
 import VacationRequest from './VacationRequest'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import ChatPage from './ChatPage'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import Messenger from './Messenger/Messanger/Messenger'
 function App() {
   
@@ -38,7 +37,6 @@ function App() {
       <Route path='' element={<EmployeeHome />}></Route>
       <Route path='/employeePage/:id/employeeProfile/:id' element={<EmployeeProfile />}></Route>
       <Route path='/employeePage/:id/employeeSchedule/:id' element={<EmployeeSchedule />}></Route>
-      <Route path='/employeePage/:id/ChatPage/:senderID/:id' element={<ChatPage />}></Route>
       <Route path='/employeePage/:id/Messenger/:id' element={<Messenger />}></Route>
       </Route>
      
