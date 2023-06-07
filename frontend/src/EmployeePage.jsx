@@ -7,16 +7,21 @@ import ChatComponent from './Chat'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 function EmployeePage() {
+	// States
 	const [activeLink, setActiveLink] = useState('home');
 	const [startDate, setStartDate] = useState(new Date()); 
-
-	const CustomInput = ({ value, onClick }) => (
-        <i className="fs-4 bi-calendar3" style={{ cursor: 'pointer' }} onClick={onClick}></i>
-    ); 
+   // Custom input component for the date picker
+   const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
+	<i ref={ref} className="fs-4 bi-calendar3" style={{ cursor: 'pointer' }} onClick={onClick}></i>
+  ));
+   // Get the employee ID from the URL parameter
 
     const {id} = useParams();
 	const navigate = useNavigate()
 	axios.defaults.withCredentials = true;
+
+	// Verify employee and check authentication
+
 	useEffect(() => {
 		axios.get('http://localhost:5000/verifyEmployee')
 			.then(res => {
@@ -25,6 +30,8 @@ function EmployeePage() {
 				}
 			})
 	}, [])
+	// Handle logout
+
 	const handleLogout = () => {
 		axios.get('http://localhost:5000/logout')
 		.then(res => {

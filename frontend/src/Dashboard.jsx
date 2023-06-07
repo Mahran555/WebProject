@@ -7,14 +7,14 @@ import 'react-datepicker/dist/react-datepicker.css'
 import "./CssFiles/Theme.css"
 
 function Dashboard() {
-    const [showNotifications, setShowNotifications] = useState(false);
-    const [startDate, setStartDate] = useState(new Date());
-    const navigate = useNavigate();
-    const location = useLocation();
+    const [startDate, setStartDate] = useState(new Date()); // State for date picker
+   // Hooks
+   const navigate = useNavigate(); // Navigate function from react-router-dom
+   const location = useLocation(); // Location object from react-router-dom
 
     axios.defaults.withCredentials = true;
 
-
+    // Check if the user is a manager, otherwise redirect to login
     useEffect(() => {
         axios.get('http://localhost:5000/verifyManager')
             .then(res => {
@@ -24,17 +24,22 @@ function Dashboard() {
 
             })
     }, [])
-
+  // Handle logout
     const handleLogout = () => {
         axios.get('http://localhost:5000/logout')
             .then(res => {
                 navigate('/login')
             }).catch(err => console.log(err));
     }
-
-    const CustomInput = ({ value, onClick }) => (
-        <i className="fs-4 bi-calendar3" style={{ cursor: 'pointer' }} onClick={onClick}></i>
-    );
+    // Custom input component for date picker
+    const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
+        <i
+          ref={ref}
+          className="fs-4 bi-calendar3"
+          style={{ cursor: 'pointer' }}
+          onClick={onClick}
+        ></i>
+      ));
     
     return (
         <div className="container-fluid text-font">

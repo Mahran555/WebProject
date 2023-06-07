@@ -4,10 +4,10 @@ import { useParams } from 'react-router-dom'
 
 
 function Friend({FriendName , FriendImg  , FriendId , onFriendClick})  {
-    const { id } = useParams();
-    const MyId = id;
+    const { id } = useParams(); // Access the URL parameter 'id'
+    const MyId = id; // Store the value of the 'id' parameter
    
-
+    // Handle the click event on the friend
     function HandleFriendClick() {
         setReceiverId(FriendId);  // Update the receiverId state
     }

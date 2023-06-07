@@ -5,7 +5,9 @@ import { useState , useEffect } from 'react';
 import axios from 'axios';
 
 function OnlineFriendsBar({id}) {
+    // State for storing the list of employees
     const [Employees , setEmployees ] = useState([])
+    // Fetch the list of employees in the current shift
     useEffect(() => {
         axios
           .get('http://localhost:5000/EmployeesInCurrentShift/'+id)

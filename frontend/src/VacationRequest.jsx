@@ -17,7 +17,7 @@ function VacationRequest() {
     const [selectedDateTo, setSelectedDateTo] = useState(null);
     const [selectedDateFrom, setSelectedDateFrom] = useState(null);
     const [description, setDescription] = useState('');
-
+    // Handle change in the description textarea
     const handleChange = (event) => {
         setDescription(event.target.value);
     };

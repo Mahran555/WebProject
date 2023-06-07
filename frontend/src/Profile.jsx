@@ -32,23 +32,23 @@ function Profile() {
     address: false,
     password: false,
   });
-
+  // Handle input field changes
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setData({ ...data, [name]: value });
   };
-
+  // Handle edit click for a specific field
   const handleEditClick = (field) => {
     setEditable({ ...editable, [field]: !editable[field] });
     if (field === 'password' && !editable.password) {
       setShowPassword(false);
     }
   };
-
+  // Handle click on the image container to open file dialog
   const handleImageClick = () => {
     fileInputRef.current.click();
   };
-
+  // Handle image change
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
     const localImageUrl = URL.createObjectURL(file);
@@ -57,7 +57,7 @@ function Profile() {
     setData((prevData) => ({ ...prevData, image: localImageUrl }));
     setSelectedFile(file); // Store the selected file in state
   };
-
+  // Handle form submission
   const handleFormSubmit = async () => {
     if (selectedFile) {
       const formData = new FormData();
@@ -111,6 +111,7 @@ function Profile() {
       }
     }
   };
+  // Fetch initial data for the profile
 
   useEffect(() => {
     axios
@@ -127,13 +128,14 @@ function Profile() {
       });
   }, [editable.email, editable.phone, editable.address, editable.password]);
   
-
+  // Handle key press event on the form "Enter"
   const handleFormKeyDown = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
       handleFormSubmit();
     }
   };
+  // Render loading spinner if data is still loading
   if (loading) {
     return (
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
@@ -281,7 +283,7 @@ function Profile() {
                 </div>
                 <div className="d-flex justify-content-end mt-4">
                   <button
-                    type="button"s
+                    type="button"
                     className="save-button"
                     onClick={handleFormSubmit}
                   >

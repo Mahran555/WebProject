@@ -25,24 +25,31 @@ function EmployeeProfile() {
         address: '',
         image: ''
         })
-        let { id } = useParams();
+  // Get the employee ID from the URL parameter
+  let { id } = useParams();
 	const [editable, setEditable] = useState({
     email: false,
     phone: false,
     address: false,
     password: false,
   });
+  // Update the data state when input fields change
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setData({ ...data, [name]: value });
   };
+  // Toggle the editable state of a field for editing
+
   const handleEditClick = (field) => {
     setEditable({ ...editable, [field]: !editable[field] });
   };
+  // Trigger file input click when the profile image is clicked
 
   const handleImageClick = () => {
     fileInputRef.current.click();
   };
+  // Handle image change when a new image is selected
+
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
     const localImageUrl = URL.createObjectURL(file);
@@ -51,8 +58,10 @@ function EmployeeProfile() {
     setData((prevData) => ({ ...prevData, image: localImageUrl }));
     setSelectedFile(file); // Store the selected file in state
   };
+  // Handle form submission
+
   const handleFormSubmit = async (event) => {
-  
+  // Create a FormData object and append form data
     if (selectedFile) {
       const formData = new FormData();
       formData.append('_id', data._id);
@@ -81,6 +90,8 @@ function EmployeeProfile() {
         console.log('Failed to update data:', error);
       }
     } else {
+      // Send a POST request without image data
+
       try {
         const response = await axios.post('http://localhost:5000/updateEmployee/'+id, {
           _id: data._id,  
@@ -104,6 +115,8 @@ function EmployeeProfile() {
       }
     }
   };
+  // Fetch the employee data from the server
+
   useEffect(() => {
     axios
       .get('http://localhost:5000/getInfo/' + id)
@@ -115,6 +128,7 @@ function EmployeeProfile() {
       .catch((err) => console.log('Failed to fetch data'))
       .finally(() => setLoading(false)); // Set loading to false after data retrieval
   }, [editable.email, editable.phone, editable.address, editable.password]);
+  // Handle form submission when Enter key is pressed
 
   const handleFormKeyDown = (event) => {
     if (event.key === 'Enter') {
@@ -122,6 +136,7 @@ function EmployeeProfile() {
       handleFormSubmit();
     }
   };
+  // Render loading spinner if data is still loading
 
   if (loading) {
     return (
@@ -280,7 +295,7 @@ function EmployeeProfile() {
                 </div>
                 <div className="d-flex justify-content-end mt-4">
                   <button
-                    type="button"s
+                    type="button"
                     className="save-button"
                     onClick={handleFormSubmit}
                   >

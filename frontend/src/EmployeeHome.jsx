@@ -10,9 +10,9 @@ import { ThreeDots } from "react-loader-spinner";
 import './CssFiles/home.css'
 
 function EmployeeHome() {
-  const {id} = useParams();
-  const [daysCount, setDaysCount] = useState();
-  const [employeeData, setEmployeesetData] = useState({
+  const {id} = useParams();// Get the 'id' parameter from the URL
+  const [daysCount, setDaysCount] = useState(); // State for storing the count of work days this month
+  const [employeeData, setEmployeesetData] = useState({// State for storing employee data
     id:'',
     fname: '',
     lname: '',
@@ -195,32 +195,32 @@ if (loading) {
         <hr style={{ margin: '20px auto', width: '50%' }} />
       </div>
 
-       <div class='container mt-5'>
+       <div className='container mt-5'>
         <div id='cardsContainerEmp'>
-          <div id ='firstCardEmp' class='first blue widecard cardDiv '>
-            <div class='cardDetails'>
-              <span class='cardTitle'>Work Days This Month </span>
-              <span class='cardStat'>{daysCount.toFixed(0)}</span>
+          <div id ='firstCardEmp' className='first blue widecard cardDiv '>
+            <div className='cardDetails'>
+              <span className='cardTitle'>Work Days This Month </span>
+              <span className='cardStat'>{daysCount.toFixed(0)}</span>
             </div>
-            <div class='cardIcon'>
+            <div className='cardIcon'>
               <h1><FontAwesomeIcon icon={faCalendarDays}/></h1>
             </div>
           </div>
-          <div class='cardDiv orange'>
-            <div class='cardDetails'>
-              <span class='cardTitle'>Salary</span>
-              <span class='cardStat'>{employeeData.salary.toFixed(0)}$</span>
+          <div className='cardDiv orange'>
+            <div className='cardDetails'>
+              <span className='cardTitle'>Salary</span>
+              <span className='cardStat'>{employeeData.salary.toFixed(0)}$</span>
             </div>
-            <div class='cardIcon'>
+            <div className='cardIcon'>
               <h1><FontAwesomeIcon icon={faDollarSign}/></h1>
             </div>
           </div>
-          <div class='cardDiv purple widecard'>
-            <div class='cardDetails'>
-              <span class='cardTitle'>Work Hours This Month</span>
-              <span class='cardStat'>{daysCount*8..toFixed(0)}h</span>
+          <div className='cardDiv purple widecard'>
+            <div className='cardDetails'>
+              <span className='cardTitle'>Work Hours This Month</span>
+              <span className='cardStat'>{daysCount*8..toFixed(0)}h</span>
             </div>
-            <div class='cardIcon'>
+            <div className='cardIcon'>
               <h1><FontAwesomeIcon icon={faBriefcaseClock}/></h1>
             </div>
           </div>

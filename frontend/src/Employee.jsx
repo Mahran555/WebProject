@@ -6,9 +6,10 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import "./CssFiles/employee.css"
 
 function Employee() {
-  const [data, setData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-
+  // States
+  const [data, setData] = useState([]); // State for employee data
+  const [searchTerm, setSearchTerm] = useState(''); // State for search term
+  // Fetch employee data
   useEffect(() => {
     axios.get('http://localhost:5000/getEmployee')
       .then((res) => {
@@ -18,7 +19,7 @@ function Employee() {
       })
       .catch(err => console.log('Failed'));
   }, []);
-
+  // Handle employee deletion
   const handleDelete = (id) => {
     axios.get(`http://localhost:5000/delete/${id}`)
       .then(res => {
@@ -42,10 +43,10 @@ function Employee() {
         <h1 id='titleEmpP'>Employee List</h1>
       </div>
       <div id='aboveTable'>
-      <Link id='addBTND' to='/create'><button class='addEmpBTN'>Add Employee</button></Link>
-        <div class="search-box">
-          <button class="btn-search"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
-          <input type="search" class="input-search" placeholder="Type to Search..." onChange={e => setSearchTerm(e.target.value)}/>
+      <Link id='addBTND' to='/create'><button className='addEmpBTN'>Add Employee</button></Link>
+        <div className="search-box">
+          <button className="btn-search"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+          <input type="search" className="input-search" placeholder="Type to Search..." onChange={e => setSearchTerm(e.target.value)}/>
         </div>
       </div>
 
@@ -71,12 +72,11 @@ function Employee() {
           <tbody>
             {filteredData.length > 0 ? (
               filteredData.map((employee, i) => (
-                <tr>
-                  <td class='imgCol'>
-                    <img
+                <tr key={employee.id}>
+                  <td className='imgCol'>
+                  <img
                       src={`http://localhost:5000/images/` + employee.image}
-                      className='employee_image'
-                      class='rounded-circle'
+                      className='employee_image rounded-circle'
                       alt='Cinque Terre'
                       width='60'
                       height='60'
@@ -89,15 +89,15 @@ function Employee() {
                   <td>{employee.address}</td>
                   <td>{employee.phone}</td>
                   <td>${employee.salary}</td>
-                  <td class='actionCol'>
-                    <Link class='editIcon'
+                  <td className='actionCol'>
+                    <Link className='editIcon'
                       to={`/employeeEdit/` + employee.id}
                     >
-                      <i class="bi bi-pen"></i>
+                      <i className="bi bi-pen"></i>
                     </Link>
-                    <div  class='deleteIcon'>
+                    <div  className='deleteIcon'>
                     <button onClick={e => handleDelete(employee.id)}>
-                      <i class="bi bi-trash" backgroundColor="white" borderColor="white" outline="none"></i>
+                      <i className="bi bi-trash"  outline="none"></i>
                     </button></div>
                   </td>
                 </tr>

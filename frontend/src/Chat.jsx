@@ -8,17 +8,18 @@ import "./CssFiles/Chat.css"
 
 const ChatComponent = () => {
     //states + variables
-    const [ShowChats, setShowChats] = useState(false);
+    const [ShowChats, setShowChats] = useState(false); // State for showing/hiding chats
     
-    const [searchTerm, setSearchTerm] = useState('');
+    const [searchTerm, setSearchTerm] = useState(''); // State for search term
 
-    const [data, setData] = useState([]);
+    const [data, setData] = useState([]); // State for data
 
-    const [flag, setFlag] = useState('false');
-    const navigate = useNavigate()
-    const { id } = useParams();
 
-    const [Chats, setChats] = useState([]);
+    //    const [flag, setFlag] = useState('false'); // State for flag
+    const navigate = useNavigate(); // Navigate function from react-router-dom
+    const { id } = useParams(); // Accessing the 'id' parameter from the URL
+
+    const [Chats, setChats] = useState([]);// State for chat data
 
 
     // request to get the Chats that are available between my employee id and another employee
@@ -31,7 +32,7 @@ const ChatComponent = () => {
             })
             .catch(err => console.log('Failed'));
     }, []);
-
+    // Event handler for clicking on the chat icon
     const handleIconClick = () => {
         setShowChats(!ShowChats);
     };

@@ -19,7 +19,7 @@ const Schedule = () => {
   const ToDay = new Date().getDate();
   const [alertMessage, setAlertMessage] = useState('');
   const [alertVariant, setAlertVariant] = useState('');
-
+  // Fetch data for available employees
   useEffect(() => {
     axios
       .get('http://localhost:5000/getEmployee')
@@ -34,7 +34,7 @@ const Schedule = () => {
         setLoading(false); // Set loading to false if there is an error
       });
   }, []);
-
+  // Show alert message
   const showAlert = (message, variant) => {
     setAlertMessage(message);
     setAlertVariant(variant);
@@ -43,7 +43,11 @@ const Schedule = () => {
       setAlertVariant('');
     }, 3000);
   };
+  // Calculate the number of employees
+
   const numEmployees = data.length;
+  // Array of month names
+
   const months = [
     'January',
     'February',
@@ -58,11 +62,11 @@ const Schedule = () => {
     'November',
     'December',
   ];
-
+  // Get the current month name
   const currentMonth = months[new Date().getMonth()];
   const year = new Date().getFullYear();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
-
+  // Get the range of dates for the current week
   const getWeekDates = () => {
     const startDay = week * 7 + 1;
     const endDay = Math.min(startDay + 6, daysInMonth);
@@ -70,7 +74,7 @@ const Schedule = () => {
     const endDate = new Date(year, month, endDay);
     return `${startDate.getDate()} ${currentMonth} - ${endDate.getDate()} ${currentMonth}`;
   };
-
+  // Handle worker change for a specific day and shift
   const handleWorkerChange = (day, shift, selectedOptions) => {
     const selectedValues = selectedOptions.map((option) => option.value);
 
@@ -84,7 +88,7 @@ const Schedule = () => {
       });
     }
   };
-
+  // Handle week change
   const handleWeekChange = (direction) => {
     const newWeek = week + direction;
     const newWeekDays = (newWeek + 1) * 7;
@@ -92,6 +96,7 @@ const Schedule = () => {
       setWeek(newWeek);
     }
   };
+  // Handle form submission
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -114,7 +119,7 @@ const Schedule = () => {
       setIsSubmitting(false);
       return;
     }
-
+    // Format the data for schedule submission
     const formattedData = Object.entries(schedule).reduce((acc, [day, shifts]) => {
       Object.entries(shifts).forEach(([shift, employeeIDs]) => {
         acc.push({
@@ -126,7 +131,7 @@ const Schedule = () => {
       });
       return acc;
     }, []);
-
+    // Submit the schedule data
     axios
       .post('http://localhost:5000/saveSchedule', { scheduleData: formattedData, month })
       .then((res) => {
@@ -148,15 +153,14 @@ const Schedule = () => {
   };
 
 
-
+  // Custom styles for react-select dropdown
   const selectStyles = {
     control: (provided, state) => ({
       ...provided,
       backgroundColor: state.selectProps.menuIsOpen ? 'white' : state.isDisabled ? 'darkgrey' : 'white',
     }),
-    // Add other custom styles as needed
   };
-
+  // Render loading spinner if data is still loading
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>

@@ -12,18 +12,24 @@ function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate()
-
+  // Enable sending cookies with cross-origin requests
   axios.defaults.withCredentials = true;
+  // Update the email state when the input value changes
+
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
+  // Update the password state when the input value changes
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
+  // Handle form submission
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    // Send a POST request to the login endpoint with the email and password
     axios.post('http://localhost:5000/login', { email, password })
       .then((res) => {
         if (res.data.Status === "Success") {
@@ -49,31 +55,7 @@ function Login() {
   return (
 
     <div className='d-flex justify-content-center align-items-center vh-100 loginPage'>
-    {/* <div className='p-3 rounded w-25 border loginForm'>
-        <div className='text-danger'>
-            {error && error}
-        </div>
-        <br></br>
-        <h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Welcome</h2>
-        <br></br>
-        <form onSubmit={handleSubmit}>
-            <div className='mb-3'>
-                <label htmlFor="email"><strong>Email</strong></label>
-                <input type="email" placeholder='Enter Email' name='email' 
-                  onChange={handleEmailChange} className='form-control rounded-0' autoComplete='off'/>
-            </div>
-            <div className='mb-3'>
-                <label htmlFor="password"><strong>Password</strong></label>
-                <input type="password" placeholder='Enter Password' name='password'
-                  onChange={handlePasswordChange} className='form-control rounded-0' />
-            </div>
-            <button type='submit' className='btn btn-success w-100 rounded-0'> Log in</button>
-            <p>You are agree to aour terms and policies</p>
-        </form>
-     </div> */}
-
-
-
+    
 
 <div class="loginBackground">
         <div class="shape"></div>

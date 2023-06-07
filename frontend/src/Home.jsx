@@ -15,6 +15,8 @@ function Home() {
   const [vacationRequests, setVacationRequests] = useState([]);
   const [activeTab, setActiveTab] = useState('pending');
   const [loading, setLoading] = useState(true); // Initial loading state
+    // State for the salary chart
+
   const [state, setState] = useState({
     series: [{
       name: 'Income ($)',
@@ -26,6 +28,8 @@ function Home() {
       data: []
     }],
     options: {
+     // Chart configuration options
+
       chart: {
         height: 350,
         type: 'line',
@@ -109,6 +113,8 @@ function Home() {
       }
     }
   });
+    // State for the shifts chart
+
   const [chart2Data, setChart2Data] = useState({
     series: [{
       name: 'Workers in Morning Shift',
@@ -122,6 +128,7 @@ function Home() {
 
     ],
     options: {
+    // Chart configuration options
       chart: {
         height: 350,
         type: 'line',
@@ -210,7 +217,7 @@ function Home() {
 
   
   
-
+  // Fetch initial data from the server
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -228,20 +235,21 @@ function Home() {
           ShiftsCountPromise,
         ]);
 
-        // Count employee
+        // Set employee count
         setEmployeeCount(employeeCountRes.data.count);
 
-        // Manager info (name)
+        // Set manager name
         if (managerRes.data.Status === 'Success') {
           setManager(managerRes.data.Result.lname);
         }
 
-        // Salaries
+        // Set total salary and average salary
+
         let sum = salariesRes.data.Salaries.reduce((a, b) => a + b, 0);
         setSalary(sum);
         // Set average salary
         setAverageSalary(sum / salariesRes.data.Salaries.length);
-        //put salary data into graph
+        // Update state for salary chart
         setState(prevState => ({
           ...prevState,
           options: {
@@ -276,7 +284,7 @@ function Home() {
             }
           ]
         }));
-        // Vacation requests
+        // Set vacation requests
         setVacationRequests(vacationRequestsRes.data.Result);
 
         setLoading(false); // Set loading to false when data has been fully loaded
@@ -287,6 +295,7 @@ function Home() {
 
     fetchData();
   }, []);
+  // Update vacation requests when the vacationRequests state changes
 
   useEffect(() => {
     const updateVacationRequests = async () => {
@@ -300,7 +309,7 @@ function Home() {
 
     updateVacationRequests();
   }, [vacationRequests]); // Fetch updated vacation requests when the vacationRequests state changes
-
+  // Render loading spinner if data is still loading
   if (loading) {
     return (
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
@@ -308,14 +317,14 @@ function Home() {
     </div>
     );
   }
-
+// Handle accepting a vacation request
 const handleAccept = async (id) => {
   try {
     await axios.put(`http://localhost:5000/vacationRequests/${id}`, { status: 'accepted' });
     console.log('Accepted vacation request with ID:', id);
 
-    // Update the state
-    setVacationRequests(prevRequests => prevRequests.map(request => {
+      // Update the state with the declined request
+      setVacationRequests(prevRequests => prevRequests.map(request => {
       if (request._id === id) {
         return {...request, status: 'accepted'};
       }
@@ -326,13 +335,13 @@ const handleAccept = async (id) => {
     console.error('Error accepting vacation request:', error);
   }
 };
-
+// Handle declining a vacation request
 const handleDecline = async (id) => {
   try {
     await axios.put(`http://localhost:5000/vacationRequests/${id}`, { status: 'declined' });
     console.log('Declined vacation request with ID:', id);
 
-    // Update the state
+    // Update the state with the declined request
     setVacationRequests(prevRequests => prevRequests.map(request => {
       if (request._id === id) {
         return {...request, status: 'declined'};
@@ -344,14 +353,16 @@ const handleDecline = async (id) => {
     console.error('Error declining vacation request:', error);
   }
 };
-
+// Filter vacation requests based on status
   const filterVacationRequests = (status) => {
     setActiveTab(status);
   };
+  // Toggle expanding/collapsing the reason for a vacation request
 
   const handleToggleReason = (id) => {
     setExpandedRequestId((prevId) => (prevId === id ? null : id));
   };
+  // Filter vacation requests based on activeTab
 
   const filteredRequests = vacationRequests.filter((request) => request.status === activeTab);
 
@@ -362,41 +373,41 @@ const handleDecline = async (id) => {
         <hr style={{ margin: '20px auto', width: '50%' }} />
       </div>
 
-      <div class='fcContainer'>
+      <div className='fcContainer'>
         <div id='cardsContainer'>
-          <div id='firstCard' class='cardDiv first blue'>
-            <div class='cardDetails'>
-              <span class='cardTitle'>Employees </span>
-              <span class='cardStat'>{employeeCount.toFixed(0)}</span>
+          <div id='firstCard' className='cardDiv first blue'>
+            <div className='cardDetails'>
+              <span className='cardTitle'>Employees </span>
+              <span className='cardStat'>{employeeCount.toFixed(0)}</span>
             </div>
-            <div class='cardIcon'>
+            <div className='cardIcon'>
               <h1><FontAwesomeIcon icon={faUser}/></h1>
             </div>
           </div>
-          <div class='cardDiv orange'>
-            <div class='cardDetails'>
-              <span class='cardTitle'>Average Salary</span>
-              <span class='cardStat'>{averageSalary.toFixed(2)}$</span>
+          <div className='cardDiv orange'>
+            <div className='cardDetails'>
+              <span className='cardTitle'>Average Salary</span>
+              <span className='cardStat'>{averageSalary.toFixed(2)}$</span>
             </div>
-            <div class='cardIcon'>
+            <div className='cardIcon'>
               <h1><FontAwesomeIcon icon={faMoneyBillAlt}/></h1>
             </div>
           </div>
-          <div class='cardDiv red'>
-            <div class='cardDetails'>
-              <span class='cardTitle'>Total Salaries</span>
-              <span class='cardStat'>{salary.toFixed(0)}$</span>
+          <div className='cardDiv red'>
+            <div className='cardDetails'>
+              <span className='cardTitle'>Total Salaries</span>
+              <span className='cardStat'>{salary.toFixed(0)}$</span>
             </div>
-            <div class='cardIcon'>
+            <div className='cardIcon'>
               <h1><FontAwesomeIcon icon={faDollarSign}/></h1>
             </div>
           </div>
-          <div class='cardDiv purple'>
-            <div class='cardDetails'>
-              <span class='cardTitle'>Pending Requests</span>
-              <span class='cardStat'>{vacationRequests.filter((request) => request.status === 'pending').length.toFixed(0)}</span>
+          <div className='cardDiv purple'>
+            <div className='cardDetails'>
+              <span className='cardTitle'>Pending Requests</span>
+              <span className='cardStat'>{vacationRequests.filter((request) => request.status === 'pending').length.toFixed(0)}</span>
             </div>
-            <div class='cardIcon'>
+            <div className='cardIcon'>
               <h1><FontAwesomeIcon icon={faClock}/></h1>
             </div>
           </div>
@@ -420,9 +431,9 @@ const handleDecline = async (id) => {
         <div id='vacationsContainer'>
           <h2>Vacation Requests</h2>
           <div id='filterDiv'>
-            <span id='labelfilter' class='filterSpan'>Filter: </span>
+            <span id='labelfilter' className='filterSpan'>Filter: </span>
             <div id='selectFilter'>
-            <Form.Select class='filterSelect' id='status' onChange={(e) => filterVacationRequests(e.target.value)}>
+            <Form.Select className='filterSelect' id='status' onChange={(e) => filterVacationRequests(e.target.value)}>
               <option value="pending">Pending</option>
               <option value="accepted">Accepted</option>
               <option value="declined">Declined</option>
@@ -431,6 +442,7 @@ const handleDecline = async (id) => {
             
           </div>
           <table id='vacationsTable'>
+          <tbody>
             <tr>
               <th>Name</th>
               <th>From</th>
@@ -454,7 +466,7 @@ const handleDecline = async (id) => {
                     </td>
                     {request.status === 'pending' && (
                     <>
-                      <td class='pending'>
+                      <td className='pending'>
                       <button className='button-5 green' onClick={() => handleAccept(request._id)}>
                         Accept
                       </button>
@@ -466,12 +478,12 @@ const handleDecline = async (id) => {
                   )}
                   {request.status === 'accepted' && (
                     <>
-                      <td class='accepted'>Accepted</td>
+                      <td className='accepted'>Accepted</td>
                     </>
                   )}
                   {request.status === 'declined' && (
                     <>
-                      <td class='declined'>Declined</td>
+                      <td className='declined'>Declined</td>
                     </>
                   )}
                   </React.Fragment>
@@ -480,6 +492,7 @@ const handleDecline = async (id) => {
             ) : (
               <p>No vacations requested </p>
             )}
+              </tbody>
           </table>
         </div>
         <div style={{margin: ' 0 100px'}}>

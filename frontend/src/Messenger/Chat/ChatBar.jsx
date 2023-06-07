@@ -9,15 +9,10 @@ import "../../CssFiles/Theme.css"
 const ChatBar = ({ SenderId, RecieverId }) => {
     const [error, setError] = useState('');
 
-    const [data, setData] = useState([]);
-
-
     const [Response, setResponse] = useState(['string1', 'string2', 'string3']);
 
-    const [Chats, setChats] = useState([]);
+     // Handle sending a message
 
-
-   
     const handleSend = (event) => {
         event.preventDefault();
         // Get the input element by ID

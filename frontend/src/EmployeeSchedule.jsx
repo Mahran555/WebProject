@@ -8,6 +8,7 @@ import DatePicker from 'react-datepicker';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faCalendarDay, faCalendarWeek, faUser, faCheck } from '@fortawesome/free-solid-svg-icons';
 import './CssFiles/EmployeeSchedule.css';
+// Custom input component for DatePicker
 
 const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
   <button className="custom-input" style={{ background: 'transparent' }} onClick={onClick} ref={ref}>
@@ -30,7 +31,7 @@ function EmployeeSchedule() {
   const [lname, setlname] = useState('');
   const [alertMessage, setAlertMessage] = useState('');
   const [alertVariant, setAlertVariant] = useState('');
-
+  // Array of month names
   const months = [
     'January',
     'February',
@@ -49,10 +50,11 @@ function EmployeeSchedule() {
   const currentMonth = months[new Date().getMonth()];
   const year = new Date().getFullYear();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
-
+  // Handle change in description input field
   const handleChange = (event) => {
     setDescription(event.target.value);
   };
+  // Get the dates of the current week
 
   const getWeekDates = () => {
     const startDay = week * 7 + 1;
@@ -61,7 +63,7 @@ function EmployeeSchedule() {
     const endDate = new Date(year, month, endDay);
     return `${startDate.getDate()} ${currentMonth} - ${endDate.getDate()} ${currentMonth}`;
   };
-
+  // Fetch employee schedule and details from the server
   useEffect(() => {
     axios
       .get('http://localhost:5000/employeeSchedule/' + id)
@@ -88,6 +90,7 @@ function EmployeeSchedule() {
         console.log('failed to fetch employee details');
       });
   }, [id, week]);
+  // Handle week change (previous or next week)
 
   const handleWeekChange = (direction) => {
     const newWeek = week + direction;
@@ -95,6 +98,7 @@ function EmployeeSchedule() {
       setWeek(newWeek);
     }
   };
+  // Submit vacation request
 
   const submitVacationRequest = () => {
     if (!selectedDateFrom || !selectedDateTo || !description) {
@@ -142,7 +146,7 @@ function EmployeeSchedule() {
         console.log('Failed to submit vacation request');
       });
   };
-
+  // Show alert message
   const showAlert = (message, variant) => {
     setAlertMessage(message);
     setAlertVariant(variant);
@@ -153,6 +157,7 @@ function EmployeeSchedule() {
   };
 
   const shiftsInWeek = data.filter((shift) => Math.floor(shift.day / 7) === week);
+  // Render loading spinner if data is still loading
 
   if (loading) {
     return (
@@ -161,6 +166,7 @@ function EmployeeSchedule() {
       </div>
     );
   }
+  // Toggle showing/hiding vacation request container
 
   const toggleVacationRequest = () => {
     setShowVacationRequest(!showVacationRequest);

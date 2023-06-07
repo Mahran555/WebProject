@@ -6,19 +6,22 @@ import axios from 'axios';
 import './FriendsBar.css';
 
 function FriendsBar({id, onFriendClick }) {
-  const [AllFriends, SetAllFriends] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
+  const [AllFriends, SetAllFriends] = useState([]); // State for storing all friends
+  const [searchValue, setSearchValue] = useState(""); // State for storing the search value
   useEffect(() => {
+    // Fetch all friends from the server
+
     axios.get('http://localhost:5000/getEmployee')
       .then((res) => {
         if (res.data.Status === 'Success') {
-          SetAllFriends(res.data.Result);
+          SetAllFriends(res.data.Result); // Update the AllFriends state with the fetched data
         }
       })
       .catch((err) => {
         console.log('failed');
       });
   }, []);
+  // Filter friends based on searchValue
 
   const filteredFriends = AllFriends.filter((friend) => 
   friend.id != id && friend.fname.toLowerCase().includes(searchValue.toLowerCase())
