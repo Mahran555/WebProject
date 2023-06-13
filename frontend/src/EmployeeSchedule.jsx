@@ -6,10 +6,17 @@ import { Container, Table, Button, Alert } from 'react-bootstrap';
 import { ThreeDots } from 'react-loader-spinner';
 import DatePicker from 'react-datepicker';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight, faCalendarDay, faCalendarWeek, faUser, faCheck } from '@fortawesome/free-solid-svg-icons';
+import {
+  faChevronLeft,
+  faChevronRight,
+  faCalendarDay,
+  faCalendarWeek,
+  faUser,
+  faCheck,
+} from '@fortawesome/free-solid-svg-icons';
 import './CssFiles/EmployeeSchedule.css';
-// Custom input component for DatePicker
 
+// Custom input component for DatePicker
 const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
   <button className="custom-input" style={{ background: 'transparent' }} onClick={onClick} ref={ref}>
     <FontAwesomeIcon icon={faCalendarDay} style={{ color: 'black' }} />
@@ -31,6 +38,7 @@ function EmployeeSchedule() {
   const [lname, setlname] = useState('');
   const [alertMessage, setAlertMessage] = useState('');
   const [alertVariant, setAlertVariant] = useState('');
+
   // Array of month names
   const months = [
     'January',
@@ -50,12 +58,13 @@ function EmployeeSchedule() {
   const currentMonth = months[new Date().getMonth()];
   const year = new Date().getFullYear();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
+
   // Handle change in description input field
   const handleChange = (event) => {
     setDescription(event.target.value);
   };
-  // Get the dates of the current week
 
+  // Get the dates of the current week
   const getWeekDates = () => {
     const startDay = week * 7 + 1;
     const endDay = Math.min(startDay + 6, daysInMonth);
@@ -63,6 +72,7 @@ function EmployeeSchedule() {
     const endDate = new Date(year, month, endDay);
     return `${startDate.getDate()} ${currentMonth} - ${endDate.getDate()} ${currentMonth}`;
   };
+
   // Fetch employee schedule and details from the server
   useEffect(() => {
     axios
@@ -90,16 +100,16 @@ function EmployeeSchedule() {
         console.log('failed to fetch employee details');
       });
   }, [id, week]);
-  // Handle week change (previous or next week)
 
+  // Handle week change (previous or next week)
   const handleWeekChange = (direction) => {
     const newWeek = week + direction;
     if (newWeek >= 0 && newWeek <= Math.floor((daysInMonth - 1) / 7)) {
       setWeek(newWeek);
     }
   };
-  // Submit vacation request
 
+  // Submit vacation request
   const submitVacationRequest = () => {
     if (!selectedDateFrom || !selectedDateTo || !description) {
       showAlert('Please fill in all the required fields', 'danger');
@@ -146,6 +156,7 @@ function EmployeeSchedule() {
         console.log('Failed to submit vacation request');
       });
   };
+
   // Show alert message
   const showAlert = (message, variant) => {
     setAlertMessage(message);
@@ -156,9 +167,7 @@ function EmployeeSchedule() {
     }, 3000);
   };
 
-  const shiftsInWeek = data.filter((shift) => Math.floor(shift.day / 7) === week);
   // Render loading spinner if data is still loading
-
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -166,17 +175,28 @@ function EmployeeSchedule() {
       </div>
     );
   }
-  // Toggle showing/hiding vacation request container
 
+  // Toggle showing/hiding vacation request container
   const toggleVacationRequest = () => {
     setShowVacationRequest(!showVacationRequest);
   };
+
+  // Generate the shifts for each day in the week
+  const shiftsInWeek = [...Array(7)].map((_, day) => {
+    const currentDay = week * 7 + day + 1;
+    const morningShift = data.find((shift) => shift.day === currentDay && shift.shift === 'morning');
+    const eveningShift = data.find((shift) => shift.day === currentDay && shift.shift === 'evening');
+
+    return { day: currentDay, morningShift, eveningShift };
+  });
 
   return (
     <>
       {alertMessage && <Alert variant={alertVariant}>{alertMessage}</Alert>}
 
-      <h1 id='eSchT' className="title-employee-sch">Schedule</h1>
+      <h1 id="eSchT" className="title-employee-sch">
+        Schedule
+      </h1>
       <hr className="divider-title-employee-sch" />
 
       <div className="vacation-request-container">
@@ -188,9 +208,9 @@ function EmployeeSchedule() {
             <div className="dropdown-menu show">
               <h2 className="text-center">Vacation Request</h2>
 
-              <div id='datesContainer'>
-                <div id='dateSelectRow'>
-                  <div class='dateTitle'>
+              <div id="datesContainer">
+                <div id="dateSelectRow">
+                  <div className="dateTitle">
                     <span>From: </span>
                     <DatePicker
                       selected={selectedDateFrom}
@@ -205,10 +225,8 @@ function EmployeeSchedule() {
                       <span className="selected-date">{selectedDateFrom.toLocaleDateString()}</span>
                     )}
                   </div>
-                  <div>
-                    
-                  </div>
-                  <div class='dateTitle'>
+                  <div></div>
+                  <div className="dateTitle">
                     <span>To: </span>
                     <DatePicker
                       selected={selectedDateTo}
@@ -221,15 +239,14 @@ function EmployeeSchedule() {
                     />
                     {selectedDateTo && <span className="selected-date">{selectedDateTo.toLocaleDateString()}</span>}
                   </div>
-                  <div>
-                    
-                  </div>
+                  <div></div>
                 </div>
-              
+              </div>
 
               <div id="Reason" className="textw">
                 <p className="reason">Reason:</p>
-                <textarea class='has-fixed-size'
+                <textarea
+                  className="has-fixed-size"
                   value={description}
                   onChange={handleChange}
                   rows="8"
@@ -239,16 +256,14 @@ function EmployeeSchedule() {
               </div>
 
               <div id="MakeRequest">
-                <button id='button-20'  onClick={submitVacationRequest}>
+                <button id="button-20" onClick={submitVacationRequest}>
                   Submit Request
                 </button>
               </div>
             </div>
-            </div>
           )}
         </div>
       </div>
-    
 
       <div className="cardsContainer-sch-empl">
         <div className="cardDiv first blue">
@@ -289,8 +304,7 @@ function EmployeeSchedule() {
             </div>
             <div className="schedule-header-month-empl">
               <h2 className="current-mon">{currentMonth}</h2>
-              <br></br>
-
+              <br />
             </div>
             <div className="schedule-header-iconright-empl" onClick={() => handleWeekChange(1)}>
               <FontAwesomeIcon
@@ -306,41 +320,31 @@ function EmployeeSchedule() {
               <tr className="theading">
                 <th></th> {/* Empty cell for spacing */}
                 {[...Array(7)].map((_, day) => {
-                  const currentDay = week * 7 + day;
-                  if (currentDay >= daysInMonth) {
+                  const currentDay = week * 7 + day + 1;
+                  if (currentDay > daysInMonth) {
                     return null;
                   }
-                  return <th key={day}>Day {currentDay + 1}</th>;
+                  return <th key={day}>Day {currentDay}</th>;
                 })}
               </tr>
             </thead>
             <tbody>
-              {['morning', 'evening'].map((shiftType) => {
-                const labelClassName = shiftType === 'morning' ? 'morning-shift-empl' : 'morning-shift-empl';
-                return (
-                  <tr key={shiftType}>
-                    <td className={labelClassName}>
-                      {shiftType.charAt(0).toUpperCase() + shiftType.slice(1)} Shift
-                    </td>
-                    {[...Array(7)].map((_, day) => {
-                      const currentDay = week * 7 + day;
-                      if (currentDay >= daysInMonth) {
-                        return null;
-                      }
-                      const shifts = shiftsInWeek.filter((shift) => shift.day === currentDay + 1);
-                      return (
-                        <td key={currentDay} style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                          {shifts.find((shift) => shift.shift === shiftType) ? (
-                            <FontAwesomeIcon icon={faCheck} />
-                          ) : (
-                            ''
-                          )}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
+              <tr>
+                <td className="morning-shift-empl">Morning Shift</td>
+                {shiftsInWeek.map((shift) => (
+                  <td key={`morning-${shift.day}`} className="shift-cell">
+                    {shift.morningShift && <FontAwesomeIcon icon={faCheck} />}
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                <td className="evening-shift-empl">Evening Shift</td>
+                {shiftsInWeek.map((shift) => (
+                  <td key={`evening-${shift.day}`} className="shift-cell">
+                    {shift.eveningShift && <FontAwesomeIcon icon={faCheck} />}
+                  </td>
+                ))}
+              </tr>
             </tbody>
           </Table>
         </div>
