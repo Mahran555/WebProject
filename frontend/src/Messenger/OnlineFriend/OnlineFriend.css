@@ -1,31 +1,34 @@
 .OnlineFriendBox {
     margin: 10px;
-}
-
-.FriendImg {
+    display: flex;
+    align-items: center;
+  }
+  
+  .FriendImg {
     width: 50px;
     height: 50px;
     border-radius: 50%;
     object-fit: cover;
-
-}
-
-.FriendName {
+    margin-right: 10px;
+  }
+  
+  .FriendName {
     font-weight: bold;
     margin: 10px;
-}
-
-.ImgBadge {
+  }
+  
+  .ImgBadge {
     width: 10px;
     height: 10px;
     border-radius: 50%;
     background-color: limegreen;
     position: absolute;
-    top: 1px;
-    right: 1px;
-}
-
-.ImgContainer{
+    top: 0;
+    right: 0;
+  }
+  
+  .ImgContainer {
     display: inline-block;
     position: relative;
-}
+  }
+  

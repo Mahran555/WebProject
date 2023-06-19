@@ -1,64 +1,113 @@
 .myContainer {
     width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
-}
-
-.btn-bgc {
+    padding: 15px;
+    margin: 0 auto;
+  }
+  
+  .btn-bgc {
     background-color: #1a535c;
-}
-
-
-.chatBoxWrapper {
-    height: 900px;
-}
-
-.chatBoxTop {
-    height: 807px;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .chatBoxWrapper {
+    height: auto;
+  }
+  
+  .chatBoxTop {
+    height: 600px; 
     overflow-y: scroll;
-    padding-right: 10px;
-    padding-left: 10px;
-}
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #f7f7f7;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
 
-.message-own {
+  .message-own {
     display: flex;
     flex-direction: column;
     margin-top: 20px;
     align-items: flex-start;
-}
-
-.message-other {
+  }
+  
+  .message-other {
     display: flex;
     flex-direction: column;
     margin-top: 20px;
     align-items: flex-end;
-}
-
-.message-other .messageText {
-    background-color: rgb(245, 241, 241);
-    color: black;
-}
-
-.messageTop {
+  }
+  
+  .message-other .messageText {
+    background-color: #f1f1f1;
+    color: #333;
+  }
+  
+  .messageTop {
     display: flex;
-}
-
-.messageText {
+    align-items: center;
+  }
+  
+  .messageText {
     padding: 10px;
     border-radius: 20px;
     background-color: #1877f2;
-    color: white;
-    max-width: 300px;
+    color: #fff;
     width: fit-content;
-    /* Add this line to adjust the width based on content */
     white-space: normal;
-    /* Add this line to allow wrapping of long messages */
-}
-
-.messageBottom {
+    word-wrap: break-word;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .messageBottom {
     font-size: 12px;
-    margin-top: 20px;
-}
-
+    margin-top: 10px;
+    color: #888888;
+  }
+  
+  .myContainer,
+  .btn-bgc,
+  .chatBoxWrapper,
+  .chatBoxTop,
+  .message-own,
+  .message-other,
+  .message-other .messageText,
+  .messageText {
+    border-radius: 10px;
+  }
+  
+  .rounded-width {
+    width: auto;
+  }
+  
+  .rounded {
+    border-radius: 10px;
+  }
+  .btn-bgc:hover {
+    background-color: #338593; /* Update to the desired lighter color */
+  }
+  .btn-bgc.clicked {
+    background-color: #1a535c;
+  }
+  /* Responsive styles for smartphones */
+  
+  @media only screen and (max-width: 600px) {
+    .chatBoxWrapper,
+    .chatBox,
+    .chatBoxTop,
+    .messageText {
+      max-height: 500px;
+    }
+    .btn-bgc:hover {
+        background-color: #1a535c; /* Update to the desired lighter color */
+      }
+      .btn-bgc:active,
+      .btn-bgc:focus {
+        background-color: #1a535c;
+      }
+  }
+  
